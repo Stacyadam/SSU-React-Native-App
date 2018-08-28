@@ -1,45 +1,26 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
 	StyleSheet,
-	View,
-	Text
+	View
 } from 'react-native';
+import StandardHeader from '../components/headers/StandardHeader';
 
 class Settings extends Component {
-
-	/*============================================================
-	 == Render Methods
-	/============================================================*/
+	static navigatorStyle = {
+		navBarHidden: true
+	};
 
 	render() {
 		return (
 			<View>
-				<Text>Hi</Text>
+				<StandardHeader title="Settings" navigator={this.props.navigator} />
 			</View>
 		);
 	}
-
-	/*============================================================
-	 == Methods
-	/============================================================*/
-
 }
-
-/*============================================================
- == Styles
-/============================================================*/
 
 const styles = StyleSheet.create({
 
 });
-
-/*============================================================
- == Prop Types
-/============================================================*/
-
-Settings.propTypes = {
-
-};
 
 export default Settings;

@@ -1,30 +1,18 @@
-import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
+import Router from './app/router';
 import { registerScreens } from './app/screens';
 import store from './app/Store';
+const state = store.getState();
+const {
+	account: { token }
+} = state;
+
+GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 registerScreens(store, Provider);
 
-if (false) {
-	Navigation.startTabBasedApp({
-		tabs: [
-			{
-				label: 'Giftpacks',
-				screen: 'SSU.Giftpacks',
-				title: 'Gift Packs'
-			},
-			{
-				label: 'Settings',
-				screen: 'SSU.Settings',
-				title: 'Settings'
-			}
-		]
-	});
+if (!token) {
+	Router.logIn();
 } else {
-	Navigation.startSingleScreenApp({
-		screen: {
-			screen: 'SSU.SignIn',
-			title: 'Sign In'
-		}
-	});
+	Router.startApp();
 }
