@@ -4,12 +4,15 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
-    <application
+    <application    
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyCoGpM7pkgoZaaE5eDrW7m1cAB_JbTS6lQ"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -21,6 +24,7 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+      
     </application>
 
 </manifest>

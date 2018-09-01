@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Input from './Input';
-import RadioButton from '../forms/RadioButton';
 import UiSettings from '../../config/UiSettings';
 import SSUIcon from '../shared/icons/SSUIcon';
 import Button from '../shared/buttons/Button';
@@ -102,7 +101,7 @@ class SignUpFirst extends Component {
 }
 
 const mapStateToProps = state => ({
-	errors: state.account.errors
+	errors: state.global.errors
 });
 
 const mapDispatchToProps = dispatch => ({

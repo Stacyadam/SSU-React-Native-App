@@ -135,7 +135,7 @@ class SignUpSecond extends Component {
 }
 
 const mapStateToProps = state => ({
-	errors: state.account.errors
+	errors: state.global.errors
 });
 
 const mapDispatchToProps = dispatch => ({

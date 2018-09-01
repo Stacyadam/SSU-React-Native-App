@@ -1,7 +1,8 @@
-import { SIGNUP, LOGIN, LOGOUT, ERRORS, SAVE_USER, SAVE_TOKEN, NEXT_STEP, PREV_STEP, NEW_USER } from '../types';
-import { AsyncStorage } from 'react-native';
+import { LOGIN, LOGOUT, SAVE_USER, SAVE_TOKEN, NEXT_STEP, PREV_STEP, SET_USER_LOCATION } from '../types';
+import * as GlobalActions from './GlobalActions';
 import axios from 'axios';
 
+//TODO: make sure all of these are calling GlobalActions.toggleLoading(true) and then toggleLoading(false) after the async request has been finished
 export function signIn(user) {
 	return async dispatch => {
 		try {
@@ -10,17 +11,17 @@ export function signIn(user) {
 			} = await axios.post('https://dev-api.smallshopsunited.com/v4/auth/login', user);
 			dispatch(saveToken(token));
 			dispatch(getUser(token));
-			dispatch(updateErrors(null));
+			dispatch(GlobalActions.updateErrors(null));
 			return token;
 		} catch (e) {
 			const {
 				data: { errors, message }
 			} = e.response;
 			if (errors) {
-				dispatch(updateErrors(errors));
+				dispatch(GlobalActions.updateErrors(errors));
 				return errors;
 			} else {
-				dispatch(updateErrors(message));
+				dispatch(GlobalActions.updateErrors(message));
 				return message;
 			}
 		}
@@ -45,19 +46,19 @@ export function getUser(token) {
 export function signUp(userInfo) {
 	return async dispatch => {
 		try {
-			const newUser = await axios.post('https://dev-api.smallshopsunited.com/v4/website-user-sign-up', userInfo);
+			const { data } = await axios.post('https://dev-api.smallshopsunited.com/v4/website-user-sign-up', userInfo);
 
-			const { email, password } = userInfo;
+			const loginInfo = { email: data.email, password: data.password };
+			//TODO: figure out if this is actually returning as expected
+			dispatch(saveUser(data));
+			dispatch(signIn(loginInfo));
 
-			dispatch(sendNewUser(newUser.data));
-			dispatch(signIn({ email, password }));
-
-			return newUser;
+			return data;
 		} catch (e) {
 			const {
 				data: { errors }
 			} = e.response;
-			dispatch(updateErrors(errors));
+			dispatch(GlobalActions.updateErrors(errors));
 			return e;
 		}
 	};
@@ -76,14 +77,34 @@ export function validateInput(data) {
 			const inputTypes = Object.keys(data);
 			const valid = inputTypes.every(input => !errors.hasOwnProperty(input));
 			if (valid) {
-				dispatch(saveUser(data));
-				dispatch(updateErrors(null));
-				dispatch(nextStep());
+				dispatch(advanceSignUp(data));
 			} else {
-				dispatch(updateErrors(errors));
+				dispatch(GlobalActions.updateErrors(errors));
 			}
 			return e;
 		}
+	};
+}
+
+export function setUserLocation(location) {
+	return {
+		type: SET_USER_LOCATION,
+		payload: location
+	};
+}
+
+export function saveUser(user) {
+	return {
+		type: SAVE_USER,
+		payload: user
+	};
+}
+
+export function advanceSignUp(user) {
+	return dispatch => {
+		dispatch(saveUser(user));
+		dispatch(GlobalActions.updateErrors(null));
+		dispatch(nextStep());
 	};
 }
 
@@ -99,31 +120,10 @@ export function prevStep() {
 	};
 }
 
-export function updateErrors(errors) {
-	return {
-		type: ERRORS,
-		payload: errors
-	};
-}
-
 export function saveToken(token) {
 	return {
 		type: SAVE_TOKEN,
 		payload: token
-	};
-}
-
-export function sendNewUser(user) {
-	return {
-		type: NEW_USER,
-		payload: user
-	};
-}
-
-export function saveUser(user) {
-	return {
-		type: SAVE_USER,
-		payload: user
 	};
 }
 

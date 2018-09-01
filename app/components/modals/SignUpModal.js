@@ -47,6 +47,7 @@ class SignUpModal extends Component {
 	navigateModal() {
 		const { step } = this.props;
 		if (step === 1) {
+			//TODO: call this.props.navigator.dismissAllModals instead.
 			this.props.closeModal();
 		} else {
 			this.props.prevStep();

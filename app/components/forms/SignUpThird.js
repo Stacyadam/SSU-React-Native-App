@@ -109,7 +109,10 @@ class SignUpThird extends Component {
 						</RadioButton>
 					</View>
 				</View>
-				<Button width="70%" onPress={() => this.props.signUp({ birthday, gender, ...this.props.user })}>
+				<Button
+					width="70%"
+					onPress={() => this.props.signUp({ birthday, gender, ...this.props.user })}
+				>
 					CREATE ACCOUNT
 				</Button>
 				<Text
@@ -137,12 +140,19 @@ class SignUpThird extends Component {
 }
 
 const mapStateToProps = state => ({
-	user: state.account.user
+	user: state.account.user,
+	errors: state.global.errors
 });
 
 const mapDispatchToProps = dispatch => ({
-	signUp: data => {
-		dispatch(signUp(data));
+	signUp: async data => {
+		try {
+			const success = await dispatch(signUp(data));
+			//TODO: after a successful sign up call this.props.navigator and hide the modal
+			return success;
+		} catch (e) {
+			return e;
+		}
 	}
 });
 

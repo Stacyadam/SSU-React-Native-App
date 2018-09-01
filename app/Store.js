@@ -11,11 +11,10 @@ const defaultState = {
 		errors: null
 	},
 	giftPacks: {
-		userGiftPacks: [],
-		loading: false
+		userGiftPacks: []
 	},
 	global: {
-		errors: [],
+		errors: null,
 		loading: false
 	}
 };

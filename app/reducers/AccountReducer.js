@@ -1,4 +1,14 @@
-import { SIGNUP, LOGIN, LOGOUT, ERRORS, NEW_USER, SAVE_USER, SAVE_TOKEN, NEXT_STEP, PREV_STEP } from '../types';
+import {
+	SIGNUP,
+	LOGIN,
+	LOGOUT,
+	NEW_USER,
+	SAVE_USER,
+	SAVE_TOKEN,
+	NEXT_STEP,
+	PREV_STEP,
+	SET_USER_LOCATION
+} from '../types';
 
 export default (state = {}, action = {}) => {
 	switch (action.type) {
@@ -26,6 +36,16 @@ export default (state = {}, action = {}) => {
 			return {
 				...state,
 				token: action.payload
+			};
+		}
+
+		case SET_USER_LOCATION: {
+			return {
+				...state,
+				user: {
+					...state.user,
+					location: action.payload
+				}
 			};
 		}
 
@@ -57,14 +77,7 @@ export default (state = {}, action = {}) => {
 
 		case LOGOUT:
 			return {
-				...state,
-				token
-			};
-
-		case ERRORS:
-			return {
-				...state,
-				errors: action.payload
+				...state
 			};
 
 		default:

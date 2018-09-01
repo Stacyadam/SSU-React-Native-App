@@ -34,7 +34,8 @@ class Router {
 			],
 			appStyle: {
 				forceTitlesDisplay: true,
-				orientation: 'portrait'
+				orientation: 'portrait',
+				statusBarTextColorScheme: 'light'
 			},
 			tabsStyle: {
 				tabBarSelectedButtonColor: orange,
