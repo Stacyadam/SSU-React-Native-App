@@ -13,7 +13,12 @@ export default (state = {}, action = {}) => {
 							return {
 								locationName: i.location_name,
 								locationImage: i.location_image,
-								...(i.offer.promo_code_detail && { isPromoCode: true }),
+								locationWebsite: i.location_website,
+								...(i.offer.promo_code_detail && {
+									isPromoCode: true,
+									promoCode: i.offer.promo_code_detail.code
+								}),
+
 								rules: i.offer.redemption_rules,
 								offerDetails: getOfferDetails(i.offer),
 								locations: i.offer.locations
@@ -44,7 +49,8 @@ export default (state = {}, action = {}) => {
 												longitude,
 												hours: hours.map(({ day, open, close }) => {
 													return {
-														day: dayString(day),
+														day,
+														dayString: dayString(day),
 														open,
 														openString: convertMilitaryTime(open),
 														close,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
+import AsyncImage from '../shared/AsyncImage';
 import SSUIcon from '../shared/icons/SSUIcon';
 import UiSettings from '../../config/UiSettings';
 
@@ -15,12 +16,13 @@ class Coupon extends Component {
 				style={{ flex: 1, padding: 10, flexDirection: 'row', alignItems: 'center' }}
 				onPress={() => this.goToDetails()}
 			>
-				<Image
+				<AsyncImage
 					source={{ uri: locationImage }}
 					style={{ height: 70, width: 65, borderRadius: 10, marginRight: 10 }}
+					spinnerSize="small"
 				/>
 				<View style={{ height: '100%', justifyContent: 'flex-start', paddingVertical: 4, width: '65%' }}>
-					<Text style={{ fontWeight: 'bold', marginBottom: 4 }}>{locationName}</Text>
+					<Text style={{ fontWeight: 'bold', marginBottom: 8 }}>{locationName}</Text>
 					<View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
 						{/*<SSUIcon name="gift" size={24} color={orange} />*/}
 						<Text style={{ color: orange }}>{offerDetails}</Text>

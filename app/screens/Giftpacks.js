@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, StyleSheet, Picker, TextInput, FlatList, Linking } from 'react-native';
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	TextInput,
+	FlatList,
+	Linking,
+	ActivityIndicator,
+	Image
+} from 'react-native';
+import Dimensions from 'Dimensions';
 import StandardHeader from '../components/headers/StandardHeader';
 import UiSettings from '../config/UiSettings';
 import Divider from '../components/shared/Divider';
-import SelectList from '../components/shared/SelectList';
 import ModalSelector from 'react-native-modal-selector';
 import CouponList from '../components/giftpacks/CouponList';
+import SSUIcon from '../components/shared/icons/SSUIcon';
 import { getUserGiftpacks } from '../actions/GiftpackActions';
+import AsyncImage from '../components/shared/AsyncImage';
 
-const { greySix, orange, greyFive, greyTwo } = UiSettings.styles.colors;
+const { width, height } = Dimensions.get('window');
+const { greySix, orange, greyFive } = UiSettings.styles.colors;
 
 class Giftpacks extends Component {
 	constructor(props) {
@@ -73,7 +86,7 @@ class Giftpacks extends Component {
 		if (this.props.loading) {
 			return (
 				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-					<Text>Loading</Text>
+					<ActivityIndicator size="large" color={orange} animating={this.props.loading} />
 				</View>
 			);
 		} else {
@@ -115,8 +128,15 @@ class Giftpacks extends Component {
 											color: '#FFF'
 										}}
 										editable={false}
+										placeholderTextColor="#FFF"
 										placeholder="All Available Offers"
 										value={this.state.textInputValue}
+									/>
+									<SSUIcon
+										name="chevron-down"
+										size={12}
+										color="#FFF"
+										style={{ position: 'absolute', top: 8, right: 20 }}
 									/>
 								</ModalSelector>
 							</View>
@@ -129,8 +149,14 @@ class Giftpacks extends Component {
 					)}
 					{this.state.selectedIndex === 1 && (
 						<View>
-							<View style={{ backgroundColor: 'papayawhip', height: 165, width: '100%' }} />
-							<Divider color={orange} width={2.5} />
+							<AsyncImage
+								source={require('../assets/giftpacks_shop_banner.png')}
+								style={{ height: 150, width }}
+								resizeMode="contain"
+								spinnerSize="small"
+							/>
+
+							<Divider color={orange} width={2.5} style={{ marginTop: 8 }} />
 							<Text
 								style={{
 									color: greyFive,
@@ -144,7 +170,7 @@ class Giftpacks extends Component {
 							</Text>
 							<View
 								style={{
-									width: '100%',
+									width,
 									height: 200,
 									marginLeft: 6,
 									alignItems: 'center'
@@ -158,11 +184,15 @@ class Giftpacks extends Component {
 									renderItem={({ item }) => (
 										<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 											<TouchableOpacity
-												style={{ backgroundColor: 'brown', height: 160, width: 125 }}
+												style={{ height: 160, width: 125 }}
 												onPress={() =>
 													Linking.openURL('https://www.smallshopsunited.com/giftpacks/shop')
 												}
 											>
+												<Image
+													style={{ height: 160, width: 125 }}
+													source={require('../assets/generic_GP.png')}
+												/>
 												<View
 													style={{
 														position: 'absolute',
@@ -203,6 +233,26 @@ class Giftpacks extends Component {
 									)}
 								/>
 							</View>
+						</View>
+					)}
+					{this.state.selectedIndex === 2 && (
+						<View style={{ padding: 24 }}>
+							<Text style={{ color: greySix, fontWeight: 'bold' }}>How do I redeem in-store offers?</Text>
+							<Text style={{ marginBottom: 20 }}>
+								Simply provide each merchant your member card or your account phone number at the
+								point-of purchase when ready to cash in on their offer.
+							</Text>
+							<Text style={{ color: greySix, fontWeight: 'bold' }}>How do I redeem online offers?</Text>
+							<Text style={{ marginBottom: 20 }}>
+								First get your online promo code for the offer, copy it, then follow the link to the
+								merchant's website to apply the code when making your purchase.
+							</Text>
+							<Text style={{ color: greySix, fontWeight: 'bold' }}>
+								How many times can I use each offer?
+							</Text>
+							<Text style={{ marginBottom: 20 }}>
+								Each offer is valid one-time unless otherwise specified.
+							</Text>
 						</View>
 					)}
 				</View>

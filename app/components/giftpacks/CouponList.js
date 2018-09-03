@@ -12,7 +12,7 @@ class CouponList extends Component {
 		const { data } = this.props;
 		return (
 			<FlatList
-				style={{ marginBottom: deviceHeight / 3.25 }}
+				style={{ marginBottom: 350 }}
 				data={data}
 				keyExtractor={item => item.locationName}
 				ItemSeparatorComponent={() => <Divider color={greyThree} width={2.5} />}

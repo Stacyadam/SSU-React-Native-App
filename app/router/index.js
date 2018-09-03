@@ -43,10 +43,9 @@ class Router {
 			},
 			drawer: {
 				left: {
-					// optional, define if you want a drawer from the left
-					screen: 'SSU.DrawerMenu', // unique ID registered with Navigation.registerScreen
-					passProps: {}, // simple serializable object that will pass as props to all top screens (optional),
-					fixedWidth: 500 // a fixed width you want your left drawer to have (optional)
+					screen: 'SSU.DrawerMenu',
+					passProps: {},
+					fixedWidth: 500
 				},
 				style: {
 					// ( iOS only )
