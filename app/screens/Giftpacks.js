@@ -18,10 +18,10 @@ import Divider from '../components/shared/Divider';
 import ModalSelector from 'react-native-modal-selector';
 import CouponList from '../components/giftpacks/CouponList';
 import SSUIcon from '../components/shared/icons/SSUIcon';
-import { getUserGiftpacks } from '../actions/GiftpackActions';
+import { getUserGiftpacks, getAvailableGiftPacks } from '../actions/GiftpackActions';
 import AsyncImage from '../components/shared/AsyncImage';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const { greySix, orange, greyFive } = UiSettings.styles.colors;
 
 class Giftpacks extends Component {
@@ -43,28 +43,20 @@ class Giftpacks extends Component {
 
 			this.setState({ giftPackNames });
 			this.setState({ giftPackOffers });
-
-			const giftPackListData = this.props.userGiftPacks
-				.map(({ giftPackName, giftPackPrice }, i) => {
-					return {
-						id: i,
-						giftPackName,
-						giftPackPrice: giftPackPrice
-					};
-				})
-				.filter(({ giftPackPrice }) => giftPackPrice !== undefined);
-
-			this.setState({ giftPackListData });
+		}
+		if (prevProps.availableGiftPacks !== this.props.availableGiftPacks) {
+			const { availableGiftPacks } = this.props;
+			this.setState({ availableGiftPacks });
 		}
 	}
 
 	state = {
+		availableGiftPacks: [],
 		giftPackNames: [],
 		giftPackOffers: [],
 		textInputValue: '',
 		index: 0,
-		selectedIndex: 0,
-		giftPackListData: []
+		selectedIndex: 0
 	};
 
 	static navigatorStyle = {
@@ -72,7 +64,6 @@ class Giftpacks extends Component {
 	};
 
 	render() {
-		console.log(this.setState.giftPackListData);
 		const OptionsWrapper = ({ children, style }) => <View style={[styles.optionsWrapper, style]}>{children}</View>;
 		const Option = ({ children, onPress, index }) => {
 			const { selectedIndex } = this.state;
@@ -93,11 +84,15 @@ class Giftpacks extends Component {
 			return (
 				<View>
 					<StandardHeader title="GIFT PACKS" navigator={this.props.navigator} />
-					<OptionsWrapper style={{ paddingVertical: 10 }}>
-						<Option index={0} onPress={() => this.setState({ selectedIndex: 0 })}>
-							My Offers
-						</Option>
-						<Option index={1} onPress={() => this.setState({ selectedIndex: 1 })}>
+					<OptionsWrapper
+						style={[{ paddingVertical: 10 }, !this.props.hasGiftPacks && { paddingHorizontal: 70 }]}
+					>
+						{this.props.hasGiftPacks && (
+							<Option index={0} onPress={() => this.setState({ selectedIndex: 0 })}>
+								My Offers
+							</Option>
+						)}
+						<Option index={1} onPress={() => this.getAvailableGiftPacks(this.props.token)}>
 							Shop
 						</Option>
 						<Option index={2} onPress={() => this.setState({ selectedIndex: 2 })}>
@@ -105,48 +100,49 @@ class Giftpacks extends Component {
 						</Option>
 					</OptionsWrapper>
 					<Divider color={orange} width={2.5} />
-					{this.state.selectedIndex === 0 && (
-						<View>
-							<View style={{ padding: 20 }}>
-								<ModalSelector
-									optionTextStyle={{ color: greySix }}
-									optionContainerStyle={{ backgroundColor: orange }}
-									selectTextStyle={{ color: '#FFF' }}
-									selectedItemTextStyle={{ color: '#FFF', fontWeight: 'bold' }}
-									data={this.state.giftPackNames}
-									initValue="All Available Offers"
-									onChange={option => {
-										this.setState({ textInputValue: option.label, index: option.key });
-									}}
-								>
-									<TextInput
-										style={{
-											backgroundColor: orange,
-											borderRadius: 10,
-											paddingLeft: 20,
-											height: 30,
-											color: '#FFF'
+					{this.state.selectedIndex === 0 &&
+						this.props.hasGiftPacks && (
+							<View>
+								<View style={{ padding: 20 }}>
+									<ModalSelector
+										optionTextStyle={{ color: greySix }}
+										optionContainerStyle={{ backgroundColor: orange }}
+										selectTextStyle={{ color: '#FFF' }}
+										selectedItemTextStyle={{ color: '#FFF', fontWeight: 'bold' }}
+										data={this.state.giftPackNames}
+										initValue="All Available Offers"
+										onChange={option => {
+											this.setState({ textInputValue: option.label, index: option.key });
 										}}
-										editable={false}
-										placeholderTextColor="#FFF"
-										placeholder="All Available Offers"
-										value={this.state.textInputValue}
-									/>
-									<SSUIcon
-										name="chevron-down"
-										size={12}
-										color="#FFF"
-										style={{ position: 'absolute', top: 8, right: 20 }}
-									/>
-								</ModalSelector>
+									>
+										<TextInput
+											style={{
+												backgroundColor: orange,
+												borderRadius: 10,
+												paddingLeft: 20,
+												height: 30,
+												color: '#FFF'
+											}}
+											editable={false}
+											placeholderTextColor="#FFF"
+											placeholder="All Available Offers"
+											value={this.state.textInputValue}
+										/>
+										<SSUIcon
+											name="chevron-down"
+											size={12}
+											color="#FFF"
+											style={{ position: 'absolute', top: 8, right: 20 }}
+										/>
+									</ModalSelector>
+								</View>
+								<Divider color={orange} width={2.5} />
+								<CouponList
+									data={this.state.giftPackOffers[this.state.index]}
+									navigator={this.props.navigator}
+								/>
 							</View>
-							<Divider color={orange} width={2.5} />
-							<CouponList
-								data={this.state.giftPackOffers[this.state.index]}
-								navigator={this.props.navigator}
-							/>
-						</View>
-					)}
+						)}
 					{this.state.selectedIndex === 1 && (
 						<View>
 							<AsyncImage
@@ -177,7 +173,7 @@ class Giftpacks extends Component {
 								}}
 							>
 								<FlatList
-									data={this.state.giftPackListData}
+									data={this.state.availableGiftPacks}
 									horizontal
 									keyExtractor={item => item.id.toString()}
 									ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
@@ -214,7 +210,7 @@ class Giftpacks extends Component {
 															fontWeight: 'bold'
 														}}
 													>
-														${parseInt(item.giftPackPrice)}
+														${parseInt(item.price)}
 													</Text>
 												</View>
 											</TouchableOpacity>
@@ -227,7 +223,7 @@ class Giftpacks extends Component {
 													width: '80%'
 												}}
 											>
-												{item.giftPackName}
+												{item.name}
 											</Text>
 										</View>
 									)}
@@ -259,6 +255,11 @@ class Giftpacks extends Component {
 			);
 		}
 	}
+
+	getAvailableGiftPacks(token) {
+		this.setState({ selectedIndex: 1 });
+		this.props.getAvailableGiftPacks(token);
+	}
 }
 
 const styles = StyleSheet.create({
@@ -277,13 +278,18 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
+	availableGiftPacks: state.giftPacks.availableGiftPacks,
 	userGiftPacks: state.giftPacks.userGiftPacks,
+	hasGiftPacks: state.giftPacks.hasGiftPacks,
 	token: state.account.token,
 	loading: state.global.loading
 });
 
 const mapDispatchToProps = dispatch => ({
-	getUserGiftpacks: token => dispatch(getUserGiftpacks(token))
+	getUserGiftpacks: token => dispatch(getUserGiftpacks(token)),
+	getAvailableGiftPacks: token => {
+		dispatch(getAvailableGiftPacks(token));
+	}
 });
 
 export default connect(

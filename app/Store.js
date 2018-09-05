@@ -11,6 +11,7 @@ const defaultState = {
 		errors: null
 	},
 	giftPacks: {
+		availableGiftPacks: [],
 		userGiftPacks: []
 	},
 	global: {

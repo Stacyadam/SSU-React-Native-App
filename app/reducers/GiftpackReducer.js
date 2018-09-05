@@ -1,9 +1,17 @@
-import { SAVE_USER_GIFTPACKS, SAVE_GIFTPACK } from '../types';
+import { SAVE_USER_GIFTPACKS, SAVE_GIFTPACK, SAVE_AVAILABLE_GIFTPACKS } from '../types';
 import { convertMilitaryTime, getOfferDetails, dayString, getDistance } from '../utilities';
 
 export default (state = {}, action = {}) => {
 	switch (action.type) {
 		case SAVE_USER_GIFTPACKS: {
+			if (!action.payload.giftpacks.length) {
+				return {
+					...state,
+					hasGiftPacks: false
+				};
+			}
+
+			console.log(action.payload.giftpacks);
 			const giftPacksArray = action.payload.giftpacks.map(i => {
 				return {
 					giftPackName: i.gift_pack.name,
@@ -84,10 +92,46 @@ export default (state = {}, action = {}) => {
 					}
 				})
 			};
+
 			const giftPacks = [combinedGiftPacks, ...giftPacksArray];
+
+			const hasOfferRedemptions = action.payload.giftpacks.some(gp => gp.offer_redemptions.length > 0);
+
+			if (hasOfferRedemptions) {
+				const redeemedOffersArray = action.payload.giftpacks.map(gp => {
+					if (gp.offer_redemptions.length) {
+						gp.offer_redemptions.map(g => {
+							return {
+								locationName: g.gift_pack_offer.location_name,
+								locationImage: g.gift_pack_offer.location_image,
+								offerDetails: getOfferDetails(g.gift_pack_offer.offer)
+							};
+						});
+					}
+				});
+
+				const redeemedOffers = {
+					giftPackName: 'Redeemed Offers',
+					giftPackOffers: redeemedOffersArray
+				};
+
+				giftPacks.push(redeemedOffers);
+			}
+
 			return {
 				...state,
-				userGiftPacks: giftPacks
+				userGiftPacks: giftPacks,
+				hasGiftPacks: true
+			};
+		}
+
+		case SAVE_AVAILABLE_GIFTPACKS: {
+			const availableGiftPacks = action.payload
+				.filter(({ inactive }) => inactive !== 1)
+				.map(({ id, name, price }) => ({ id, name, price }));
+			return {
+				...state,
+				availableGiftPacks
 			};
 		}
 
