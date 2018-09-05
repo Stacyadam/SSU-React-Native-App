@@ -11,6 +11,7 @@ import {
 	ActivityIndicator,
 	Image
 } from 'react-native';
+import Permissions from 'react-native-permissions';
 import Dimensions from 'Dimensions';
 import StandardHeader from '../components/headers/StandardHeader';
 import UiSettings from '../config/UiSettings';
@@ -32,7 +33,9 @@ class Giftpacks extends Component {
 
 	onNavigatorEvent({ id }) {
 		if (id === 'willAppear') {
-			if (!this.props.userGiftPacks.length) this.props.getUserGiftpacks(this.props.token);
+			Permissions.check('location').then(permission => {
+				if (!this.props.userGiftPacks.length) this.props.getUserGiftpacks(this.props.token, permission);
+			});
 		}
 	}
 
@@ -258,7 +261,7 @@ class Giftpacks extends Component {
 
 	getAvailableGiftPacks(token) {
 		this.setState({ selectedIndex: 1 });
-		this.props.getAvailableGiftPacks(token);
+		if (!this.state.availableGiftPacks.length) this.props.getAvailableGiftPacks(token);
 	}
 }
 
@@ -286,7 +289,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getUserGiftpacks: token => dispatch(getUserGiftpacks(token)),
+	getUserGiftpacks: (token, permission) => dispatch(getUserGiftpacks(token, permission)),
 	getAvailableGiftPacks: token => {
 		dispatch(getAvailableGiftPacks(token));
 	}

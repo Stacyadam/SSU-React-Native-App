@@ -12,11 +12,13 @@ export default (state = {}, action = {}) => {
 			}
 
 			console.log(action.payload.giftpacks);
+
 			const giftPacksArray = action.payload.giftpacks.map(i => {
 				return {
 					giftPackName: i.gift_pack.name,
 					giftPackPrice: i.gift_pack.price,
 					giftPackOffers: i.gift_pack.gift_pack_offers
+						.filter(({ offer }) => offer.locations.length > 0)
 						.map(i => {
 							return {
 								locationName: i.location_name,
@@ -43,9 +45,12 @@ export default (state = {}, action = {}) => {
 											longitude,
 											hours
 										}) => {
-											const userLat = action.payload.userLocation.latitude;
-											const userLon = action.payload.userLocation.longitude;
-											const distance = getDistance(userLat, userLon, latitude, longitude);
+											let distance = '';
+											if (action.payload.userLocation) {
+												const userLat = action.payload.userLocation.latitude;
+												const userLon = action.payload.userLocation.longitude;
+												distance = getDistance(userLat, userLon, latitude, longitude);
+											}
 
 											return {
 												name,

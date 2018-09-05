@@ -1,10 +1,10 @@
-import { SAVE_USER_GIFTPACKS, SAVE_AVAILABLE_GIFTPACKS } from '../types';
+import { SAVE_AVAILABLE_GIFTPACKS, SAVE_USER_GIFTPACKS } from '../types';
 import * as GlobalActions from './GlobalActions';
 import * as AccountActions from './AccountActions';
 
 import axios from 'axios';
 
-export function getUserGiftpacks(token) {
+export function getUserGiftpacks(token, permission) {
 	return async dispatch => {
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
@@ -18,11 +18,15 @@ export function getUserGiftpacks(token) {
 					}
 				}
 			);
-
+			if (permission === 'denied') {
+				dispatch(saveUserGiftpacks(user_gift_packs, false));
+				dispatch(GlobalActions.toggleLoading(false));
+			}
 			navigator.geolocation.getCurrentPosition(
 				({ coords: { latitude, longitude }, timestamp }) => {
 					const userLocation = { timestamp, latitude, longitude };
-					AccountActions.setUserLocation(userLocation);
+					//TODO: this isn't working
+					//AccountActions.setUserLocation(userLocation);
 					dispatch(saveUserGiftpacks(user_gift_packs, userLocation));
 					dispatch(GlobalActions.toggleLoading(false));
 					return { user_gift_packs, userLocation };
