@@ -11,82 +11,82 @@ export default (state = {}, action = {}) => {
 				};
 			}
 
-			console.log(action.payload.giftpacks);
+			const giftPacksArray = action.payload.giftpacks
+				.filter(gp => new Date(gp.gift_pack.expires_at).getTime() > new Date().getTime())
+				.map(i => {
+					return {
+						giftPackName: i.gift_pack.name,
+						giftPackPrice: i.gift_pack.price,
+						giftPackOffers: i.gift_pack.gift_pack_offers
+							.filter(({ offer }) => offer.locations.length > 0)
+							.map(i => {
+								return {
+									locationName: i.location_name,
+									locationImage: i.location_image,
+									locationWebsite: i.location_website,
+									...(i.offer.promo_code_detail && {
+										isPromoCode: true,
+										promoCode: i.offer.promo_code_detail.code
+									}),
 
-			const giftPacksArray = action.payload.giftpacks.map(i => {
-				return {
-					giftPackName: i.gift_pack.name,
-					giftPackPrice: i.gift_pack.price,
-					giftPackOffers: i.gift_pack.gift_pack_offers
-						.filter(({ offer }) => offer.locations.length > 0)
-						.map(i => {
-							return {
-								locationName: i.location_name,
-								locationImage: i.location_image,
-								locationWebsite: i.location_website,
-								...(i.offer.promo_code_detail && {
-									isPromoCode: true,
-									promoCode: i.offer.promo_code_detail.code
-								}),
-
-								rules: i.offer.redemption_rules,
-								offerDetails: getOfferDetails(i.offer),
-								locations: i.offer.locations
-									.map(
-										({
-											name,
-											address,
-											city,
-											state,
-											zip,
-											neighborhood,
-											phone,
-											latitude,
-											longitude,
-											hours
-										}) => {
-											let distance = '';
-											if (action.payload.userLocation) {
-												const userLat = action.payload.userLocation.latitude;
-												const userLon = action.payload.userLocation.longitude;
-												distance = getDistance(userLat, userLon, latitude, longitude);
-											}
-
-											return {
+									rules: i.offer.redemption_rules,
+									offerDetails: getOfferDetails(i.offer),
+									locations: i.offer.locations
+										.map(
+											({
 												name,
-												address: `${address}, ${city}, ${state} ${zip}`,
+												address,
+												city,
+												state,
+												zip,
 												neighborhood,
 												phone,
-												distance,
 												latitude,
 												longitude,
-												hours: hours.map(({ day, open, close }) => {
-													return {
-														day,
-														dayString: dayString(day),
-														open,
-														openString: convertMilitaryTime(open),
-														close,
-														closeString: convertMilitaryTime(close)
-													};
-												})
-											};
-										}
-									)
-									.sort((a, b) => {
-										if (a.distance && b.distance) {
-											return a.distance - b.distance;
-										}
-									})
-							};
-						})
-						.sort((a, b) => {
-							if (a.locations.length && b.locations.length) {
-								return a.locations[0].distance - b.locations[0].distance;
-							}
-						})
-				};
-			});
+												hours
+											}) => {
+												let distance = '';
+												if (action.payload.userLocation) {
+													const userLat = action.payload.userLocation.latitude;
+													const userLon = action.payload.userLocation.longitude;
+													distance = getDistance(userLat, userLon, latitude, longitude);
+												}
+
+												return {
+													name,
+													address: `${address}, ${city}, ${state} ${zip}`,
+													neighborhood,
+													phone,
+													distance,
+													latitude,
+													longitude,
+													hours: hours.map(({ day, open, close }) => {
+														return {
+															day,
+															dayString: dayString(day),
+															open,
+															openString: convertMilitaryTime(open),
+															close,
+															closeString: convertMilitaryTime(close)
+														};
+													})
+												};
+											}
+										)
+										.sort((a, b) => {
+											if (a.distance && b.distance) {
+												return a.distance - b.distance;
+											}
+										})
+								};
+							})
+							.sort((a, b) => {
+								if (a.locations.length && b.locations.length) {
+									return a.locations[0].distance - b.locations[0].distance;
+								}
+							})
+					};
+				});
 
 			const allOffers = giftPacksArray.map(g => g.giftPackOffers);
 			const combinedGiftPacks = {

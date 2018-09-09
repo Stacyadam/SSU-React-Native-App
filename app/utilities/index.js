@@ -25,6 +25,35 @@ export const getOfferDetails = offer => {
 	}
 };
 
+export const isoToLongDate = isoDate => {
+	const date = new Date(isoDate);
+
+	const monthNames = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
+
+	var day = date.getDate() + 1;
+	var monthIndex = date.getMonth();
+	var year = date.getFullYear();
+
+	return `${monthNames[monthIndex]} ${day}, ${year}`;
+};
+
+export const formatPhoneNumber = phoneNumber => {
+	if (phoneNumber.length === 10) {
+		//reformat and return phone number
+		return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+	}
+};
+
+export const genderString = gender => {
+	if (gender === 'M') {
+		return 'Male';
+	} else if (gender === 'F') {
+		return 'Female';
+	} else {
+		return 'Other';
+	}
+};
+
 export const dayString = day => {
 	if (day === 0) {
 		return 'Monday';
@@ -43,12 +72,10 @@ export const dayString = day => {
 	}
 };
 
-export const getDistance = (lat1, lon1, lat2, lon2) => {	
-	var p = 0.017453292519943295;    
+export const getDistance = (lat1, lon1, lat2, lon2) => {
+	var p = 0.017453292519943295;
 	var c = Math.cos;
-	var a = 0.5 - c((lat2 - lat1) * p)/2 + 
-			c(lat1 * p) * c(lat2 * p) * 
-			(1 - c((lon2 - lon1) * p))/2;
-  
-	return ((12742 * Math.asin(Math.sqrt(a))) * 0.62137119).toFixed(1);
+	var a = 0.5 - c((lat2 - lat1) * p) / 2 + (c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p))) / 2;
+
+	return (12742 * Math.asin(Math.sqrt(a)) * 0.62137119).toFixed(1);
 };

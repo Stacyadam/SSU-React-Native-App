@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import Input from './Input';
 import UiSettings from '../../config/UiSettings';
 import SSUIcon from '../shared/icons/SSUIcon';
 import Button from '../shared/buttons/Button';
 import { validateInput } from '../../actions/AccountActions';
 
-const { orange, greyThree, blue } = UiSettings.styles.colors;
+const { orange, greyThree, blue, errorRed } = UiSettings.styles.colors;
 
 class SignUpFirst extends Component {
 	state = {
@@ -51,41 +51,76 @@ class SignUpFirst extends Component {
 					</View>
 				</View>
 				<View style={{ paddingHorizontal: 24 }}>
-					<Input
-						label="Email"
-						value={this.state.email}
-						onChangeText={email => this.setState({ email })}
-						returnKeyType="next"
-						keyboardType="phone-pad"
-						error={this.props.errors && this.props.errors.email ? this.props.errors.email[0] : ''}
+					{this.props.errors && this.props.errors.email ? (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+							{this.props.errors.email[0]}
+						</Text>
+					) : (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>Email</Text>
+					)}
+					<View
 						style={{
-							marginBottom: 10
+							borderColor: blue,
+							borderWidth: 1,
+							marginBottom: 10,
+							height: 40,
+							paddingRight: 20,
+							justifyContent: 'center',
+							paddingLeft: 10
 						}}
-					/>
+					>
+						<TextInput
+							onChangeText={email => this.setState({ email })}
+							value={this.state.email}
+							autoCorrect={false}
+							autoCapitalize="none"
+							keyboardType="email-address"
+						/>
+					</View>
 					<Text style={{ color: orange, marginLeft: 10, marginBottom: 20 }}>
 						WE NEVER SELL OR SHARE EMAILS
 					</Text>
-					<Input
-						label="Password"
-						value={this.state.password}
-						onChangeText={password => this.setState({ password })}
-						returnKeyType="done"
-						keyboardType="phone-pad"
-						error={this.props.errors && this.props.errors.password ? this.props.errors.password[0] : ''}
+
+					{this.props.errors && this.props.errors.password ? (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+							{this.props.errors.password[0]}
+						</Text>
+					) : (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>Password</Text>
+					)}
+					<View
 						style={{
-							marginBottom: 10
+							borderColor: blue,
+							borderWidth: 1,
+							marginBottom: 20,
+							height: 40,
+							paddingRight: 20,
+							justifyContent: 'center',
+							paddingLeft: 10
 						}}
-					/>
+					>
+						<TextInput
+							onChangeText={password => this.setState({ password })}
+							value={this.state.password}
+							autoCorrect={false}
+							autoCapitalize="none"
+							secureTextEntry
+						/>
+					</View>
 					<Button
+						style={{ marginBottom: 20 }}
+						loading={this.props.loading}
 						onPress={() =>
 							this.props.validateInput({ email: this.state.email, password: this.state.password })
 						}
 					>
 						CONTINUE
 					</Button>
-					<Text style={{ color: orange, textAlign: 'center', marginBottom: 10 }}>
-						ALREADY HAVE AN ACCOUNT?
-					</Text>
+					<TouchableOpacity onPress={() => this.props.navigator.dismissModal()}>
+						<Text style={{ color: orange, textAlign: 'center', marginBottom: 10 }}>
+							ALREADY HAVE AN ACCOUNT?
+						</Text>
+					</TouchableOpacity>
 					<Text style={{ textAlign: 'center', fontSize: 10, color: greyThree }}>
 						We send very few marketing emails throughout the year and you have the option to unsubscribe at
 						any time.
@@ -101,7 +136,8 @@ class SignUpFirst extends Component {
 }
 
 const mapStateToProps = state => ({
-	errors: state.global.errors
+	errors: state.global.errors,
+	loading: state.global.loading
 });
 
 const mapDispatchToProps = dispatch => ({

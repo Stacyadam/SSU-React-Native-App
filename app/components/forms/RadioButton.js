@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native';
 import UiSettings from '../../config/UiSettings';
 
+const { darkBlue } = UiSettings.styles.colors;
+
 class RadioButton extends Component {
 	constructor(props) {
 		super(props);
@@ -43,12 +45,12 @@ class RadioButton extends Component {
 	}
 
 	_getInnerCircleStyles() {
-		let { size } = this.props;
+		let { size, backgroundColor } = this.props;
 		return {
-			backgroundColor: UiSettings.styles.colors.darkBlue,
+			backgroundColor: backgroundColor,
 			borderRadius: (size - 4) / 2,
-			height: size - size / 2,
-			width: size - size / 2
+			height: size - size / 5,
+			width: size - size / 5
 		};
 	}
 
@@ -59,7 +61,8 @@ class RadioButton extends Component {
 }
 
 RadioButton.defaultProps = {
-	color: UiSettings.styles.colors.darkBlue,
+	color: darkBlue,
+	backgroundColor: darkBlue,
 	size: 30
 };
 

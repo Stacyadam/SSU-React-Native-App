@@ -44,20 +44,21 @@ class CouponDetailsModal extends Component {
 		this.setState({ today });
 
 		const time = new Date();
-		const now = `${time.getHours()}${time.getMinutes()}`;
+		const now = parseInt(`${time.getHours()}${time.getMinutes()}`);		
 
-		const todaysHours = this.state.selectedLocation.hours.find(e => e.day === today);
+		const todaysHours = this.state.selectedLocation.hours.find(e => e.day === today);		
 		this.setState({ todaysHours });
 
 		if (todaysHours) {
-			const open = todaysHours.open.replace(':', '');
-			const close = todaysHours.close.replace(':', '');
+			const open = parseInt(todaysHours.open.replace(':', ''))
+			const close = parseInt(todaysHours.close.replace(':', ''))			
+			
+			const closeMilitary = close < 1200 ? (close + 2400) : close;				
 
-			if (now > open && now < close) {
+			if (now > open && now < closeMilitary) {
 				this.setState({ open: true });
 			}
 		} else {
-			console.log('this is hitting the else');
 			this.setState({ open: false });
 		}
 	}
@@ -174,7 +175,8 @@ class CouponDetailsModal extends Component {
 										borderWidth: 1,
 										paddingVertical: 10,
 										paddingHorizontal: 26,
-										alignItems: 'center'
+										alignItems: 'center',
+										marginBottom: 20
 									}}
 								>
 									<Text style={{ color: blue, fontWeight: 'bold' }}>{this.props.item.promoCode}</Text>
@@ -184,9 +186,8 @@ class CouponDetailsModal extends Component {
 								</TouchableOpacity>
 
 								<Button
+									style={{ marginBottom: 10, paddingHorizontal: 20 }}
 									onPress={() => Linking.openURL(this.props.item.locationWebsite)}
-									height={10}
-									fontSize={14}
 								>
 									Go To Purchase
 								</Button>

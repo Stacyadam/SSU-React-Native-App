@@ -7,10 +7,13 @@ const { orange } = UiSettings.styles.colors;
 
 class StandardHeader extends Component {
 	render() {
-		const { title, navigator } = this.props;
+		const { title, navigator, onBack } = this.props;
 		return (
 			<View style={[styles.container]}>
-				<TouchableOpacity onPress={() => navigator.dismissAllModals()} style={[styles.backWrapper]}>
+				<TouchableOpacity
+					onPress={() => (onBack ? onBack() : navigator.dismissAllModals())}
+					style={[styles.backWrapper]}
+				>
 					<SSUIcon name="angle-left" color="#FFF" size={26} />
 				</TouchableOpacity>
 				<Text style={[styles.titleText]}>{title}</Text>

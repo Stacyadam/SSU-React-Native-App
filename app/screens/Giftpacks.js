@@ -34,7 +34,7 @@ class Giftpacks extends Component {
 	onNavigatorEvent({ id }) {
 		if (id === 'willAppear') {
 			Permissions.check('location').then(permission => {
-				if (!this.props.userGiftPacks.length) this.props.getUserGiftpacks(this.props.token, permission);
+				if (!this.props.userGiftPacks.length) this.props.getUserGiftpacks(permission);
 			});
 		}
 	}
@@ -259,9 +259,9 @@ class Giftpacks extends Component {
 		}
 	}
 
-	getAvailableGiftPacks(token) {
+	getAvailableGiftPacks() {
 		this.setState({ selectedIndex: 1 });
-		if (!this.state.availableGiftPacks.length) this.props.getAvailableGiftPacks(token);
+		if (!this.state.availableGiftPacks.length) this.props.getAvailableGiftPacks();
 	}
 }
 
@@ -284,15 +284,12 @@ const mapStateToProps = state => ({
 	availableGiftPacks: state.giftPacks.availableGiftPacks,
 	userGiftPacks: state.giftPacks.userGiftPacks,
 	hasGiftPacks: state.giftPacks.hasGiftPacks,
-	token: state.account.token,
 	loading: state.global.loading
 });
 
 const mapDispatchToProps = dispatch => ({
-	getUserGiftpacks: (token, permission) => dispatch(getUserGiftpacks(token, permission)),
-	getAvailableGiftPacks: token => {
-		dispatch(getAvailableGiftPacks(token));
-	}
+	getUserGiftpacks: permission => dispatch(getUserGiftpacks(permission)),
+	getAvailableGiftPacks: () => dispatch(getAvailableGiftPacks())
 });
 
 export default connect(

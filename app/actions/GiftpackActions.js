@@ -4,8 +4,11 @@ import * as AccountActions from './AccountActions';
 
 import axios from 'axios';
 
-export function getUserGiftpacks(token, permission) {
-	return async dispatch => {
+export function getUserGiftpacks(permission) {
+	return async (dispatch, getState) => {
+		const {
+			account: { token }
+		} = getState();
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
 			const {
@@ -42,8 +45,11 @@ export function getUserGiftpacks(token, permission) {
 	};
 }
 
-export function getAvailableGiftPacks(token) {
-	return async dispatch => {
+export function getAvailableGiftPacks() {
+	return async (dispatch, getState) => {
+		const {
+			account: { token }
+		} = getState();
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
 			const {

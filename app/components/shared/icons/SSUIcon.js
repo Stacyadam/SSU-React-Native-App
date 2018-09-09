@@ -6,7 +6,7 @@ class SSUIcon extends PureComponent {
 	render() {
 		const { name, size, color, style } = this.props;
 		return (
-			<View style={this.props.style}>
+			<View style={style}>
 				<Icon name={name} size={size} color={color} />
 			</View>
 		);

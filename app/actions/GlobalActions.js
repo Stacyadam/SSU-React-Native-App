@@ -1,4 +1,4 @@
-import { LOADING, ERRORS } from '../types';
+import { LOADING, ERRORS, SUCCESS } from '../types';
 
 export function toggleLoading(bool) {
 	return {
@@ -11,5 +11,12 @@ export function updateErrors(errors) {
 	return {
 		type: ERRORS,
 		payload: errors
+	};
+}
+
+export function updateSuccess(bool) {
+	return {
+		type: SUCCESS,
+		payload: bool
 	};
 }

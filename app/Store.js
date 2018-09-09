@@ -16,7 +16,8 @@ const defaultState = {
 	},
 	global: {
 		errors: null,
-		loading: false
+		loading: false,
+		success: null
 	}
 };
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Button, View, Text, TextInput, Picker, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TextInput, Picker, TouchableOpacity, Modal } from 'react-native';
 import Router from '../../router';
 import { connect } from 'react-redux';
 import SignIn from '../forms/SignIn';
 import { signIn, updateErrors } from '../../actions/AccountActions';
 import UiSettings from '../../config/UiSettings';
+import Button from '../shared/buttons/Button';
 import * as GlobalActions from '../../actions/GlobalActions';
 
 const { orange, errorRed } = UiSettings.styles.colors;
@@ -20,6 +21,10 @@ class LogIn extends Component {
 			Router.startApp();
 		}
 	}
+
+	static navigatorStyle = {
+		navBarHidden: true
+	};
 
 	render() {
 		return (
@@ -38,23 +43,26 @@ class LogIn extends Component {
 							paddingRight: 20
 						}}
 					>
-						<Text style={{ color: orange, marginRight: 10 }}>I forgot my password</Text>
-						<View
-							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								backgroundColor: orange,
-								height: 30,
-								width: 100
-							}}
+						<TouchableOpacity
+							onPress={() =>
+								this.props.navigator.showModal({
+									screen: 'SSU.ForgotPassword',
+									passProps: { navigator: this.props.navigator }
+								})
+							}
 						>
-							<TouchableOpacity
+							<Text style={{ color: orange, marginRight: 10 }}>I forgot my password</Text>
+						</TouchableOpacity>
+						<View>
+							<Button
+								style={{ width: 80 }}
+								loading={this.props.loading}
 								onPress={() =>
 									this.props.signIn({ email: this.state.email, password: this.state.password })
 								}
 							>
-								<Text style={{ color: '#FFF', fontWeight: 'bold' }}>SIGN IN</Text>
-							</TouchableOpacity>
+								SIGN IN
+							</Button>
 						</View>
 					</View>
 					<View
@@ -109,7 +117,8 @@ class LogIn extends Component {
 const mapStateToProps = state => ({
 	user: state.account.user,
 	token: state.account.token,
-	errors: state.global.errors
+	errors: state.global.errors,
+	loading: state.global.loading
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Linking } from 'react-native';
+import DatePicker from 'react-native-datepicker';
 import Input from '../forms/Input';
 import RadioButton from '../forms/RadioButton';
 import UiSettings from '../../config/UiSettings';
@@ -8,14 +9,14 @@ import SSUIcon from '../shared/icons/SSUIcon';
 import Button from '../shared/buttons/Button';
 import ThreeDots from '../shared/icons/ThreeDots';
 
-import { signUp } from '../../actions/AccountActions.js';
+import { signUp } from '../../actions/AccountActions';
 
-const { orange, darkOrange, blue } = UiSettings.styles.colors;
+const { orange, darkOrange, blue, greyTwo } = UiSettings.styles.colors;
 
 class SignUpThird extends Component {
 	state = {
-		birthday: '1987-11-29',
-		gender: 'M'
+		birthday: '',
+		gender: ''
 	};
 
 	/*============================================================
@@ -56,18 +57,46 @@ class SignUpThird extends Component {
 				>
 					JUST ONE STEP AWAY FROM ENDLESS LOCAL REWARDS...
 				</Text>
+
 				<View style={{ paddingHorizontal: 24 }}>
-					<Input
-						label="Date of Birth"
-						placeholder="MM/DD/YYYY"
-						value={birthday}
-						onChangeText={input => this.setState({ input })}
-						returnKeyType="next"
-						keyboardType="phone-pad"
+					<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>First Name</Text>
+					<View
 						style={{
-							marginBottom: 10
+							borderColor: blue,
+							borderWidth: 1,
+							marginBottom: 10,
+							height: 36,
+							justifyContent: 'center'
 						}}
-					/>
+					>
+						<DatePicker
+							date={this.state.birthday}
+							mode="date"
+							placeholder="select date"
+							format="YYYY-MM-DD"
+							minDate="1900-01-01"
+							maxDate="2018-12-12"
+							confirmBtnText="Confirm"
+							cancelBtnText="Cancel"
+							showIcon={false}
+							customStyles={{
+								dateInput: {
+									borderWidth: 0,
+									position: 'absolute',
+									left: 10
+								},
+								dateText: {
+									color: 'black'
+								},
+								btnText: {
+									position: 'relative'
+								}
+							}}
+							onDateChange={birthday => {
+								this.setState({ birthday });
+							}}
+						/>
+					</View>
 					<Text
 						style={{
 							textAlign: 'center',
@@ -84,32 +113,51 @@ class SignUpThird extends Component {
 						style={{
 							color: blue,
 							fontSize: 12,
-							marginLeft: 6,
-							marginBottom: 4
+							marginBottom: 10
 						}}
 					>
 						Gender
 					</Text>
 					<View
 						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
 							flexDirection: 'row',
-							marginBottom: 10
+							justifyContent: 'flex-start',
+							alignItems: 'center',
+							marginBottom: 20
 						}}
 					>
-						<RadioButton style={{ flex: 1, marginRight: 0 }}>
-							<Text>Male</Text>
-						</RadioButton>
-						<RadioButton style={{ flex: 1 }}>
-							<Text>Female</Text>
-						</RadioButton>
-						<RadioButton style={{ flex: 1 }}>
-							<Text>N/A</Text>
-						</RadioButton>
+						<Text style={{ marginRight: 5 }}>Male</Text>
+						<RadioButton
+							color={greyTwo}
+							backgroundColor={orange}
+							selected={this.state.gender === 'M'}
+							checked={this.state.gender === 'M'}
+							onPress={() => this.setState({ gender: 'M' })}
+							style={{ marginRight: 10 }}
+						/>
+						<Text style={{ marginRight: 5 }}>Female</Text>
+						<RadioButton
+							color={greyTwo}
+							backgroundColor={orange}
+							selected={this.state.gender === 'F'}
+							checked={this.state.gender === 'F'}
+							onPress={() => this.setState({ gender: 'F' })}
+							style={{ marginRight: 10 }}
+						/>
+						<Text style={{ marginRight: 5 }}>N/A</Text>
+						<RadioButton
+							color={greyTwo}
+							backgroundColor={orange}
+							selected={this.state.gender === 'O'}
+							checked={this.state.gender === 'O'}
+							onPress={() => this.setState({ gender: 'O' })}
+							style={{ marginRight: 10 }}
+						/>
 					</View>
 				</View>
 				<Button
+					style={{ marginBottom: 20 }}
+					loading={this.props.loading}
 					width="70%"
 					onPress={() => this.props.signUp({ birthday, gender, ...this.props.user })}
 				>
@@ -119,12 +167,18 @@ class SignUpThird extends Component {
 					style={{ textAlign: 'center', fontSize: 10, marginHorizontal: 20, lineHeight: 16, marginBottom: 8 }}
 				>
 					By clicking <B>Create Account</B>, you are agreeing to the Small Shops
-					<Text style={{ color: blue }} onPress={() => console.log('link')}>
+					<Text
+						style={{ color: blue }}
+						onPress={() => Linking.openURL('https://www.smallshopsunited.com/terms')}
+					>
 						{' '}
 						Terms of Use{' '}
 					</Text>
 					and
-					<Text style={{ color: blue }} onPress={() => console.log('link')}>
+					<Text
+						style={{ color: blue }}
+						onPress={() => Linking.openURL('https://www.smallshopsunited.com/privacy')}
+					>
 						{' '}
 						Privacy Policy{' '}
 					</Text>
@@ -141,7 +195,8 @@ class SignUpThird extends Component {
 
 const mapStateToProps = state => ({
 	user: state.account.user,
-	errors: state.global.errors
+	errors: state.global.errors,
+	loading: state.global.loading
 });
 
 const mapDispatchToProps = dispatch => ({

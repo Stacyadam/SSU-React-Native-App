@@ -7,7 +7,8 @@ import {
 	SAVE_TOKEN,
 	NEXT_STEP,
 	PREV_STEP,
-	SET_USER_LOCATION
+	SET_USER_LOCATION,
+	SAVE_PARTIAL_USER
 } from '../types';
 
 export default (state = {}, action = {}) => {
@@ -23,6 +24,25 @@ export default (state = {}, action = {}) => {
 		}
 
 		case SAVE_USER: {
+			const { id, email, phone, first_name, last_name, birthday, gender, zip_code, full_name } = action.payload;
+
+			return {
+				...state,
+				user: {
+					id,
+					email,
+					phone,
+					first_name,
+					last_name,
+					birthday,
+					gender,
+					zip_code,
+					full_name
+				}
+			};
+		}
+
+		case SAVE_PARTIAL_USER: {
 			return {
 				...state,
 				user: {
@@ -59,7 +79,7 @@ export default (state = {}, action = {}) => {
 		case PREV_STEP: {
 			return {
 				...state,
-				step: state.step - 1
+				...(action.payload.reset ? { step: state.step - 2 } : { step: state.step - 1 })
 			};
 		}
 

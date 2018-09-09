@@ -34,7 +34,7 @@ class SignUpModal extends Component {
 					</TouchableOpacity>
 					<Text style={{ color: '#FFF', fontSize: 16, fontWeight: 'bold' }}>SIGN UP</Text>
 				</View>
-				{step === 1 && <SignUpFirst />}
+				{step === 1 && <SignUpFirst navigator={this.props.navigator} />}
 				{step === 2 && <SignUpSecond />}
 				{step === 3 && <SignUpThird />}
 			</View>

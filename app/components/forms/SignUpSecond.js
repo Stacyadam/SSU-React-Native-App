@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import Input from './Input';
 import UiSettings from '../../config/UiSettings';
 import Button from '../shared/buttons/Button';
 import ThreeDots from '../shared/icons/ThreeDots';
 import { validateInput } from '../../actions/AccountActions';
 
-const { orange, darkOrange, blue } = UiSettings.styles.colors;
+const { orange, darkOrange, blue, errorRed } = UiSettings.styles.colors;
 
 class SignUpSecond extends Component {
 	state = {
@@ -55,58 +55,117 @@ class SignUpSecond extends Component {
 					{'\n'} WHEN YOU NEED THEM...
 				</Text>
 				<View style={{ paddingHorizontal: 24 }}>
-					<Input
-						label="First Name"
-						value={this.state.first_name}
-						onChangeText={first_name => this.setState({ first_name })}
-						returnKeyType="next"
-						keyboardType="phone-pad"
-						error={
-							this.props.errors && this.props.errors.first_name ? this.props.errors.first_name[0] : null
-						}
+					{this.props.errors && this.props.errors.first_name ? (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+							{this.props.errors.first_name[0]}
+						</Text>
+					) : (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>First Name</Text>
+					)}
+					<View
 						style={{
-							marginBottom: 10
+							borderColor: blue,
+							borderWidth: 1,
+							marginBottom: 10,
+							height: 36,
+							paddingRight: 20,
+							justifyContent: 'center',
+							paddingLeft: 10
 						}}
-					/>
-					<Input
-						label="Last Name"
-						value={this.state.last_name}
-						onChangeText={last_name => this.setState({ last_name })}
-						returnKeyType="next"
-						keyboardType="phone-pad"
-						error={this.props.errors && this.props.errors.last_name ? this.props.errors.last_name[0] : null}
+					>
+						<TextInput
+							onChangeText={first_name => this.setState({ first_name })}
+							value={this.state.first_name}
+							autoCorrect={false}
+							autoCapitalize="none"
+						/>
+					</View>
+
+					{this.props.errors && this.props.errors.last_name ? (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+							{this.props.errors.last_name[0]}
+						</Text>
+					) : (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>Last Name</Text>
+					)}
+					<View
 						style={{
-							marginBottom: 10
+							borderColor: blue,
+							borderWidth: 1,
+							marginBottom: 10,
+							height: 36,
+							paddingRight: 20,
+							justifyContent: 'center',
+							paddingLeft: 10
 						}}
-					/>
-					<Input
-						label="Phone(10-digits)"
-						value={this.state.phone}
-						onChangeText={phone => this.setState({ phone })}
-						returnKeyType="next"
-						keyboardType="phone-pad"
-						error={this.props.errors && this.props.errors.phone ? this.props.errors.phone[0] : null}
+					>
+						<TextInput
+							onChangeText={last_name => this.setState({ last_name })}
+							value={this.state.last_name}
+							autoCorrect={false}
+							autoCapitalize="none"
+						/>
+					</View>
+
+					{this.props.errors && this.props.errors.phone ? (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+							{this.props.errors.phone[0]}
+						</Text>
+					) : (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>Phone(10-digits)</Text>
+					)}
+					<View
 						style={{
-							marginBottom: 10
+							borderColor: blue,
+							borderWidth: 1,
+							marginBottom: 10,
+							height: 36,
+							paddingRight: 20,
+							justifyContent: 'center',
+							paddingLeft: 10
 						}}
-					/>
-					<Input
-						label="Zip Code"
-						value={this.state.zip_code}
-						onChangeText={zip_code => this.setState({ zip_code })}
-						returnKeyType="done"
-						keyboardType="phone-pad"
-						error={this.props.errors && this.props.errors.zip_code ? this.props.errors.zip_code[0] : null}
+					>
+						<TextInput
+							onChangeText={phone => this.setState({ phone })}
+							value={this.state.phone}
+							autoCorrect={false}
+							autoCapitalize="none"
+							maxLength={10}
+							keyboardType="phone-pad"
+						/>
+					</View>
+
+					{this.props.errors && this.props.errors.zip_code ? (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+							{this.props.errors.zip_code[0]}
+						</Text>
+					) : (
+						<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>Zip Code</Text>
+					)}
+					<View
 						style={{
-							marginBottom: 10
+							borderColor: blue,
+							borderWidth: 1,
+							marginBottom: 20,
+							height: 36,
+							paddingRight: 20,
+							justifyContent: 'center',
+							paddingLeft: 10
 						}}
-					/>
+					>
+						<TextInput
+							onChangeText={zip_code => this.setState({ zip_code })}
+							value={this.state.zip_code}
+							autoCorrect={false}
+							autoCapitalize="none"
+							keyboardType="number-pad"
+							maxLength={5}
+						/>
+					</View>
 				</View>
 				<Button
-					fontSize={12}
-					height={10}
-					width="40%"
-					style={{ marginTop: 4, marginBottom: 10 }}
+					loading={this.props.loading}
+					style={{ marginBottom: 10 }}
 					onPress={() =>
 						this.props.validateInput({
 							first_name: this.state.first_name,
@@ -135,7 +194,8 @@ class SignUpSecond extends Component {
 }
 
 const mapStateToProps = state => ({
-	errors: state.global.errors
+	errors: state.global.errors,
+	loading: state.global.loading
 });
 
 const mapDispatchToProps = dispatch => ({
