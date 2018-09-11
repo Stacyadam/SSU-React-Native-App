@@ -3,17 +3,17 @@ import thunk from 'redux-thunk';
 import Reducers from './reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const defaultState = {
+export const defaultState = {
 	account: {
 		user: null,
 		token: null,
-		step: 1,
-		errors: null
+		step: 1
 	},
 	giftPacks: {
 		availableGiftPacks: [],
 		userGiftPacks: []
 	},
+	memberCards: [],
 	global: {
 		errors: null,
 		loading: false,

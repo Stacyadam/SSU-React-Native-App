@@ -9,7 +9,8 @@ import {
 	FlatList,
 	Linking,
 	ActivityIndicator,
-	Image
+	Image,
+	ScrollView
 } from 'react-native';
 import Permissions from 'react-native-permissions';
 import Dimensions from 'Dimensions';
@@ -20,10 +21,11 @@ import ModalSelector from 'react-native-modal-selector';
 import CouponList from '../components/giftpacks/CouponList';
 import SSUIcon from '../components/shared/icons/SSUIcon';
 import { getUserGiftpacks, getAvailableGiftPacks } from '../actions/GiftpackActions';
+import { toggleLoading } from '../actions/GlobalActions';
 import AsyncImage from '../components/shared/AsyncImage';
 
 const { width } = Dimensions.get('window');
-const { greySix, orange, greyFive } = UiSettings.styles.colors;
+const { greySix, orange, greyFive, blue } = UiSettings.styles.colors;
 
 class Giftpacks extends Component {
 	constructor(props) {
@@ -34,7 +36,18 @@ class Giftpacks extends Component {
 	onNavigatorEvent({ id }) {
 		if (id === 'willAppear') {
 			Permissions.check('location').then(permission => {
-				if (!this.props.userGiftPacks.length) this.props.getUserGiftpacks(permission);
+				if (!this.props.userGiftPacks.length) {
+					this.props.getUserGiftpacks(permission).then(success => {
+						if (
+							!success.length &&
+							this.state.selectedIndex !== 1 &&
+							!this.state.availableGiftPacks.length
+						) {
+							this.setState({ selectedIndex: 1 });
+							this.props.getAvailableGiftPacks();
+						}
+					});
+				}
 			});
 		}
 	}
@@ -47,6 +60,7 @@ class Giftpacks extends Component {
 			this.setState({ giftPackNames });
 			this.setState({ giftPackOffers });
 		}
+
 		if (prevProps.availableGiftPacks !== this.props.availableGiftPacks) {
 			const { availableGiftPacks } = this.props;
 			this.setState({ availableGiftPacks });
@@ -95,7 +109,7 @@ class Giftpacks extends Component {
 								My Offers
 							</Option>
 						)}
-						<Option index={1} onPress={() => this.getAvailableGiftPacks(this.props.token)}>
+						<Option index={1} onPress={() => this.getAvailableGiftPacks()}>
 							Shop
 						</Option>
 						<Option index={2} onPress={() => this.setState({ selectedIndex: 2 })}>
@@ -175,84 +189,140 @@ class Giftpacks extends Component {
 									alignItems: 'center'
 								}}
 							>
-								<FlatList
-									data={this.state.availableGiftPacks}
-									horizontal
-									keyExtractor={item => item.id.toString()}
-									ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-									renderItem={({ item }) => (
-										<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-											<TouchableOpacity
-												style={{ height: 160, width: 125 }}
-												onPress={() =>
-													Linking.openURL('https://www.smallshopsunited.com/giftpacks/shop')
-												}
-											>
-												<Image
+								{this.props.loading ? (
+									<ActivityIndicator size="large" color={orange} animating={this.props.loading} />
+								) : (
+									<FlatList
+										data={this.state.availableGiftPacks}
+										horizontal
+										keyExtractor={item => item.id.toString()}
+										ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+										renderItem={({ item }) => (
+											<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+												<TouchableOpacity
 													style={{ height: 160, width: 125 }}
-													source={require('../assets/generic_GP.png')}
-												/>
-												<View
-													style={{
-														position: 'absolute',
-														top: 20,
-														right: 4,
-														backgroundColor: orange,
-														padding: 4,
-														width: 40,
-														height: 40,
-														borderRadius: 50,
-														justifyContent: 'center'
-													}}
+													onPress={() =>
+														Linking.openURL(
+															'https://www.smallshopsunited.com/giftpacks/shop'
+														)
+													}
 												>
-													<Text
+													<Image
+														style={{ height: 160, width: 125 }}
+														source={require('../assets/generic_GP.png')}
+													/>
+													<View
 														style={{
-															color: '#FFF',
-															fontSize: 14,
-															textAlign: 'center',
-															fontWeight: 'bold'
+															position: 'absolute',
+															top: 20,
+															right: 4,
+															backgroundColor: orange,
+															padding: 4,
+															width: 40,
+															height: 40,
+															borderRadius: 50,
+															justifyContent: 'center'
 														}}
 													>
-														${parseInt(item.price)}
-													</Text>
-												</View>
-											</TouchableOpacity>
-											<Text
-												style={{
-													marginVertical: 4,
-													color: greySix,
-													fontSize: 16,
-													textAlign: 'center',
-													width: '80%'
-												}}
-											>
-												{item.name}
-											</Text>
-										</View>
-									)}
-								/>
+														<Text
+															style={{
+																color: '#FFF',
+																fontSize: 14,
+																textAlign: 'center',
+																fontWeight: 'bold'
+															}}
+														>
+															${parseInt(item.price)}
+														</Text>
+													</View>
+												</TouchableOpacity>
+												<Text
+													style={{
+														marginVertical: 4,
+														color: greySix,
+														fontSize: 16,
+														textAlign: 'center',
+														width: '80%'
+													}}
+												>
+													{item.name}
+												</Text>
+											</View>
+										)}
+									/>
+								)}
 							</View>
 						</View>
 					)}
 					{this.state.selectedIndex === 2 && (
-						<View style={{ padding: 24 }}>
-							<Text style={{ color: greySix, fontWeight: 'bold' }}>How do I redeem in-store offers?</Text>
-							<Text style={{ marginBottom: 20 }}>
+						<ScrollView style={{ padding: 24 }}>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									fontSize: 16,
+									color: greySix,
+									marginBottom: 4
+								}}
+							>
+								Why aren't my offers showing up in the app?
+							</Text>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 20 }}>
+								If this is the case, it likely means you have not yet activated your Gift Pack. Please
+								visit
+								<Text
+									onPress={() =>
+										Linking.openURL('https://www.smallshopsunited.com/giftpacks/activate')
+									}
+									style={{ color: blue }}
+								>
+									{' '}
+									smallshopsunited.com/giftpacks/activate
+								</Text>
+								, and follow the instructions to activate your offers.
+							</Text>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									fontSize: 16,
+									color: greySix,
+									marginBottom: 4
+								}}
+							>
+								How do I redeem in-store offers?
+							</Text>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 20 }}>
 								Simply provide each merchant your member card or your account phone number at the
 								point-of purchase when ready to cash in on their offer.
 							</Text>
-							<Text style={{ color: greySix, fontWeight: 'bold' }}>How do I redeem online offers?</Text>
-							<Text style={{ marginBottom: 20 }}>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									fontSize: 16,
+									color: greySix,
+
+									marginBottom: 4
+								}}
+							>
+								How do I redeem online offers?
+							</Text>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 20 }}>
 								First get your online promo code for the offer, copy it, then follow the link to the
 								merchant's website to apply the code when making your purchase.
 							</Text>
-							<Text style={{ color: greySix, fontWeight: 'bold' }}>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									fontSize: 16,
+									color: greySix,
+									marginBottom: 4
+								}}
+							>
 								How many times can I use each offer?
 							</Text>
-							<Text style={{ marginBottom: 20 }}>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 20 }}>
 								Each offer is valid one-time unless otherwise specified.
 							</Text>
-						</View>
+						</ScrollView>
 					)}
 				</View>
 			);
@@ -288,8 +358,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getUserGiftpacks: permission => dispatch(getUserGiftpacks(permission)),
-	getAvailableGiftPacks: () => dispatch(getAvailableGiftPacks())
+	getUserGiftpacks: async permission => await dispatch(getUserGiftpacks(permission)),
+	getAvailableGiftPacks: () => dispatch(getAvailableGiftPacks()),
+	toggleLoading: () => dispatch(toggleLoading(false))
 });
 
 export default connect(

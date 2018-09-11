@@ -22,13 +22,16 @@ class Coupon extends Component {
 					spinnerSize="small"
 				/>
 				<View style={{ height: '100%', justifyContent: 'flex-start', paddingVertical: 4, width: '65%' }}>
-					<Text style={{ fontWeight: 'bold', marginBottom: 8 }}>{locationName}</Text>
+					<Text style={{ fontSize: 18, fontFamily: 'Omnes-Regular', fontWeight: 'bold', marginBottom: 8 }}>
+						{locationName}
+					</Text>
 					<View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-						{/*<SSUIcon name="gift" size={24} color={orange} />*/}
-						<Text style={{ color: orange }}>{offerDetails}</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, color: orange }}>{offerDetails}</Text>
 					</View>
 					<View style={{ flexDirection: 'row' }}>
-						<Text style={{ fontSize: 9, marginRight: 4 }}>View more information & restrictions</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginRight: 4 }}>
+							View more information & restrictions
+						</Text>
 						<SSUIcon name="caret-down" size={14} color={orange} />
 					</View>
 				</View>
@@ -37,20 +40,22 @@ class Coupon extends Component {
 						style={{
 							position: 'absolute',
 							right: 4,
-							bottom: '30%',
+							bottom: '34%',
 							backgroundColor: orange,
 							width: 40,
 							borderRadius: 50,
 							padding: 6
 						}}
 					>
-						<Text style={{ color: '#FFF', fontSize: 8, textAlign: 'center' }}>Get Promo Code</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', color: '#FFF', fontSize: 9, textAlign: 'center' }}>
+							Get Promo Code
+						</Text>
 					</View>
 				)}
 
 				{locations.length && locations[0].distance ? (
-					<View style={{ position: 'absolute', top: 6, right: 8 }}>
-						<Text style={{ fontSize: 10 }}>{locations[0].distance} mi</Text>
+					<View style={{ position: 'absolute', top: 10, right: 8 }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 11 }}>{locations[0].distance} mi</Text>
 					</View>
 				) : (
 					<View>

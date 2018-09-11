@@ -67,6 +67,8 @@ const styles = StyleSheet.create({
 		borderRadius: 5
 	},
 	input: {
+		fontFamily: 'Omnes-Regular',
+		fontSize: 18,
 		height: 50,
 		borderColor: greyTwo,
 		borderWidth: 1,

@@ -14,8 +14,17 @@ class Settings extends Component {
 	render() {
 		const Section = ({ title, children, onPress }) => (
 			<TouchableOpacity onPress={onPress}>
-				<Text style={{ color: greySix, fontSize: 16, fontWeight: 'bold', marginBottom: 4 }}>{title}</Text>
-				<Text style={{ color: greySix, fontSize: 16 }}>{children}</Text>
+				<Text
+					style={{
+						fontFamily: 'Omnes-Regular',
+						color: greySix,
+						fontSize: 18,
+						marginBottom: 4
+					}}
+				>
+					{title}
+				</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular', color: greySix, fontSize: 16 }}>{children}</Text>
 				<Divider color={greyFive} width={2} style={{ marginVertical: 10 }} />
 			</TouchableOpacity>
 		);
@@ -23,7 +32,7 @@ class Settings extends Component {
 		return (
 			<View>
 				<StandardHeader title="SETTINGS" navigator={this.props.navigator} />
-				<View style={{ paddingLeft: 20, paddingTop: 10 }}>
+				<View style={{ paddingLeft: 20, paddingRight: 10, paddingTop: 18 }}>
 					<Section onPress={() => this.props.navigator.showModal({ screen: 'SSU.Profile' })} title="Profile">
 						View or edit your personal information and contact information
 					</Section>

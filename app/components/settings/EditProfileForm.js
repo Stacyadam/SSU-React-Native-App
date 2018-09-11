@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TextInput, ScrollView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import DatePicker from 'react-native-datepicker';
 import Button from '../shared/buttons/Button';
@@ -41,7 +42,7 @@ class EditProfileForm extends Component {
 
 	render() {
 		return (
-			<ScrollView style={{ flex: 1 }}>
+			<KeyboardAwareScrollView style={{ flex: 1 }}>
 				<View
 					style={{
 						justifyContent: 'center',
@@ -50,7 +51,7 @@ class EditProfileForm extends Component {
 					}}
 				>
 					<Image
-						source={{ uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
+						source={require('../../assets/generic_user.png')}
 						style={{
 							width: 125,
 							height: 125,
@@ -71,18 +72,26 @@ class EditProfileForm extends Component {
 								borderRadius: 10
 							}}
 						>
-							<Text style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 10 }}>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									fontSize: 18,
+									textAlign: 'center',
+									fontWeight: 'bold',
+									marginVertical: 10
+								}}
+							>
 								Personal Information
 							</Text>
 
-							<Text style={{ fontSize: 12, marginBottom: 6 }}>First Name</Text>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>First Name</Text>
 							<TextInput
 								style={{ borderBottomColor: greyTwo, borderBottomWidth: 2, marginBottom: 20 }}
 								onChangeText={first_name => this.setState({ first_name })}
 								value={this.state.first_name}
 								autoCorrect={false}
 							/>
-							<Text style={{ fontSize: 12, marginBottom: 6 }}>Last Name</Text>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>Last Name</Text>
 							<TextInput
 								style={{ borderBottomColor: greyTwo, borderBottomWidth: 2, marginBottom: 20 }}
 								onChangeText={last_name => this.setState({ last_name })}
@@ -90,11 +99,18 @@ class EditProfileForm extends Component {
 								autoCorrect={false}
 							/>
 							{this.state.errors && this.state.errors.zip_code ? (
-								<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+								<Text
+									style={{
+										fontFamily: 'Omnes-Regular',
+
+										marginBottom: 6,
+										color: errorRed
+									}}
+								>
 									{this.state.errors.zip_code[0]}
 								</Text>
 							) : (
-								<Text style={{ fontSize: 12, marginBottom: 6 }}>Zip Code</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>Zip Code</Text>
 							)}
 
 							<TextInput
@@ -113,7 +129,7 @@ class EditProfileForm extends Component {
 									marginBottom: 20
 								}}
 							>
-								<Text style={{ marginRight: 5 }}>Male</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Male</Text>
 								<RadioButton
 									color={greyTwo}
 									backgroundColor={orange}
@@ -122,7 +138,7 @@ class EditProfileForm extends Component {
 									onPress={() => this.setState({ gender: 'M' })}
 									style={{ marginRight: 10 }}
 								/>
-								<Text style={{ marginRight: 5 }}>Female</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Female</Text>
 								<RadioButton
 									color={greyTwo}
 									backgroundColor={orange}
@@ -131,7 +147,7 @@ class EditProfileForm extends Component {
 									onPress={() => this.setState({ gender: 'F' })}
 									style={{ marginRight: 10 }}
 								/>
-								<Text style={{ marginRight: 5 }}>N/A</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>N/A</Text>
 								<RadioButton
 									color={greyTwo}
 									backgroundColor={orange}
@@ -142,11 +158,18 @@ class EditProfileForm extends Component {
 								/>
 							</View>
 							{this.state.errors && this.state.errors.birthday ? (
-								<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+								<Text
+									style={{
+										fontFamily: 'Omnes-Regular',
+
+										marginBottom: 6,
+										color: errorRed
+									}}
+								>
 									{this.state.errors.birthday[0]}
 								</Text>
 							) : (
-								<Text style={{ fontSize: 12, marginBottom: 6 }}>Date of Birth</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>Date of Birth</Text>
 							)}
 							<DatePicker
 								style={{ width: 200 }}
@@ -190,15 +213,30 @@ class EditProfileForm extends Component {
 								borderRadius: 10
 							}}
 						>
-							<Text style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 10 }}>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									fontSize: 18,
+									textAlign: 'center',
+									fontWeight: 'bold',
+									marginVertical: 10
+								}}
+							>
 								Contact Information
 							</Text>
 							{this.state.errors && this.state.errors.email ? (
-								<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+								<Text
+									style={{
+										fontFamily: 'Omnes-Regular',
+
+										marginBottom: 6,
+										color: errorRed
+									}}
+								>
 									{this.state.errors.email[0]}
 								</Text>
 							) : (
-								<Text style={{ fontSize: 12, marginBottom: 6 }}>Email</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>Email</Text>
 							)}
 							<TextInput
 								style={{ borderBottomColor: greyTwo, borderBottomWidth: 2, marginBottom: 20 }}
@@ -208,11 +246,18 @@ class EditProfileForm extends Component {
 								autoCorrect={false}
 							/>
 							{this.state.errors && this.state.errors.phone ? (
-								<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+								<Text
+									style={{
+										fontFamily: 'Omnes-Regular',
+
+										marginBottom: 6,
+										color: errorRed
+									}}
+								>
 									{this.state.errors.phone[0]}
 								</Text>
 							) : (
-								<Text style={{ fontSize: 12, marginBottom: 6 }}>Phone Number</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>Phone Number</Text>
 							)}
 							<TextInput
 								style={{ borderBottomColor: greyTwo, borderBottomWidth: 2, marginBottom: 20 }}
@@ -245,15 +290,29 @@ class EditProfileForm extends Component {
 								borderRadius: 10
 							}}
 						>
-							<Text style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 10 }}>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									textAlign: 'center',
+									fontWeight: 'bold',
+									fontSize: 18,
+									marginVertical: 10
+								}}
+							>
 								Account Password
 							</Text>
 							{this.state.errors && this.state.errors.password ? (
-								<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+								<Text
+									style={{
+										fontFamily: 'Omnes-Regular',
+										marginBottom: 6,
+										color: errorRed
+									}}
+								>
 									{this.state.errors.password[0] && 'Please enter a new password'}
 								</Text>
 							) : (
-								<Text style={{ fontSize: 12, marginBottom: 6 }}>Password</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>Password</Text>
 							)}
 							<TextInput
 								style={{ borderBottomColor: greyTwo, borderBottomWidth: 2, marginBottom: 20 }}
@@ -274,7 +333,7 @@ class EditProfileForm extends Component {
 						</Button>
 					</View>
 				)}
-			</ScrollView>
+			</KeyboardAwareScrollView>
 		);
 	}
 

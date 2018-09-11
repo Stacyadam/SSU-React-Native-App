@@ -55,8 +55,11 @@
 		B2A992BE07B14A86BD56E420 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 106915B221014E96BC05C9D9 /* Foundation.ttf */; };
 		CB690C4B62B94BEF9E8A2BF0 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF995C03B9F94F15B94DAE8A /* Feather.ttf */; };
 		EB11FD78C27C4E659B3FAC6C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A07DA4F4935C4FFC987A321E /* Entypo.ttf */; };
+		F020DE2D21475B1B00358784 /* libdouble-conversion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF0FFE72056DD460020B375 /* libdouble-conversion.a */; };
 		F08BCBA421403F9400FFB22D /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F08BCBA221403F7900FFB22D /* libReactNativePermissions.a */; };
 		F0B3647A211E5FB000384A3B /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B36479211E5ED200384A3B /* libReactNativeNavigation.a */; };
+		F0CA227F2146CBBA00CC229D /* OmnesLight-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0CA227E2146CBBA00CC229D /* OmnesLight-Italic.otf */; };
+		F0CA22812146CBC200CC229D /* Omnes-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0CA22802146CBC200CC229D /* Omnes-Regular.otf */; };
 		F9964DA3A6B646ACBA125F06 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86AD787F557A44DCBBBB7EE4 /* EvilIcons.ttf */; };
 		FB6D69415EEC401CA0F919D3 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0568844FB158472682B1AEE6 /* FontAwesome5_Brands.ttf */; };
 /* End PBXBuildFile section */
@@ -415,6 +418,8 @@
 		E600FC5C5E222B722E19EE39 /* Pods-SSUTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSUTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SSUTests/Pods-SSUTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F08BCB7721403F7800FFB22D /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		F0B3644F211E5ED200384A3B /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
+		F0CA227E2146CBBA00CC229D /* OmnesLight-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OmnesLight-Italic.otf"; path = "../../../../Downloads/OmnesLight-Italic.otf"; sourceTree = "<group>"; };
+		F0CA22802146CBC200CC229D /* Omnes-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Omnes-Regular.otf"; path = "../../../../Downloads/Omnes-Regular.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -431,6 +436,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F020DE2D21475B1B00358784 /* libdouble-conversion.a in Frameworks */,
 				F08BCBA421403F9400FFB22D /* libReactNativePermissions.a in Frameworks */,
 				F0B3647A211E5FB000384A3B /* libReactNativeNavigation.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -694,6 +700,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F0CA22532146CB8B00CC229D /* fonts */,
 				F08BCB7721403F7800FFB22D /* ReactNativePermissions.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* SSU */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -743,6 +750,15 @@
 				F0B36479211E5ED200384A3B /* libReactNativeNavigation.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F0CA22532146CB8B00CC229D /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F0CA22802146CBC200CC229D /* Omnes-Regular.otf */,
+				F0CA227E2146CBBA00CC229D /* OmnesLight-Italic.otf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		F0F6423D2128CF5B00C93B0D /* Recovered References */ = {
@@ -853,6 +869,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = TENF2BUGYP;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1250,11 +1269,13 @@
 				CB690C4B62B94BEF9E8A2BF0 /* Feather.ttf in Resources */,
 				21C039A6CA41463FA542B894 /* FontAwesome.ttf in Resources */,
 				FB6D69415EEC401CA0F919D3 /* FontAwesome5_Brands.ttf in Resources */,
+				F0CA22812146CBC200CC229D /* Omnes-Regular.otf in Resources */,
 				8346C8C47031432AA97D02A0 /* FontAwesome5_Regular.ttf in Resources */,
 				1D5AFF443CB54F14A7D45C74 /* FontAwesome5_Solid.ttf in Resources */,
 				B2A992BE07B14A86BD56E420 /* Foundation.ttf in Resources */,
 				5C3F6BA9CD934E84ABEC2742 /* Ionicons.ttf in Resources */,
 				540BFB44D1D54F11A0CB5040 /* MaterialCommunityIcons.ttf in Resources */,
+				F0CA227F2146CBBA00CC229D /* OmnesLight-Italic.otf in Resources */,
 				98592DCC20B84C75802CC9A1 /* MaterialIcons.ttf in Resources */,
 				726A87DA50004078BEEF36B4 /* Octicons.ttf in Resources */,
 				275D7B02F4E7471E9716CAE0 /* SimpleLineIcons.ttf in Resources */,
@@ -1525,12 +1546,24 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = TENF2BUGYP;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = SSU/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/third-party-podspecs/Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Google-Maps-iOS-Utils\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-google-maps\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-maps\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/yoga\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1547,6 +1580,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TENF2BUGYP;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",

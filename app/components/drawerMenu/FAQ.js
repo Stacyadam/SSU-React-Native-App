@@ -91,7 +91,7 @@ class FAQ extends Component {
 				<ModalHeader title="FAQ" navigator={this.props.navigator} />
 				<ScrollView style={{ padding: 20, flex: 1 }}>
 					<View style={{ paddingHorizontal: 30, marginTop: 10, marginBottom: 20 }}>
-						<Text style={{ fontSize: 20, textAlign: 'center', color: greySix }}>
+						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 20, textAlign: 'center', color: greySix }}>
 							FREQUENTLY ASKED QUESTIONS
 						</Text>
 					</View>
@@ -153,8 +153,8 @@ class FAQ extends Component {
 	renderLoyaltyQuestions() {
 		return this.loyaltyQuestions.map(({ q, a }, i) => (
 			<View key={i} style={{ marginBottom: 10 }}>
-				<Text style={{ color: blue, fontWeight: 'bold', marginBottom: 5 }}>{q}</Text>
-				<Text style={{ color: greySix }}>{a}</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular',color: blue, fontWeight: 'bold', marginBottom: 5 }}>{q}</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular',color: greySix }}>{a}</Text>
 			</View>
 		));
 	}
@@ -162,8 +162,8 @@ class FAQ extends Component {
 	renderGiftPacksQuestions() {
 		return this.giftPackQuestions.map(({ q, a }, i) => (
 			<View key={i} style={{ marginBottom: 10 }}>
-				<Text style={{ color: blue, fontWeight: 'bold', marginBottom: 5 }}>{q}</Text>
-				<Text style={{ color: greySix }}>{a}</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular',color: blue, fontWeight: 'bold', marginBottom: 5 }}>{q}</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular',color: greySix }}>{a}</Text>
 			</View>
 		));
 	}

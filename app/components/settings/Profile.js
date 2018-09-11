@@ -80,7 +80,7 @@ class Profile extends Component {
 						}}
 					>
 						<Image
-							source={{ uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png' }}
+							source={require('../../assets/generic_user.png')}
 							style={{
 								width: 125,
 								height: 125,
@@ -97,7 +97,17 @@ class Profile extends Component {
 					>
 						<SSUIcon name="pencil" size={20} color={greyFive} />
 					</View>
-					<Text style={{ textAlign: 'center', fontSize: 18, marginBottom: 6 }}>{full_name}</Text>
+					<Text
+						style={{
+							fontFamily: 'Omnes-Regular',
+							color: greySix,
+							textAlign: 'center',
+							fontSize: 20,
+							marginBottom: 6
+						}}
+					>
+						{full_name}
+					</Text>
 					<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 						<SSUIcon
 							name="envelope"
@@ -105,7 +115,17 @@ class Profile extends Component {
 							color={greyFive}
 							style={{ alignSelf: 'flex-start', marginRight: 10 }}
 						/>
-						<Text style={{ textAlign: 'center', fontSize: 18, marginBottom: 6 }}>{email}</Text>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								color: greySix,
+								textAlign: 'center',
+								fontSize: 18,
+								marginBottom: 6
+							}}
+						>
+							{email}
+						</Text>
 					</View>
 					<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 						<SSUIcon
@@ -114,7 +134,15 @@ class Profile extends Component {
 							color={greyFive}
 							style={{ alignSelf: 'flex-start', marginRight: 10 }}
 						/>
-						<Text style={{ textAlign: 'center', fontSize: 18, marginBottom: 20 }}>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								color: greySix,
+								textAlign: 'center',
+								fontSize: 18,
+								marginBottom: 20
+							}}
+						>
 							{formatPhoneNumber(phone)}
 						</Text>
 					</View>
@@ -126,8 +154,20 @@ class Profile extends Component {
 							marginBottom: 6
 						}}
 					>
-						<Text style={{ textAlign: 'right', flex: 1, marginRight: 20 }}>Date of Birth:</Text>
-						<Text style={{ fontSize: 18, flex: 1 }}>{isoToLongDate(birthday)}</Text>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								color: greySix,
+								textAlign: 'right',
+								flex: 1,
+								marginRight: 20
+							}}
+						>
+							Date of Birth:
+						</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', color: greySix, fontSize: 18, flex: 1 }}>
+							{isoToLongDate(birthday)}
+						</Text>
 					</View>
 					<View
 						style={{
@@ -137,12 +177,36 @@ class Profile extends Component {
 							marginBottom: 6
 						}}
 					>
-						<Text style={{ textAlign: 'right', flex: 1, marginRight: 20 }}>Gender:</Text>
-						<Text style={{ fontSize: 18, flex: 1 }}>{genderString(gender)}</Text>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								color: greySix,
+								textAlign: 'right',
+								flex: 1,
+								marginRight: 20
+							}}
+						>
+							Gender:
+						</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', color: greySix, fontSize: 18, flex: 1 }}>
+							{genderString(gender)}
+						</Text>
 					</View>
 					<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={{ textAlign: 'right', flex: 1, marginRight: 20 }}>Zip Code:</Text>
-						<Text style={{ fontSize: 18, flex: 1 }}>{zip_code}</Text>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								color: greySix,
+								textAlign: 'right',
+								flex: 1,
+								marginRight: 20
+							}}
+						>
+							Zip Code:
+						</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', color: greySix, fontSize: 18, flex: 1 }}>
+							{zip_code}
+						</Text>
 					</View>
 				</TouchableOpacity>
 
@@ -166,8 +230,20 @@ class Profile extends Component {
 					>
 						<SSUIcon name="pencil" size={20} color={greyFive} />
 					</View>
-					<Text style={{ fontSize: 16, fontWeight: 'bold' }}>Change Password</Text>
-					<Text style={{ lineHeight: 20 }}>Choose a unique password to protect your account</Text>
+					<Text
+						style={{
+							fontFamily: 'Omnes-Regular',
+							color: greySix,
+							fontSize: 18,
+							fontWeight: 'bold',
+							marginVertical: 4
+						}}
+					>
+						Change Password
+					</Text>
+					<Text style={{ fontFamily: 'Omnes-Regular', color: greySix, lineHeight: 20 }}>
+						Choose a unique password to protect your account
+					</Text>
 				</TouchableOpacity>
 			</View>
 		);

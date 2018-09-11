@@ -5,7 +5,7 @@ import UiSettings from '../../config/UiSettings';
 
 const { orange } = UiSettings.styles.colors;
 
-class StandardHeader extends Component {
+class ModalHeader extends Component {
 	render() {
 		const { title, navigator, onBack } = this.props;
 		return (
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default StandardHeader;
+export default ModalHeader;

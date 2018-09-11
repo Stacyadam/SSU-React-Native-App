@@ -5,6 +5,7 @@ import ModalHeader from '../headers/ModalHeader';
 import Button from '../shared/buttons/Button';
 import TransparentModal from '../modals/TransparentModal';
 import { requestPassword } from '../../actions/AccountActions';
+import { updateErrors } from '../../actions/GlobalActions';
 
 import UiSettings from '../../config/UiSettings';
 
@@ -20,22 +21,42 @@ class ForgotPassword extends Component {
 		showInfo: false
 	};
 
+	componentWillUnmount() {
+		this.props.updateErrors();
+	}
+
 	render() {
 		return (
 			<View style={{ flex: 1 }}>
 				<ModalHeader title="PASSWORD RESET" navigator={this.props.navigator} />
 				<View style={{ flex: 1, alignItems: 'center', padding: 10 }}>
-					<Text style={{ color: orange, fontSize: 18, marginVertical: 20 }}>LOST PASSWORD?</Text>
-					<Text style={{ color: greySix, fontSize: 16, textAlign: 'center', marginBottom: 20 }}>
+					<Text style={{ fontFamily: 'Omnes-Regular', color: orange, fontSize: 20, marginVertical: 20 }}>
+						LOST PASSWORD?
+					</Text>
+					<Text
+						style={{
+							fontFamily: 'Omnes-Regular',
+							color: greySix,
+							fontSize: 16,
+							textAlign: 'center',
+							marginBottom: 20
+						}}
+					>
 						Enter your account email and we'll send you a link to reset your password.
 					</Text>
 					<View style={{ width: '90%' }}>
 						{this.props.errors && this.props.errors.email ? (
-							<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+							<Text
+								style={{ fontFamily: 'Omnes-Regular', fontSize: 14, marginBottom: 6, color: errorRed }}
+							>
 								Please provide a valid email address
 							</Text>
 						) : (
-							<Text style={{ fontSize: 12, marginBottom: 6 }}>Email</Text>
+							<Text
+								style={{ fontFamily: 'Omnes-Regular', color: greySix, fontSize: 14, marginBottom: 6 }}
+							>
+								Email
+							</Text>
 						)}
 						<TextInput
 							style={{
@@ -66,16 +87,33 @@ class ForgotPassword extends Component {
 							padding: 8
 						}}
 					>
-						<Text style={{ fontSize: 18, textAlign: 'center', color: orange, marginBottom: 20 }}>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								fontSize: 18,
+								textAlign: 'center',
+								color: orange,
+								marginBottom: 20
+							}}
+						>
 							RESET EMAIL SENT
 						</Text>
-						<Text style={{ textAlign: 'center', color: greySix, marginBottom: 20 }}>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								textAlign: 'center',
+								color: greySix,
+								marginBottom: 20
+							}}
+						>
 							An email has been sent to your email address with a link to reset your password.
 						</Text>
 						<Button onPress={() => this.goToLogin()} style={{ width: 80, marginBottom: 20 }}>
 							OK
 						</Button>
-						<Text style={{ fontSize: 12, textAlign: 'center', color: greyFive }}>
+						<Text
+							style={{ fontFamily: 'Omnes-Regular', fontSize: 14, textAlign: 'center', color: greyFive }}
+						>
 							If you don't find the email in your inbox, be sure to check your 'junk' or 'spam' folders.
 						</Text>
 					</View>
@@ -102,7 +140,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	requestPassword: async email => await dispatch(requestPassword(email))
+	requestPassword: async email => await dispatch(requestPassword(email)),
+	updateErrors: () => dispatch(updateErrors(null))
 });
 
 export default connect(

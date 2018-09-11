@@ -9,7 +9,7 @@ import {
 	SAVE_PARTIAL_USER
 } from '../types';
 import * as GlobalActions from './GlobalActions';
-import axios from 'axios';
+import api from '../utilities/api';
 
 export function signIn(user) {
 	return async dispatch => {
@@ -17,7 +17,7 @@ export function signIn(user) {
 			dispatch(GlobalActions.toggleLoading(true));
 			const {
 				data: { token }
-			} = await axios.post('https://dev-api.smallshopsunited.com/v4/auth/login', user);
+			} = await api.post('/auth/login', user);
 			dispatch(saveToken(token));
 			dispatch(getUser(token));
 			dispatch(GlobalActions.updateErrors(null));
@@ -43,7 +43,7 @@ export function signIn(user) {
 export function getUser(token) {
 	return async dispatch => {
 		try {
-			const { data } = await axios.get('https://dev-api.smallshopsunited.com/v4/users/me', {
+			const { data } = await api.get('/users/me', {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
@@ -64,11 +64,12 @@ export function signOut() {
 
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
-			const res = await axios.post('https://dev-api.smallshopsunited.com/v4/auth/logout', null, {
+			const res = await api.post('auth/logout', null, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
 			});
+			dispatch(logOut());
 			dispatch(GlobalActions.toggleLoading(false));
 			return res;
 		} catch (e) {
@@ -81,7 +82,7 @@ export function signUp(userInfo) {
 	return async dispatch => {
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
-			const { data } = await axios.post('https://dev-api.smallshopsunited.com/v4/website-user-sign-up', userInfo);
+			const { data } = await api.post('/website-user-sign-up', userInfo);
 
 			const { email, password } = userInfo;
 			loginInfo = { email, password };
@@ -106,7 +107,7 @@ export function validateInput(data) {
 	return async dispatch => {
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
-			const success = await axios.post('https://dev-api.smallshopsunited.com/v4/website-user-sign-up', data);
+			const success = await api.post('/website-user-sign-up', data);
 			dispatch(GlobalActions.toggleLoading(false));
 			return success;
 		} catch (e) {
@@ -155,7 +156,7 @@ export function askForHelp(message) {
 
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
-			await axios.post('https://dev-api.smallshopsunited.com/v4/general-contact', messageWithUser, {
+			await api.post('/general-contact', messageWithUser, {
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
@@ -176,7 +177,7 @@ export function requestPassword(email) {
 	return async dispatch => {
 		try {
 			dispatch(GlobalActions.toggleLoading(true));
-			await axios.post('https://dev-api.smallshopsunited.com/v4/request-password-reset', { email });
+			await api.post('/request-password-reset', { email });
 			dispatch(GlobalActions.toggleLoading(false));
 			dispatch(GlobalActions.updateErrors(null));
 			return true;

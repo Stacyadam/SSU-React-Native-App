@@ -44,16 +44,16 @@ class CouponDetailsModal extends Component {
 		this.setState({ today });
 
 		const time = new Date();
-		const now = parseInt(`${time.getHours()}${time.getMinutes()}`);		
+		const now = parseInt(`${time.getHours()}${time.getMinutes()}`);
 
-		const todaysHours = this.state.selectedLocation.hours.find(e => e.day === today);		
+		const todaysHours = this.state.selectedLocation.hours.find(e => e.day === today);
 		this.setState({ todaysHours });
 
 		if (todaysHours) {
-			const open = parseInt(todaysHours.open.replace(':', ''))
-			const close = parseInt(todaysHours.close.replace(':', ''))			
-			
-			const closeMilitary = close < 1200 ? (close + 2400) : close;				
+			const open = parseInt(todaysHours.open.replace(':', ''));
+			const close = parseInt(todaysHours.close.replace(':', ''));
+
+			const closeMilitary = close < 1200 ? close + 2400 : close;
 
 			if (now > open && now < closeMilitary) {
 				this.setState({ open: true });
@@ -87,7 +87,9 @@ class CouponDetailsModal extends Component {
 							borderBottomWidth: 3
 						}}
 					>
-						<Text style={{ fontSize: 22, marginBottom: 6 }}>{locationName}</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 22, marginBottom: 6 }}>
+							{locationName}
+						</Text>
 						<TouchableOpacity
 							onPress={() => this.showHoursModal()}
 							style={{ flexDirection: 'row', alignItems: 'center' }}
@@ -132,13 +134,13 @@ class CouponDetailsModal extends Component {
 						}}
 					>
 						<TouchableOpacity
-							style={{ flexDirection: 'row', alignItems: 'center' }}
+							style={{ flexDirection: 'row', alignItems: 'center', padding: 4 }}
 							onPress={() => call({ number: this.state.selectedLocation.phone }).catch(console.error)}
 						>
 							<SSUIcon name="phone" size={28} color={greyFive} style={{ marginLeft: 4 }} />
 							<View style={{ marginLeft: 10 }}>
-								<Text>Call</Text>
-								<Text style={{ color: greyFour }}>
+								<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, marginBottom: 2 }}>Call</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', color: greyFour }}>
 									{this.formatPhoneNumber(this.state.selectedLocation.phone)}
 								</Text>
 							</View>
@@ -150,7 +152,7 @@ class CouponDetailsModal extends Component {
 						>
 							<SSUIcon name="car" size={28} color={greyFive} style={{ marginLeft: 4 }} />
 							<View style={{ marginLeft: 10 }}>
-								<Text>Get Directions</Text>
+								<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16 }}>Get Directions</Text>
 							</View>
 						</TouchableOpacity>
 					</View>
@@ -163,10 +165,10 @@ class CouponDetailsModal extends Component {
 						}}
 					>
 						{this.props.item.isPromoCode ? (
-							<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+							<View style={{ justifyContent: 'center', alignItems: 'center', padding: 4 }}>
 								<View style={{ marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>
-									<Text style={{ color: orange }}>YOUR UNIQUE</Text>
-									<Text style={{ color: orange }}>PROMOTIONAL CODE</Text>
+									<Text style={{ fontFamily: 'Omnes-Regular', color: orange }}>YOUR UNIQUE</Text>
+									<Text style={{ fontFamily: 'Omnes-Regular', color: orange }}>PROMOTIONAL CODE</Text>
 								</View>
 								<TouchableOpacity
 									onPress={async () => await Clipboard.setString(this.props.item.promoCode)}
@@ -179,27 +181,45 @@ class CouponDetailsModal extends Component {
 										marginBottom: 20
 									}}
 								>
-									<Text style={{ color: blue, fontWeight: 'bold' }}>{this.props.item.promoCode}</Text>
-									<View style={{ backgroundColor: '#FFF', position: 'absolute', bottom: -4.5 }}>
-										<Text style={{ fontSize: 8, color: orange }}>Copy to clipboard</Text>
+									<Text
+										style={{
+											fontFamily: 'Omnes-Regular',
+											fontSize: 16,
+											color: blue,
+											fontWeight: 'bold'
+										}}
+									>
+										{this.props.item.promoCode}
+									</Text>
+									<View style={{ backgroundColor: '#FFF', position: 'absolute', bottom: -5.5 }}>
+										<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 10, color: orange }}>
+											Copy to clipboard
+										</Text>
 									</View>
 								</TouchableOpacity>
 
 								<Button
-									style={{ marginBottom: 10, paddingHorizontal: 20 }}
+									style={{ marginBottom: 10, width: 150 }}
 									onPress={() => Linking.openURL(this.props.item.locationWebsite)}
 								>
 									Go To Purchase
 								</Button>
 							</View>
 						) : (
-							<View style={{ flexDirection: 'row' }}>
+							<View style={{ flexDirection: 'row', padding: 8 }}>
 								<SSUIcon name="check" size={28} color={orange} style={{ marginLeft: 4 }} />
 								<View style={{ marginLeft: 10 }}>
-									<Text style={{ color: orange }}>Loyalty Offer</Text>
-									<Text style={{ fontSize: 12, marginBottom: 10 }}>{offerDetails}</Text>
-									<Text style={{ color: orange }}>Conditions:</Text>
-									<Text style={{ fontSize: 12 }}>{rules}</Text>
+									<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, color: orange }}>
+										Loyalty Offer
+									</Text>
+									<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 10 }}>
+										{offerDetails}
+									</Text>
+									<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, color: orange }}>
+										Conditions:
+									</Text>
+
+									<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 50 }}>{rules}</Text>
 								</View>
 							</View>
 						)}
@@ -207,7 +227,7 @@ class CouponDetailsModal extends Component {
 					<TransparentModal visible={this.state.showHoursModal}>
 						<View
 							style={{
-								height: '50%',
+								height: '53%',
 								width: '90%',
 								backgroundColor: '#FFF',
 								borderRadius: 10,
@@ -226,21 +246,30 @@ class CouponDetailsModal extends Component {
 											flexDirection: 'row'
 										}}
 									>
-										<Text style={{ flex: 1.1, color: orange, fontWeight: 'bold' }}>
+										<Text
+											style={{
+												fontFamily: 'Omnes-Regular',
+												flex: 1.1,
+												color: orange,
+												fontSize: 18
+											}}
+										>
 											{item.dayString}:
 										</Text>
-										<Text style={{ flex: 1.75, color: greySix, fontWeight: 'normal' }}>
+										<Text
+											style={{
+												fontFamily: 'Omnes-Regular',
+												flex: 1.5,
+												color: greySix,
+												fontSize: 16
+											}}
+										>
 											{item.openString} - {item.closeString}
 										</Text>
 									</View>
 								)}
 							/>
-							<TouchableOpacity
-								onPress={() => this.setState({ showHoursModal: false })}
-								style={{ backgroundColor: orange, paddingVertical: 8, marginHorizontal: 50 }}
-							>
-								<Text style={{ textAlign: 'center', color: '#FFF', fontWeight: 'bold' }}>Close</Text>
-							</TouchableOpacity>
+							<Button onPress={() => this.setState({ showHoursModal: false })}>Close</Button>
 						</View>
 					</TransparentModal>
 				</ScrollView>
@@ -253,15 +282,19 @@ class CouponDetailsModal extends Component {
 
 		if (open) {
 			return (
-				<Text style={{ fontSize: 12, fontWeight: 'bold', color: blue }}>
+				<Text style={{ fontFamily: 'Omnes-Regular', fontWeight: 'bold', color: blue }}>
 					Open{' '}
-					<Text style={{ fontSize: 12, fontWeight: 'normal', color: 'black' }}>
+					<Text style={{ fontFamily: 'Omnes-Regular', fontWeight: 'normal', color: 'black' }}>
 						until {todaysHours.closeString}
 					</Text>
 				</Text>
 			);
 		} else {
-			return <Text style={{ fontSize: 12, fontWeight: 'bold', color: errorRed }}>Closed</Text>;
+			return (
+				<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, fontWeight: 'bold', color: errorRed }}>
+					Closed
+				</Text>
+			);
 		}
 	}
 
@@ -296,18 +329,21 @@ class CouponDetailsModal extends Component {
 							flexDirection: 'row',
 							borderTopColor: greyTwo,
 							borderTopWidth: 3,
-							paddingVertical: 4,
+							paddingTop: 10,
+							paddingBottom: 8,
 							paddingLeft: 10,
 							justifyContent: 'flex-start'
 						}}
 					>
 						<View style={{ flex: 2 }}>
-							<Text style={{ fontSize: 12 }}>{this.state.selectedLocation.address}</Text>
-							<Text style={{ fontSize: 12, color: greyThree }}>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 4 }}>
+								{this.state.selectedLocation.address}
+							</Text>
+							<Text style={{ fontFamily: 'Omnes-Regular', color: greyThree }}>
 								{this.state.selectedLocation.neighborhood}
 							</Text>
 						</View>
-						<SSUIcon name="caret-down" size={30} color={orange} style={{ flex: 0.2, marginTop: -4 }} />
+						<SSUIcon name="caret-down" size={30} color={orange} style={{ flex: 0.2, marginTop: -10 }} />
 					</View>
 				</ModalSelector>
 			);
@@ -318,13 +354,16 @@ class CouponDetailsModal extends Component {
 						flexDirection: 'row',
 						borderTopColor: greyTwo,
 						borderTopWidth: 3,
-						paddingVertical: 4,
+						paddingTop: 10,
+						paddingBottom: 8,
 						paddingLeft: 10
 					}}
 				>
 					<View>
-						<Text style={{ fontSize: 12 }}>{this.state.selectedLocation.address}</Text>
-						<Text style={{ fontSize: 12, color: greyThree }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 4 }}>
+							{this.state.selectedLocation.address}
+						</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', color: greyThree }}>
 							{this.state.selectedLocation.neighborhood}
 						</Text>
 					</View>
@@ -335,7 +374,7 @@ class CouponDetailsModal extends Component {
 
 	formatPhoneNumber(number) {
 		const match = number.match(/^(\d{3})(\d{3})(\d{4})$/);
-		return `(${match[1]})${match[2]}-${match[3]}`;
+		return `(${match[1]}) ${match[2]}-${match[3]}`;
 	}
 
 	getDirections() {

@@ -24,7 +24,7 @@ class SignUpThird extends Component {
 	/============================================================*/
 
 	render() {
-		const B = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
+		const B = ({ children }) => <Text style={{ fontFamily: 'Omnes-Regular',fontWeight: 'bold' }}>{children}</Text>;
 
 		const { birthday, gender } = this.state;
 
@@ -59,7 +59,7 @@ class SignUpThird extends Component {
 				</Text>
 
 				<View style={{ paddingHorizontal: 24 }}>
-					<Text style={{ fontSize: 12, marginBottom: 6, color: blue }}>First Name</Text>
+					<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: blue }}>First Name</Text>
 					<View
 						style={{
 							borderColor: blue,
@@ -126,7 +126,7 @@ class SignUpThird extends Component {
 							marginBottom: 20
 						}}
 					>
-						<Text style={{ marginRight: 5 }}>Male</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular',marginRight: 5 }}>Male</Text>
 						<RadioButton
 							color={greyTwo}
 							backgroundColor={orange}
@@ -135,7 +135,7 @@ class SignUpThird extends Component {
 							onPress={() => this.setState({ gender: 'M' })}
 							style={{ marginRight: 10 }}
 						/>
-						<Text style={{ marginRight: 5 }}>Female</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular',marginRight: 5 }}>Female</Text>
 						<RadioButton
 							color={greyTwo}
 							backgroundColor={orange}
@@ -144,7 +144,7 @@ class SignUpThird extends Component {
 							onPress={() => this.setState({ gender: 'F' })}
 							style={{ marginRight: 10 }}
 						/>
-						<Text style={{ marginRight: 5 }}>N/A</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular',marginRight: 5 }}>N/A</Text>
 						<RadioButton
 							color={greyTwo}
 							backgroundColor={orange}

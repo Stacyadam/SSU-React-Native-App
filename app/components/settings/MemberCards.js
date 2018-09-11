@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { StyleSheet, View, Text, Image, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import Divider from '../shared/Divider';
 import Button from '../shared/buttons/Button';
 import ModalHeader from '../headers/ModalHeader';
 import SSUIcon from '../shared/icons/SSUIcon';
 import RequestCardForm from './RequestCardForm.js';
 import UiSettings from '../../config/UiSettings';
+import { getMemberCards, removeMemberCard } from '../../actions/MemberCardActions';
 
 const { greySix, greyFive, orange, errorRed, greyOne } = UiSettings.styles.colors;
 
@@ -15,9 +17,18 @@ class MemberCards extends Component {
 	};
 
 	state = {
-		hasCards: true,
+		memberCards: [],
 		showRequestForm: false
 	};
+
+	componentDidUpdate(prevProps) {
+		const { memberCards } = this.props;
+		if (prevProps.memberCards !== memberCards) this.setState({ memberCards });
+	}
+
+	componentWillMount() {
+		this.props.getMemberCards();
+	}
 
 	render() {
 		return (
@@ -33,49 +44,89 @@ class MemberCards extends Component {
 				/>
 
 				{!this.state.showRequestForm ? (
-					<View style={{ flex: 1, alignItems: 'center' }}>
-						<Text style={{ marginVertical: 30, fontSize: 20 }}>MY CARDS</Text>
-						{this.state.hasCards ? (
-							<View style={{ justifyContent: 'center', alignItems: 'center' }}>
-								<Image
-									source={{
-										uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'
-									}}
+					<View style={{ alignItems: 'center' }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', marginVertical: 30, fontSize: 22 }}>MY CARDS</Text>
+						{this.props.loading ? (
+							<View style={{ height: 50, marginBottom: 20 }}>
+								<ActivityIndicator
+									size="large"
+									color={orange}
+									animating={this.props.loading}
 									style={{
-										width: 125,
-										height: 75,
-										borderRadius: 5,
-										marginBottom: 10
+										position: 'absolute',
+										top: 0,
+										right: 0,
+										left: 0,
+										bottom: 0,
+										justifyContent: 'center',
+										alignItems: 'center'
 									}}
 								/>
-								<Text style={{ textAlign: 'center', fontSize: 16, marginBottom: 10 }}>Card Number</Text>
-								<Text
-									style={{
-										textAlign: 'center',
-										marginBottom: 10,
-										color: orange,
-										fontSize: 18,
-										fontWeight: 'bold'
-									}}
-								>
-									12342
-								</Text>
-
-								<Button
-									onPress={() => console.log('remove card')}
-									style={{
-										paddingHorizontal: 20,
-										backgroundColor: errorRed,
-										borderRadius: 5,
-										marginBottom: 30
-									}}
-								>
-									Remove
-								</Button>
+							</View>
+						) : this.state.memberCards.length ? (
+							<View style={{ height: 180, marginHorizontal: 10, marginBottom: 20 }}>
+								<FlatList
+									data={this.state.memberCards}
+									horizontal
+									keyExtractor={item => item.id.toString()}
+									ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+									renderItem={({ item }) => (
+										<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+											<Image
+												source={require('../../assets/member-card.png')}
+												style={{
+													width: 125,
+													height: 75,
+													borderRadius: 5,
+													marginBottom: 10
+												}}
+											/>
+											<Text
+												style={{
+													fontFamily: 'Omnes-Regular',
+													textAlign: 'center',
+													fontSize: 16,
+													marginBottom: 10
+												}}
+											>
+												Card Number
+											</Text>
+											<Text
+												style={{
+													textAlign: 'center',
+													marginBottom: 10,
+													color: orange,
+													fontSize: 18,
+													fontWeight: 'bold'
+												}}
+											>
+												{item.number}
+											</Text>
+											<Button
+												loading={this.props.loading}
+												onPress={() => this.props.removeMemberCard(item.id)}
+												style={{
+													width: 80,
+													backgroundColor: errorRed,
+													borderRadius: 5
+												}}
+											>
+												Remove
+											</Button>
+										</View>
+									)}
+								/>
 							</View>
 						) : (
-							<View style={{ justifyContent: 'center', alignItems: 'center', paddingHorizontal: 40 }}>
-								<Text style={{ textAlign: 'center', marginBottom: 40 }}>
+							<View style={{ justifyContent: 'center', alignItems: 'center', paddingHorizontal: 30 }}>
+								<Text
+									style={{
+										fontFamily: 'Omnes-Regular',
+										fontSize: 16,
+										textAlign: 'center',
+										marginBottom: 40
+									}}
+								>
 									It looks like you don't have a member card linked to your account yet.
 								</Text>
 							</View>
@@ -109,7 +160,16 @@ class MemberCards extends Component {
 									}}
 								/>
 							</View>
-							<Text style={{ textAlign: 'center', fontSize: 16, color: orange }}>Request a Card</Text>
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									textAlign: 'center',
+									fontSize: 18,
+									color: orange
+								}}
+							>
+								Request a Card
+							</Text>
 						</TouchableOpacity>
 					</View>
 				) : (
@@ -122,4 +182,17 @@ class MemberCards extends Component {
 
 const styles = StyleSheet.create({});
 
-export default MemberCards;
+const mapStateToProps = state => ({
+	memberCards: state.memberCards.memberCards,
+	loading: state.global.loading
+});
+
+const mapDispatchToProps = dispatch => ({
+	getMemberCards: () => dispatch(getMemberCards()),
+	removeMemberCard: memberCard => dispatch(removeMemberCard(memberCard))
+});
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(MemberCards);

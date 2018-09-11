@@ -1,5 +1,7 @@
+import axios from 'axios';
+
 const api = axios.create({
-	baseURL: 'https://dev-api.smallshopsunited.com/v4/'
+	baseURL: __DEV__ ? 'https://dev-api.smallshopsunited.com/v4/' : 'https://api.smallshopsunited.com/v4/'
 });
 
 export default api;

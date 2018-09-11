@@ -79,7 +79,7 @@ export default (state = {}, action = {}) => {
 		case PREV_STEP: {
 			return {
 				...state,
-				...(action.payload.reset ? { step: state.step - 2 } : { step: state.step - 1 })
+				step: state.step - 1
 			};
 		}
 
@@ -93,11 +93,6 @@ export default (state = {}, action = {}) => {
 			return {
 				...state,
 				user
-			};
-
-		case LOGOUT:
-			return {
-				...state
 			};
 
 		default:

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Text, TouchableOpacity, Image, Linking } from 'react-native';
+import Router from '../router';
 import UiSettings from '../config/UiSettings';
 import Divider from '../components/shared/Divider';
+import SSUIcon from '../components/shared/icons/SSUIcon';
 import { signOut } from '../actions/AccountActions';
 
 const { greyThree, greyFive } = UiSettings.styles.colors;
@@ -11,9 +13,18 @@ class DrawerMenu extends Component {
 	render() {
 		const DrawerWrapper = ({ children }) => <View style={{ padding: 20 }}>{children}</View>;
 		const DrawerMenuSection = ({ children }) => <View style={{ paddingHorizontal: 20 }}>{children}</View>;
-		const DrawerMenuItem = ({ children, onPress, style }) => (
-			<TouchableOpacity onPress={() => onPress()} style={[style]}>
-				<Text style={{ color: greyFive, fontSize: 18 }}>{children}</Text>
+		const DrawerMenuItem = ({ children, onPress, style, icon, size }) => (
+			<TouchableOpacity
+				onPress={() => onPress()}
+				style={[style, { flexDirection: 'row', alignItems: 'flex-end' }]}
+			>
+				<SSUIcon
+					name={icon}
+					size={size || 22}
+					color={greyFive}
+					style={{ marginRight: 8, alignSelf: 'flex-start' }}
+				/>
+				<Text style={{ fontFamily: 'Omnes-Regular', color: greyFive, fontSize: 18 }}>{children}</Text>
 			</TouchableOpacity>
 		);
 		return (
@@ -25,26 +36,39 @@ class DrawerMenu extends Component {
 				/>
 				<DrawerWrapper>
 					<DrawerMenuSection>
-						<DrawerMenuItem onPress={() => this.goToHome()} style={{ marginBottom: 20 }}>
+						<DrawerMenuItem icon="home" onPress={() => this.goToHome()} style={{ marginBottom: 20 }}>
 							Home
 						</DrawerMenuItem>
-						<DrawerMenuItem onPress={() => this.goToGiftPacks()} style={{ marginBottom: 20 }}>
+						<DrawerMenuItem icon="gift" onPress={() => this.goToGiftPacks()} style={{ marginBottom: 20 }}>
 							Gift Packs
 						</DrawerMenuItem>
-						<DrawerMenuItem onPress={() => this.goToSettings()}>Settings</DrawerMenuItem>
+						<DrawerMenuItem icon="cog" onPress={() => this.goToSettings()}>
+							Settings
+						</DrawerMenuItem>
 					</DrawerMenuSection>
 					<Divider color={greyThree} marginVertical={20} width={2.5} />
 					<DrawerMenuSection>
-						<DrawerMenuItem onPress={() => this.goToHelp()} style={{ marginBottom: 20 }}>
+						<DrawerMenuItem
+							icon="question-circle"
+							onPress={() => this.goToHelp()}
+							style={{ marginBottom: 20 }}
+						>
 							Help
 						</DrawerMenuItem>
-						<DrawerMenuItem onPress={() => this.goToFAQ()} style={{ marginBottom: 20 }}>
+						<DrawerMenuItem icon="info-circle" onPress={() => this.goToFAQ()} style={{ marginBottom: 20 }}>
 							FAQ
 						</DrawerMenuItem>
-						<DrawerMenuItem onPress={() => this.goToTerms()} style={{ marginBottom: 20 }}>
+						<DrawerMenuItem
+							icon="file"
+							size={18}
+							onPress={() => this.goToTerms()}
+							style={{ marginBottom: 20 }}
+						>
 							Terms of Use
 						</DrawerMenuItem>
-						<DrawerMenuItem onPress={() => this.goToPrivacy()}>Privacy Policy</DrawerMenuItem>
+						<DrawerMenuItem icon="unlock-alt" onPress={() => this.goToPrivacy()}>
+							Privacy Policy
+						</DrawerMenuItem>
 					</DrawerMenuSection>
 					<Divider color={greyThree} marginVertical={20} width={2.5} />
 					<DrawerMenuSection>
@@ -97,8 +121,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 	signOut: async () => {
 		const loggedOut = await dispatch(signOut());
 		if (loggedOut) {
-			ownProps.navigator.toggleDrawer({ side: 'left' });
-			ownProps.navigator.showModal({ screen: 'SSU.LogIn' });
+			Router.logIn();
 		}
 	}
 });

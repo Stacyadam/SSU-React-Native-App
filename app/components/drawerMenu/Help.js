@@ -32,25 +32,29 @@ class Help extends Component {
 				<ModalHeader title="HELP" navigator={this.props.navigator} />
 				<View style={{ padding: 20 }}>
 					<View style={{ paddingHorizontal: 30, marginTop: 10 }}>
-						<Text style={{ fontSize: 20, textAlign: 'center', color: greySix }}>
+						<Text
+							style={{ fontFamily: 'Omnes-Regular', fontSize: 20, textAlign: 'center', color: greySix }}
+						>
 							HAVE A QUESTION? WE'RE HERE TO HELP
 						</Text>
 					</View>
-					<View style={{ paddingHorizontal: 10, marginTop: 10 }}>
-						<Text style={{ textAlign: 'center', color: orange }}>
+					<View style={{ marginTop: 10 }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 15, textAlign: 'center', color: orange }}>
 							VISIT OUR FAQ PAGE TO SEE IF YOUR QUESTION'S ALREADY BEEN ANSWERED
 						</Text>
 					</View>
 					<Button onPress={this.goToFAQ} style={{ width: '40%', height: 40, marginVertical: 20 }}>
 						FAQ
 					</Button>
-					<Divider width={3} color={greyTwo} style={{ marginBottom: 10 }} />
+					<Divider width={3} color={greyTwo} style={{ marginBottom: 20, marginTop: 10 }} />
 					{this.state.errors && this.state.errors.message ? (
-						<Text style={{ fontSize: 12, marginBottom: 6, color: errorRed }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 14, marginBottom: 6, color: errorRed }}>
 							Please enter a question/message
 						</Text>
 					) : (
-						<Text style={{ fontSize: 12, marginBottom: 6 }}>Message</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', color: greySix, fontSize: 14, marginBottom: 6 }}>
+							Message
+						</Text>
 					)}
 					<TextInput
 						style={{
