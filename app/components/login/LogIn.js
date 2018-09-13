@@ -3,7 +3,7 @@ import { View, Text, TextInput, Picker, TouchableOpacity, Image } from 'react-na
 import Router from '../../router';
 import { connect } from 'react-redux';
 import SignIn from '../forms/SignIn';
-import { signIn, updateErrors } from '../../actions/AccountActions';
+import { signIn } from '../../actions/AccountActions';
 import UiSettings from '../../config/UiSettings';
 import Button from '../shared/buttons/Button';
 import * as GlobalActions from '../../actions/GlobalActions';

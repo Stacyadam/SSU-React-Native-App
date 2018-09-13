@@ -22,6 +22,8 @@ export const getOfferDetails = offer => {
 		return offer.product_detail.description;
 	} else if (offer.promo_code_detail) {
 		return offer.promo_code_detail.title;
+	} else if (offer.sport_promo_detail) {
+		return offer.sport_promo_detail.title;
 	}
 };
 

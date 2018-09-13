@@ -10,6 +10,7 @@ import {
 } from '../types';
 import * as GlobalActions from './GlobalActions';
 import api from '../utilities/api';
+import { AsyncStorage } from "react-native"
 
 export function signIn(user) {
 	return async dispatch => {
@@ -18,10 +19,14 @@ export function signIn(user) {
 			const {
 				data: { token }
 			} = await api.post('/auth/login', user);
+
+			AsyncStorage.setItem('userToken', token);
+
 			dispatch(saveToken(token));
 			dispatch(getUser(token));
 			dispatch(GlobalActions.updateErrors(null));
-			dispatch(GlobalActions.toggleLoading(false));
+			dispatch(GlobalActions.toggleLoading(false));						
+
 			return token;
 		} catch (e) {
 			const {
@@ -69,6 +74,7 @@ export function signOut() {
 					Authorization: `Bearer ${token}`
 				}
 			});
+			AsyncStorage.removeItem('userToken');
 			dispatch(logOut());
 			dispatch(GlobalActions.toggleLoading(false));
 			return res;

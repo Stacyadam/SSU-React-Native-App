@@ -46,6 +46,8 @@ target 'SSU' do
   target 'SSU-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
+
   end
 
   target 'SSUTests' do

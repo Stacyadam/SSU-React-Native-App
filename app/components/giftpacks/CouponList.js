@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, FlatList, TouchableOpacity, View } from 'react-native';
 import Divider from '../shared/Divider';
 import Coupon from './Coupon';
 import UiSettings from '../../config/UiSettings';
@@ -10,19 +10,33 @@ const { deviceHeight } = UiSettings;
 class CouponList extends Component {
 	render() {
 		const { data } = this.props;
-		return (
-			<FlatList
-				style={{ marginBottom: 350 }}
-				data={data}
-				keyExtractor={item => item.locationName}
-				ItemSeparatorComponent={() => <Divider color={greyThree} width={2.5} />}
-				renderItem={({ item }) => (
-					<TouchableOpacity onPress={() => this.goToDetails(item)}>
-						<Coupon item={item} />
-					</TouchableOpacity>
-				)}
-			/>
-		);
+		const isRedeemed = data.some(el => el.redeemed === true);
+
+		if (!isRedeemed) {
+			return (
+				<FlatList
+					style={{ marginBottom: 350 }}
+					data={data}
+					keyExtractor={item => item.locationImage}
+					ItemSeparatorComponent={() => <Divider color={greyThree} width={2.5} />}
+					renderItem={({ item }) => (
+						<TouchableOpacity onPress={() => this.goToDetails(item)}>
+							<Coupon item={item} />
+						</TouchableOpacity>
+					)}
+				/>
+			);
+		} else {
+			return (
+				<FlatList
+					style={{ marginBottom: 350 }}
+					data={data}
+					keyExtractor={item => item.locationImage}
+					ItemSeparatorComponent={() => <Divider color={greyThree} width={2.5} />}
+					renderItem={({ item }) => <Coupon redeemed={true} item={item} />}
+				/>
+			);
+		}
 	}
 
 	goToDetails(item) {

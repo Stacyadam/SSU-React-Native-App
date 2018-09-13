@@ -11,6 +11,8 @@ export default (state = {}, action = {}) => {
 				};
 			}
 
+			console.log('giftpacks array', action.payload.giftpacks);
+
 			const giftPacksArray = action.payload.giftpacks
 				.filter(gp => new Date(gp.gift_pack.expires_at).getTime() > new Date().getTime())
 				.map(i => {
@@ -26,9 +28,8 @@ export default (state = {}, action = {}) => {
 									locationWebsite: i.location_website,
 									...(i.offer.promo_code_detail && {
 										isPromoCode: true,
-										promoCode: i.offer.promo_code_detail.code
+										promoCode: i.offer.promo_code_detail.code 
 									}),
-
 									rules: i.offer.redemption_rules,
 									offerDetails: getOfferDetails(i.offer),
 									locations: i.offer.locations
@@ -103,17 +104,25 @@ export default (state = {}, action = {}) => {
 			const hasOfferRedemptions = action.payload.giftpacks.some(gp => gp.offer_redemptions.length > 0);
 
 			if (hasOfferRedemptions) {
-				const redeemedOffersArray = action.payload.giftpacks.map(gp => {
-					if (gp.offer_redemptions.length) {
-						gp.offer_redemptions.map(g => {
-							return {
-								locationName: g.gift_pack_offer.location_name,
-								locationImage: g.gift_pack_offer.location_image,
-								offerDetails: getOfferDetails(g.gift_pack_offer.offer)
-							};
-						});
-					}
-				});
+				const cleanData = action.payload.giftpacks
+					.filter(el => el.offer_redemptions.length > 0)
+					.map(gp => gp.offer_redemptions);
+
+				console.log('clean data', cleanData);
+
+				const redeemedOffersArray = []
+					.concat(...cleanData)
+					.filter(offer => offer.gift_pack_offer !== null)
+					.map(el => {
+						return {
+							locationName: el.gift_pack_offer.location_name,
+							locationImage: el.gift_pack_offer.location_image,
+							offerDetails: getOfferDetails(el.gift_pack_offer.offer),
+							redeemed: true
+						};
+					});
+
+				console.log(redeemedOffersArray);
 
 				const redeemedOffers = {
 					giftPackName: 'Redeemed Offers',
