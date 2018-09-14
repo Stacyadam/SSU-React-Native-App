@@ -1,3 +1,5 @@
+import jwtDecode from 'jwt-decode';
+
 export const convertMilitaryTime = time => {
 	time = time.split(':');
 	const hours = time[0];
@@ -27,22 +29,21 @@ export const getOfferDetails = offer => {
 	}
 };
 
-const _expirationFromJwt = token => {	
+const _expirationFromJwt = token => {
 	try {
-		//get expiration from decoded jwt
-		const { exp } = JSON.parse(atob(token.split('.')[1]));
+		const { exp } = jwtDecode(token);
 		//return the expiration in seconds
 		return exp * 1000;
 	} catch (e) {
 		return null;
-	}	  
-}
+	}
+};
 
-export const isTokenValid = (token) => {
-	const jwtExpiration = _expirationFromJwt(token)
+export const isTokenValid = token => {
+	const jwtExpiration = _expirationFromJwt(token);
 	const now = Date.now();
 	return jwtExpiration > now;
-}
+};
 
 export const isoToLongDate = isoDate => {
 	const date = new Date(isoDate);

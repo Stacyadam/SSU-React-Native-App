@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-import { isTokenValid } from '../utilities';
 import store from '../Store';
 import { logOut } from '../actions/AccountActions';
 import { toggleLoading, updateErrors } from '../actions/GlobalActions';
 import Router from '../router';
+import { isTokenValid } from '../utilities';
 
 const api = axios.create({
-	baseURL: __DEV__ ? 'https://dev-api.smallshopsunited.com/v4/' : 'https://the-qa-api.smallshopsunited.com/v4/',
+	baseURL: __DEV__ ? 'https://the-qa-api.smallshopsunited.com/v4/' : 'https://the-qa-api.smallshopsunited.com/v4/',
 	timeout: 5000
 });
 
@@ -15,11 +15,11 @@ api.interceptors.request.use(
 	async config => {
 		store.dispatch(toggleLoading(true));
 		const token = await AsyncStorage.getItem('userToken');
-		const valid = isTokenValid(token);
+		const validToken = isTokenValid(token);
 
-		if (token !== null && valid) {
+		if (token !== null && validToken) {
 			config.headers['Authorization'] = `Bearer ${token}`;
-		} else if (token !== null && !valid) {
+		} else if (token !== null && !validToken) {
 			store.dispatch(logOut());
 			Router.logIn();
 		}
