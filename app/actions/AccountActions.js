@@ -6,53 +6,33 @@ import {
 	NEXT_STEP,
 	PREV_STEP,
 	SET_USER_LOCATION,
-	SAVE_PARTIAL_USER
+	SAVE_PARTIAL_USER,
+	SIGNING_UP
 } from '../types';
 import * as GlobalActions from './GlobalActions';
 import api from '../utilities/api';
-import { AsyncStorage } from "react-native"
+import { AsyncStorage } from 'react-native';
 
 export function signIn(user) {
 	return async dispatch => {
 		try {
-			dispatch(GlobalActions.toggleLoading(true));
 			const {
 				data: { token }
 			} = await api.post('/auth/login', user);
 
-			AsyncStorage.setItem('userToken', token);
-
 			dispatch(saveToken(token));
-			dispatch(getUser(token));
-			dispatch(GlobalActions.updateErrors(null));
-			dispatch(GlobalActions.toggleLoading(false));						
-
-			return token;
+			dispatch(getUser());
+			return;
 		} catch (e) {
-			const {
-				data: { errors, message }
-			} = e.response;
-			if (errors) {
-				dispatch(GlobalActions.updateErrors(errors));
-				dispatch(GlobalActions.toggleLoading(false));
-				return errors;
-			} else {
-				dispatch(GlobalActions.updateErrors(message));
-				dispatch(GlobalActions.toggleLoading(false));
-				return message;
-			}
+			return e;
 		}
 	};
 }
 
-export function getUser(token) {
+export function getUser() {
 	return async dispatch => {
 		try {
-			const { data } = await api.get('/users/me', {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
+			const { data } = await api.get('/users/me');
 			dispatch(saveUser(data));
 		} catch (e) {
 			console.log('user retrieval failed');
@@ -62,21 +42,10 @@ export function getUser(token) {
 }
 
 export function signOut() {
-	return async (dispatch, getState) => {
-		const {
-			account: { token }
-		} = getState();
-
+	return async dispatch => {
 		try {
-			dispatch(GlobalActions.toggleLoading(true));
-			const res = await api.post('auth/logout', null, {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
-			AsyncStorage.removeItem('userToken');
+			const res = await api.post('auth/logout');
 			dispatch(logOut());
-			dispatch(GlobalActions.toggleLoading(false));
 			return res;
 		} catch (e) {
 			return e;
@@ -136,7 +105,6 @@ export function validateInput(data) {
 
 export function advanceSignUp(user) {
 	return dispatch => {
-		console.log(user);
 		dispatch(savePartialUser(user));
 		dispatch(GlobalActions.updateErrors(null));
 		dispatch(nextStep());
@@ -147,7 +115,6 @@ export function askForHelp(message) {
 	return async (dispatch, getState) => {
 		const {
 			account: {
-				token,
 				user: { first_name, last_name, email, phone }
 			}
 		} = getState();
@@ -161,36 +128,22 @@ export function askForHelp(message) {
 		};
 
 		try {
-			dispatch(GlobalActions.toggleLoading(true));
-			await api.post('/general-contact', messageWithUser, {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
-			dispatch(GlobalActions.toggleLoading(false));
-			dispatch(GlobalActions.updateErrors(null));
+			await api.post('/general-contact', messageWithUser);
+
 			return true;
 		} catch (e) {
-			const { errors } = e.response.data;
-			dispatch(GlobalActions.updateErrors(errors));
-			dispatch(GlobalActions.toggleLoading(false));
 			return false;
 		}
 	};
 }
 
 export function requestPassword(email) {
-	return async dispatch => {
+	return async () => {
 		try {
-			dispatch(GlobalActions.toggleLoading(true));
 			await api.post('/request-password-reset', { email });
-			dispatch(GlobalActions.toggleLoading(false));
-			dispatch(GlobalActions.updateErrors(null));
+
 			return true;
 		} catch (e) {
-			const { errors } = e.response.data;
-			dispatch(GlobalActions.updateErrors(errors));
-			dispatch(GlobalActions.toggleLoading(false));
 			return false;
 		}
 	};
@@ -217,6 +170,13 @@ export function savePartialUser(user) {
 	};
 }
 
+export function isSigningUp(bool) {
+	return {
+		type: SIGNING_UP,
+		payload: bool
+	};
+}
+
 export function nextStep() {
 	return {
 		type: NEXT_STEP
@@ -231,6 +191,7 @@ export function prevStep(reset = false) {
 }
 
 export function saveToken(token) {
+	AsyncStorage.setItem('userToken', token);
 	return {
 		type: SAVE_TOKEN,
 		payload: token
@@ -245,6 +206,7 @@ export function logIn(user) {
 }
 
 export function logOut() {
+	AsyncStorage.removeItem('userToken');
 	return {
 		type: LOGOUT
 	};

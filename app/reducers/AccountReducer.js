@@ -8,7 +8,8 @@ import {
 	NEXT_STEP,
 	PREV_STEP,
 	SET_USER_LOCATION,
-	SAVE_PARTIAL_USER
+	SAVE_PARTIAL_USER,
+	SIGNING_UP
 } from '../types';
 
 export default (state = {}, action = {}) => {
@@ -66,6 +67,13 @@ export default (state = {}, action = {}) => {
 					...state.user,
 					location: action.payload
 				}
+			};
+		}
+
+		case SIGNING_UP: {
+			return {
+				...state,
+				isSigningUp: action.payload
 			};
 		}
 

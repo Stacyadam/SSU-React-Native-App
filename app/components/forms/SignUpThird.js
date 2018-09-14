@@ -9,7 +9,7 @@ import SSUIcon from '../shared/icons/SSUIcon';
 import Button from '../shared/buttons/Button';
 import ThreeDots from '../shared/icons/ThreeDots';
 
-import { signUp } from '../../actions/AccountActions';
+import { signUp, isSigningUp } from '../../actions/AccountActions';
 
 const { orange, darkOrange, blue, greyTwo } = UiSettings.styles.colors;
 
@@ -24,7 +24,7 @@ class SignUpThird extends Component {
 	/============================================================*/
 
 	render() {
-		const B = ({ children }) => <Text style={{ fontFamily: 'Omnes-Regular',fontWeight: 'bold' }}>{children}</Text>;
+		const B = ({ children }) => <Text style={{ fontFamily: 'Omnes-Regular', fontWeight: 'bold' }}>{children}</Text>;
 
 		const { birthday, gender } = this.state;
 
@@ -59,7 +59,9 @@ class SignUpThird extends Component {
 				</Text>
 
 				<View style={{ paddingHorizontal: 24 }}>
-					<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: blue }}>First Name</Text>
+					<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: blue }}>
+						First Name
+					</Text>
 					<View
 						style={{
 							borderColor: blue,
@@ -126,7 +128,7 @@ class SignUpThird extends Component {
 							marginBottom: 20
 						}}
 					>
-						<Text style={{ fontFamily: 'Omnes-Regular',marginRight: 5 }}>Male</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Male</Text>
 						<RadioButton
 							color={greyTwo}
 							backgroundColor={orange}
@@ -135,7 +137,7 @@ class SignUpThird extends Component {
 							onPress={() => this.setState({ gender: 'M' })}
 							style={{ marginRight: 10 }}
 						/>
-						<Text style={{ fontFamily: 'Omnes-Regular',marginRight: 5 }}>Female</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Female</Text>
 						<RadioButton
 							color={greyTwo}
 							backgroundColor={orange}
@@ -144,7 +146,7 @@ class SignUpThird extends Component {
 							onPress={() => this.setState({ gender: 'F' })}
 							style={{ marginRight: 10 }}
 						/>
-						<Text style={{ fontFamily: 'Omnes-Regular',marginRight: 5 }}>N/A</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>N/A</Text>
 						<RadioButton
 							color={greyTwo}
 							backgroundColor={orange}
@@ -203,7 +205,9 @@ const mapDispatchToProps = dispatch => ({
 	signUp: async data => {
 		try {
 			const success = await dispatch(signUp(data));
-			//TODO: after a successful sign up call this.props.navigator and hide the modal
+			if (success) {
+				dispatch(isSigningUp(false));
+			}
 			return success;
 		} catch (e) {
 			return e;

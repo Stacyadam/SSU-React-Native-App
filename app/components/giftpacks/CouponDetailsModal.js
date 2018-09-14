@@ -90,13 +90,15 @@ class CouponDetailsModal extends Component {
 						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 22, marginBottom: 6 }}>
 							{locationName}
 						</Text>
-						<TouchableOpacity
-							onPress={() => this.showHoursModal()}
-							style={{ flexDirection: 'row', alignItems: 'center' }}
-						>
-							{this.renderHours()}
-							<SSUIcon name="caret-down" size={18} color={orange} style={{ marginLeft: 4 }} />
-						</TouchableOpacity>
+						{locationHours.length > 0 && (
+							<TouchableOpacity
+								onPress={() => this.showHoursModal()}
+								style={{ flexDirection: 'row', alignItems: 'center' }}
+							>
+								{this.renderHours()}
+								<SSUIcon name="caret-down" size={18} color={orange} style={{ marginLeft: 4 }} />
+							</TouchableOpacity>
+						)}
 					</View>
 					<MapView
 						initialRegion={{

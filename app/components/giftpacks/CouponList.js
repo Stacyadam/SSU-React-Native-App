@@ -10,7 +10,8 @@ const { deviceHeight } = UiSettings;
 class CouponList extends Component {
 	render() {
 		const { data } = this.props;
-		const isRedeemed = data.some(el => el.redeemed === true);
+
+		const isRedeemed = this.props.data && this.props.data.some(el => el.redeemed === true);
 
 		if (!isRedeemed) {
 			return (

@@ -31,6 +31,7 @@ class SignIn extends Component {
 						value={email}
 						placeholder="Email"
 						autoCapitalize="none"
+						returnKeyType="done"
 					/>
 					<TextInput
 						style={[
@@ -45,6 +46,7 @@ class SignIn extends Component {
 						placeholder="Password"
 						secureTextEntry
 						autoCapitalize="none"
+						returnKeyType="done"
 					/>
 				</View>
 			</View>

@@ -27,6 +27,23 @@ export const getOfferDetails = offer => {
 	}
 };
 
+const _expirationFromJwt = token => {	
+	try {
+		//get expiration from decoded jwt
+		const { exp } = JSON.parse(atob(token.split('.')[1]));
+		//return the expiration in seconds
+		return exp * 1000;
+	} catch (e) {
+		return null;
+	}	  
+}
+
+export const isTokenValid = (token) => {
+	const jwtExpiration = _expirationFromJwt(token)
+	const now = Date.now();
+	return jwtExpiration > now;
+}
+
 export const isoToLongDate = isoDate => {
 	const date = new Date(isoDate);
 

@@ -28,7 +28,11 @@ export default (state = {}, action = {}) => {
 									locationWebsite: i.location_website,
 									...(i.offer.promo_code_detail && {
 										isPromoCode: true,
-										promoCode: i.offer.promo_code_detail.code 
+										promoCode: i.offer.promo_code_detail.code
+									}),
+									...(i.offer.sport_promo_detail && {
+										isPromoCode: true,
+										promoCode: i.offer.sport_promo_detail.code
 									}),
 									rules: i.offer.redemption_rules,
 									offerDetails: getOfferDetails(i.offer),

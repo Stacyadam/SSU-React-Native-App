@@ -117,7 +117,7 @@ class DrawerMenu extends Component {
 	}
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
 	signOut: async () => {
 		const loggedOut = await dispatch(signOut());
 		if (loggedOut) {

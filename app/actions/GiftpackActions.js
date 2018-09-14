@@ -4,27 +4,21 @@ import * as AccountActions from './AccountActions';
 import api from '../utilities/api';
 
 export function getUserGiftpacks(permission) {
-	return async (dispatch, getState) => {
-		const {
-			account: { token }
-		} = getState();
+	return async dispatch => {
 		try {
-			dispatch(GlobalActions.toggleLoading(true));
 			let {
 				data: { user_gift_packs }
 			} = await api.get(
-				'/users/me?expand[userGiftPacks.offerRedemptions]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.dollarAmountDetail]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.dollarAmountDetail]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.sportPromoDetail]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.promoCodeDetail]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.percentageOffDetail]=*&expand[userGiftPacks.giftPack]=*&expand[userGiftPacks.giftPack.giftPackOffers]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.availableTimes]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.productDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.dollarAmountDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.sportPromoDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.promoCodeDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.percentageOffDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.locations]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.locations.hours]=*',
-				{
-					headers: {
-						Authorization: `Bearer ${token}`
-					}
-				}
+				'/users/me?expand[userGiftPacks.offerRedemptions]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.dollarAmountDetail]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.dollarAmountDetail]=*' +
+					'&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.sportPromoDetail]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.promoCodeDetail]=*&expand[userGiftPacks.offerRedemptions.giftPackOffer.offer.percentageOffDetail]=*&expand[userGiftPacks.giftPack]=*' +
+					'&expand[userGiftPacks.giftPack.giftPackOffers]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.availableTimes]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.productDetail]=*' +
+					'&expand[userGiftPacks.giftPack.giftPackOffers.offer.dollarAmountDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.sportPromoDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.promoCodeDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.percentageOffDetail]=*' +
+					'&expand[userGiftPacks.giftPack.giftPackOffers.offer.locations]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.locations.hours]=*'
 			);
-				user_gift_packs = user_gift_packs.filter(gp => gp.gift_pack !== null);				
+			user_gift_packs = user_gift_packs.filter(gp => gp.gift_pack !== null);
 
 			if (permission === 'denied') {
 				dispatch(saveUserGiftpacks(user_gift_packs, false));
-				dispatch(GlobalActions.toggleLoading(false));
 			}
 			navigator.geolocation.getCurrentPosition(
 				({ coords: { latitude, longitude }, timestamp }) => {
@@ -47,21 +41,12 @@ export function getUserGiftpacks(permission) {
 }
 
 export function getAvailableGiftPacks() {
-	return async (dispatch, getState) => {
-		const {
-			account: { token }
-		} = getState();
+	return async dispatch => {
 		try {
-			dispatch(GlobalActions.toggleLoading(true));
 			const {
 				data: { data }
-			} = await api.get('/gift-packs', {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
+			} = await api.get('/gift-packs');
 			dispatch(saveAvailableGiftPacks(data));
-			dispatch(GlobalActions.toggleLoading(false));
 			return true;
 		} catch (e) {
 			console.log(e.response);

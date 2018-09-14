@@ -16,10 +16,6 @@ class SignUpModal extends Component {
 		navBarHidden: true
 	};
 
-	componentWillUnmount() {
-		this.props.updateErrors();
-	}
-
 	render() {
 		const { step } = this.props;
 		return (
@@ -68,8 +64,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	prevStep: () => dispatch(prevStep()),
-	updateErrors: () => dispatch(updateErrors(null))
+	prevStep: () => dispatch(prevStep())
 });
 
 /*============================================================

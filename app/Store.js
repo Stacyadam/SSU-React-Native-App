@@ -7,7 +7,8 @@ export const defaultState = {
 	account: {
 		user: null,
 		token: null,
-		step: 1
+		step: 1,
+		isSigningUp: false
 	},
 	giftPacks: {
 		availableGiftPacks: [],
@@ -16,8 +17,7 @@ export const defaultState = {
 	memberCards: [],
 	global: {
 		errors: null,
-		loading: false,
-		success: null
+		loading: false
 	}
 };
 

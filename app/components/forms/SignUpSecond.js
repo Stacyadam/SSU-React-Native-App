@@ -22,7 +22,7 @@ class SignUpSecond extends Component {
 	/============================================================*/
 
 	render() {
-		const B = ({ children }) => <Text style={{ fontFamily: 'Omnes-Regular',fontWeight: 'bold' }}>{children}</Text>;
+		const B = ({ children }) => <Text style={{ fontFamily: 'Omnes-Regular', fontWeight: 'bold' }}>{children}</Text>;
 
 		return (
 			<View
@@ -56,11 +56,13 @@ class SignUpSecond extends Component {
 				</Text>
 				<View style={{ paddingHorizontal: 24 }}>
 					{this.props.errors && this.props.errors.first_name ? (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: errorRed }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: errorRed }}>
 							{this.props.errors.first_name[0]}
 						</Text>
 					) : (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: blue }}>First Name</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: blue }}>
+							First Name
+						</Text>
 					)}
 					<View
 						style={{
@@ -82,11 +84,13 @@ class SignUpSecond extends Component {
 					</View>
 
 					{this.props.errors && this.props.errors.last_name ? (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: errorRed }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: errorRed }}>
 							{this.props.errors.last_name[0]}
 						</Text>
 					) : (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: blue }}>Last Name</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: blue }}>
+							Last Name
+						</Text>
 					)}
 					<View
 						style={{
@@ -108,11 +112,13 @@ class SignUpSecond extends Component {
 					</View>
 
 					{this.props.errors && this.props.errors.phone ? (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: errorRed }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: errorRed }}>
 							{this.props.errors.phone[0]}
 						</Text>
 					) : (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: blue }}>Phone(10-digits)</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: blue }}>
+							Phone(10-digits)
+						</Text>
 					)}
 					<View
 						style={{
@@ -136,11 +142,13 @@ class SignUpSecond extends Component {
 					</View>
 
 					{this.props.errors && this.props.errors.zip_code ? (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: errorRed }}>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: errorRed }}>
 							{this.props.errors.zip_code[0]}
 						</Text>
 					) : (
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 12, marginBottom: 6, color: blue }}>Zip Code</Text>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: blue }}>
+							Zip Code
+						</Text>
 					)}
 					<View
 						style={{

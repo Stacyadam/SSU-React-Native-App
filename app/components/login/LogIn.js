@@ -3,7 +3,7 @@ import { View, Text, TextInput, Picker, TouchableOpacity, Image } from 'react-na
 import Router from '../../router';
 import { connect } from 'react-redux';
 import SignIn from '../forms/SignIn';
-import { signIn } from '../../actions/AccountActions';
+import { signIn, isSigningUp } from '../../actions/AccountActions';
 import UiSettings from '../../config/UiSettings';
 import Button from '../shared/buttons/Button';
 import * as GlobalActions from '../../actions/GlobalActions';
@@ -138,6 +138,7 @@ class LogIn extends Component {
 
 	showSignUp() {
 		this.props.clearErrors();
+		this.props.isSigningUp(true);
 		this.props.navigator.showModal({ screen: 'SSU.SignUpModal' });
 	}
 
@@ -155,12 +156,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	signIn: user => {
-		dispatch(signIn(user));
-	},
-	clearErrors: () => {
-		dispatch(GlobalActions.updateErrors(null));
-	}
+	signIn: user => dispatch(signIn(user)),
+	isSigningUp: bool => dispatch(isSigningUp(bool)),
+	clearErrors: () => dispatch(GlobalActions.updateErrors(null))
 });
 
 export default connect(
