@@ -14,14 +14,21 @@ const api = axios.create({
 api.interceptors.request.use(
 	async config => {
 		store.dispatch(toggleLoading(true));
-		const token = await AsyncStorage.getItem('userToken');
-		const validToken = isTokenValid(token);
+		try {
+			const token = await AsyncStorage.getItem('userToken');
+			const validToken = isTokenValid(token);
 
-		if (token !== null && validToken) {
-			config.headers['Authorization'] = `Bearer ${token}`;
-		} else if (token !== null && !validToken) {
-			store.dispatch(logOut());
-			Router.logIn();
+			if (token !== null && validToken) {
+				config.headers['Authorization'] = `Bearer ${token}`;
+			} else if (token !== null && !validToken) {
+				store.dispatch(logOut());
+				store.dispatch(toggleLoading(false));
+				Router.logIn();
+			}
+		} catch (error) {
+			store.dispatch(toggleLoading(false));
+			console.log('this is the error', error);
+			return error;
 		}
 
 		return config;
