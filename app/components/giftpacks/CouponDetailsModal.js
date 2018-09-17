@@ -120,7 +120,7 @@ class CouponDetailsModal extends Component {
 								latitude: this.state.selectedLocation.latitude,
 								longitude: this.state.selectedLocation.longitude
 							}}
-							image={require('../../assets/FFStorePin.png')}
+							image={require('../../assets/ssu_logo.png')}
 						/>
 					</MapView>
 					{this.renderAddress()}
@@ -168,6 +168,48 @@ class CouponDetailsModal extends Component {
 					>
 						{this.props.item.isPromoCode ? (
 							<View style={{ justifyContent: 'center', alignItems: 'center', padding: 4 }}>
+								<View style={{ flexDirection: 'row', padding: 8 }}>
+									<SSUIcon name="gift" size={28} color={orange} style={{ marginLeft: 4 }} />
+									<View style={{ marginLeft: 20, paddingRight: 10 }}>
+										<Text
+											style={{
+												fontFamily: 'Omnes-Regular',
+												fontWeight: 'bold',
+												fontSize: 16,
+												color: orange
+											}}
+										>
+											Gift Pack Offer
+										</Text>
+										<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 10 }}>
+											{offerDetails}
+										</Text>
+										<Text
+											style={{
+												fontFamily: 'Omnes-Regular',
+												fontWeight: 'bold',
+												fontSize: 16,
+												color: orange
+											}}
+										>
+											Conditions:
+										</Text>
+										<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 10 }}>{rules}</Text>
+										<Text
+											style={{
+												fontFamily: 'Omnes-Regular',
+												fontWeight: 'bold',
+												fontSize: 16,
+												color: orange
+											}}
+										>
+											How to Redeem:
+										</Text>
+										<Text style={{ fontFamily: 'Omnes-Regular' }}>
+											*"backend generated redeem instructions"
+										</Text>
+									</View>
+								</View>
 								<View style={{ marginVertical: 10, justifyContent: 'center', alignItems: 'center' }}>
 									<Text style={{ fontFamily: 'Omnes-Regular', color: orange }}>YOUR UNIQUE</Text>
 									<Text style={{ fontFamily: 'Omnes-Regular', color: orange }}>PROMOTIONAL CODE</Text>
@@ -209,19 +251,47 @@ class CouponDetailsModal extends Component {
 							</View>
 						) : (
 							<View style={{ flexDirection: 'row', padding: 8 }}>
-								<SSUIcon name="check" size={28} color={orange} style={{ marginLeft: 4 }} />
+								<SSUIcon name="gift" size={28} color={orange} style={{ marginLeft: 4 }} />
 								<View style={{ marginLeft: 10 }}>
-									<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, color: orange }}>
-										Loyalty Offer
+									<Text
+										style={{
+											fontFamily: 'Omnes-Regular',
+											fontWeight: 'bold',
+											fontSize: 16,
+											color: orange
+										}}
+									>
+										Gift Pack Offer
 									</Text>
 									<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 10 }}>
 										{offerDetails}
 									</Text>
-									<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, color: orange }}>
+									<Text
+										style={{
+											fontFamily: 'Omnes-Regular',
+											fontWeight: 'bold',
+											fontSize: 16,
+											color: orange
+										}}
+									>
 										Conditions:
 									</Text>
-
-									<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 50 }}>{rules}</Text>
+									<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 50, marginBottom: 10 }}>
+										{rules}
+									</Text>
+									<Text
+										style={{
+											fontFamily: 'Omnes-Regular',
+											fontWeight: 'bold',
+											fontSize: 16,
+											color: orange
+										}}
+									>
+										How to Redeem:
+									</Text>
+									<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 50 }}>
+										*"backend generated redeem instructions"
+									</Text>
 								</View>
 							</View>
 						)}

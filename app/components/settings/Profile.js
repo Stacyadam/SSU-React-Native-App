@@ -10,16 +10,6 @@ import { genderString, formatPhoneNumber, isoToLongDate } from '../../utilities'
 const { greySix, greyFive, greyTwo, greyOne } = UiSettings.styles.colors;
 
 class Profile extends Component {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-	// }
-
-	// onNavigatorEvent({ id }) {
-	// 	if (id === 'willAppear') {
-	// 	}
-	// }
-
 	state = {
 		settings: [],
 		editMode: false,

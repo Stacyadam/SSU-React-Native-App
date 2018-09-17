@@ -12,7 +12,6 @@ import {
 	Image,
 	ScrollView
 } from 'react-native';
-import Permissions from 'react-native-permissions';
 import Dimensions from 'Dimensions';
 import StandardHeader from '../components/headers/StandardHeader';
 import UiSettings from '../config/UiSettings';
@@ -33,22 +32,15 @@ class Giftpacks extends Component {
 		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
-	onNavigatorEvent({ id }) {
+	async onNavigatorEvent({ id }) {
 		if (id === 'willAppear') {
-			Permissions.check('location').then(permission => {
-				if (!this.props.userGiftPacks.length) {
-					this.props.getUserGiftpacks(permission).then(success => {
-						if (
-							!success.length &&
-							this.state.selectedIndex !== 1 &&
-							!this.state.availableGiftPacks.length
-						) {
-							this.setState({ selectedIndex: 1 });
-							this.props.getAvailableGiftPacks();
-						}
-					});
+			if (!this.props.userGiftPacks.length) {
+				const success = await this.props.getUserGiftpacks();
+				if (!success.length && this.state.selectedIndex !== 1 && !this.state.availableGiftPacks.length) {
+					this.setState({ selectedIndex: 1 });
+					this.props.getAvailableGiftPacks();
 				}
-			});
+			}
 		}
 	}
 
@@ -260,6 +252,7 @@ class Giftpacks extends Component {
 								style={{
 									fontFamily: 'Omnes-Regular',
 									fontSize: 16,
+									fontWeight: 'bold',
 									color: greySix,
 									marginBottom: 4
 								}}
@@ -285,6 +278,7 @@ class Giftpacks extends Component {
 									fontFamily: 'Omnes-Regular',
 									fontSize: 16,
 									color: greySix,
+									fontWeight: 'bold',
 									marginBottom: 4
 								}}
 							>
@@ -299,7 +293,7 @@ class Giftpacks extends Component {
 									fontFamily: 'Omnes-Regular',
 									fontSize: 16,
 									color: greySix,
-
+									fontWeight: 'bold',
 									marginBottom: 4
 								}}
 							>
@@ -314,6 +308,7 @@ class Giftpacks extends Component {
 									fontFamily: 'Omnes-Regular',
 									fontSize: 16,
 									color: greySix,
+									fontWeight: 'bold',
 									marginBottom: 4
 								}}
 							>
@@ -358,9 +353,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getUserGiftpacks: async permission => await dispatch(getUserGiftpacks(permission)),
-	getAvailableGiftPacks: () => dispatch(getAvailableGiftPacks()),
-	toggleLoading: () => dispatch(toggleLoading(false))
+	getUserGiftpacks: () => dispatch(getUserGiftpacks()),
+	getAvailableGiftPacks: () => dispatch(getAvailableGiftPacks())
 });
 
 export default connect(

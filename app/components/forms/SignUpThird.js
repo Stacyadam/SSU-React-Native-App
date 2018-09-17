@@ -31,32 +31,33 @@ class SignUpThird extends Component {
 		return (
 			<View
 				style={{
-					display: 'flex',
-					height: '100%'
+					flex: 1,
+					justifyContent: 'space-between'
 				}}
 			>
-				<Text
-					style={{
-						marginVertical: 14,
-						textAlign: 'center',
-						color: orange,
-						fontSize: 20,
-						lineHeight: 30
-					}}
-				>
-					SWEET!
-				</Text>
-				<Text
-					style={{
-						textAlign: 'center',
-						fontSize: 12,
-						lineHeight: 18,
-						paddingHorizontal: 10,
-						marginBottom: 4
-					}}
-				>
-					JUST ONE STEP AWAY FROM ENDLESS LOCAL REWARDS...
-				</Text>
+				<View>
+					<Text
+						style={{
+							marginVertical: 14,
+							textAlign: 'center',
+							color: orange,
+							fontSize: 20,
+							lineHeight: 30
+						}}
+					>
+						SWEET!
+					</Text>
+					<Text
+						style={{
+							textAlign: 'center',
+							fontSize: 14,
+							lineHeight: 18,
+							paddingHorizontal: 40
+						}}
+					>
+						JUST ONE STEP AWAY FROM ENDLESS LOCAL REWARDS...
+					</Text>
+				</View>
 
 				<View style={{ paddingHorizontal: 24 }}>
 					<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: blue }}>
@@ -123,69 +124,83 @@ class SignUpThird extends Component {
 					<View
 						style={{
 							flexDirection: 'row',
-							justifyContent: 'flex-start',
 							alignItems: 'center',
+							justifyContent: 'space-between',
 							marginBottom: 20
 						}}
 					>
-						<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Male</Text>
-						<RadioButton
-							color={greyTwo}
-							backgroundColor={orange}
-							selected={this.state.gender === 'M'}
-							checked={this.state.gender === 'M'}
-							onPress={() => this.setState({ gender: 'M' })}
-							style={{ marginRight: 10 }}
-						/>
-						<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Female</Text>
-						<RadioButton
-							color={greyTwo}
-							backgroundColor={orange}
-							selected={this.state.gender === 'F'}
-							checked={this.state.gender === 'F'}
-							onPress={() => this.setState({ gender: 'F' })}
-							style={{ marginRight: 10 }}
-						/>
-						<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>N/A</Text>
-						<RadioButton
-							color={greyTwo}
-							backgroundColor={orange}
-							selected={this.state.gender === 'O'}
-							checked={this.state.gender === 'O'}
-							onPress={() => this.setState({ gender: 'O' })}
-							style={{ marginRight: 10 }}
-						/>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Male</Text>
+							<RadioButton
+								color={greyTwo}
+								backgroundColor={orange}
+								selected={this.state.gender === 'M'}
+								checked={this.state.gender === 'M'}
+								onPress={() => this.setState({ gender: 'M' })}
+								style={{ marginRight: 10 }}
+							/>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>Female</Text>
+							<RadioButton
+								color={greyTwo}
+								backgroundColor={orange}
+								selected={this.state.gender === 'F'}
+								checked={this.state.gender === 'F'}
+								onPress={() => this.setState({ gender: 'F' })}
+								style={{ marginRight: 10 }}
+							/>
+						</View>
+						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={{ fontFamily: 'Omnes-Regular', marginRight: 5 }}>N/A</Text>
+							<RadioButton
+								color={greyTwo}
+								backgroundColor={orange}
+								selected={this.state.gender === 'O'}
+								checked={this.state.gender === 'O'}
+								onPress={() => this.setState({ gender: 'O' })}
+								style={{ marginRight: 10 }}
+							/>
+						</View>
 					</View>
+					<Button
+						style={{ marginBottom: 20, width: 175 }}
+						loading={this.props.loading}
+						onPress={() => this.props.signUp({ birthday, gender, ...this.props.user })}
+					>
+						CREATE ACCOUNT
+					</Button>
 				</View>
-				<Button
-					style={{ marginBottom: 20 }}
-					loading={this.props.loading}
-					width="70%"
-					onPress={() => this.props.signUp({ birthday, gender, ...this.props.user })}
-				>
-					CREATE ACCOUNT
-				</Button>
-				<Text
-					style={{ textAlign: 'center', fontSize: 10, marginHorizontal: 20, lineHeight: 16, marginBottom: 8 }}
-				>
-					By clicking <B>Create Account</B>, you are agreeing to the Small Shops
+
+				<View style={{ marginBottom: 20 }}>
 					<Text
-						style={{ color: blue }}
-						onPress={() => Linking.openURL('https://www.smallshopsunited.com/terms')}
+						style={{
+							textAlign: 'center',
+							fontSize: 10,
+							marginHorizontal: 40,
+							lineHeight: 16,
+							marginBottom: 30
+						}}
 					>
-						{' '}
-						Terms of Use{' '}
+						By clicking <B>Create Account</B>, you are agreeing to the Small Shops
+						<Text
+							style={{ color: blue }}
+							onPress={() => Linking.openURL('https://www.smallshopsunited.com/terms')}
+						>
+							{' '}
+							Terms of Use{' '}
+						</Text>
+						and
+						<Text
+							style={{ color: blue }}
+							onPress={() => Linking.openURL('https://www.smallshopsunited.com/privacy')}
+						>
+							{' '}
+							Privacy Policy{' '}
+						</Text>
 					</Text>
-					and
-					<Text
-						style={{ color: blue }}
-						onPress={() => Linking.openURL('https://www.smallshopsunited.com/privacy')}
-					>
-						{' '}
-						Privacy Policy{' '}
-					</Text>
-				</Text>
-				<ThreeDots style={{ marginTop: 60 }} dotOne={orange} dotTwo={orange} dotThree={darkOrange} />
+					<ThreeDots dotOne={orange} dotTwo={orange} dotThree={darkOrange} />
+				</View>
 			</View>
 		);
 	}

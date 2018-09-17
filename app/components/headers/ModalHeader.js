@@ -11,11 +11,12 @@ class ModalHeader extends Component {
 		return (
 			<View style={[styles.container]}>
 				<TouchableOpacity
-					onPress={() => (onBack ? onBack() : navigator.dismissAllModals())}
 					style={[styles.backWrapper]}
+					onPress={() => (onBack ? onBack() : navigator.dismissAllModals())}
 				>
 					<SSUIcon name="angle-left" color="#FFF" size={26} />
 				</TouchableOpacity>
+
 				<Text style={[styles.titleText]}>{title}</Text>
 			</View>
 		);
@@ -32,9 +33,14 @@ const styles = StyleSheet.create({
 		paddingTop: 10
 	},
 	backWrapper: {
+		zIndex: 20,
 		position: 'absolute',
-		left: 16,
-		top: 26
+		justifyContent: 'center',
+		alignItems: 'center',
+		left: 0,
+		top: 10,
+		width: 50,
+		height: 50
 	},
 	titleText: {
 		color: '#FFF',

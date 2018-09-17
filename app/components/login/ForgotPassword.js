@@ -9,7 +9,8 @@ import { updateErrors } from '../../actions/GlobalActions';
 
 import UiSettings from '../../config/UiSettings';
 
-const { orange, greySix, greyTwo, errorRed, greyFive } = UiSettings.styles.colors;
+const { orange, greySix, errorRed, greyFive } = UiSettings.styles.colors;
+const height = UiSettings.deviceHeight;
 
 class ForgotPassword extends Component {
 	static navigatorStyle = {
@@ -21,6 +22,10 @@ class ForgotPassword extends Component {
 		showInfo: false
 	};
 
+	componentDidMount() {
+		this.props.updateErrors();
+	}
+
 	componentWillUnmount() {
 		this.props.updateErrors();
 	}
@@ -29,21 +34,23 @@ class ForgotPassword extends Component {
 		return (
 			<View style={{ flex: 1 }}>
 				<ModalHeader title="PASSWORD RESET" navigator={this.props.navigator} />
-				<View style={{ flex: 1, alignItems: 'center', padding: 10 }}>
+				<View style={{ flex: 1, alignItems: 'center', padding: 10, marginTop: height / 20 }}>
 					<Text style={{ fontFamily: 'Omnes-Regular', color: orange, fontSize: 20, marginVertical: 20 }}>
 						LOST PASSWORD?
 					</Text>
-					<Text
-						style={{
-							fontFamily: 'Omnes-Regular',
-							color: greySix,
-							fontSize: 16,
-							textAlign: 'center',
-							marginBottom: 20
-						}}
-					>
-						Enter your account email and we'll send you a link to reset your password.
-					</Text>
+					<View style={{ paddingHorizontal: 20 }}>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								color: greySix,
+								fontSize: 16,
+								textAlign: 'center',
+								marginBottom: 20
+							}}
+						>
+							Enter your account email and we'll send you a link to reset your password.
+						</Text>
+					</View>
 					<View style={{ width: '90%' }}>
 						{this.props.errors && this.props.errors.email ? (
 							<Text
@@ -62,16 +69,22 @@ class ForgotPassword extends Component {
 							style={{
 								borderColor: orange,
 								borderWidth: 1,
-								marginBottom: 10,
+								marginBottom: 20,
 								height: 30,
 								paddingRight: 20
 							}}
 							onChangeText={email => this.setState({ email })}
 							value={this.state.email}
 							autoCorrect={false}
+							keyboardType="email-address"
+							returnKeyType="done"
 							autoCapitalize="none"
 						/>
-						<Button loading={this.props.loading} onPress={() => this.requestPassword()}>
+						<Button
+							loading={this.props.loading}
+							style={{ height: 36 }}
+							onPress={() => this.requestPassword()}
+						>
 							SEND LINK
 						</Button>
 					</View>

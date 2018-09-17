@@ -7,6 +7,7 @@ import ModalHeader from '../headers/ModalHeader';
 import { askForHelp } from '../../actions/AccountActions';
 
 import UiSettings from '../../config/UiSettings';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const { greyTwo, errorRed, orange, greySix } = UiSettings.styles.colors;
 
@@ -28,7 +29,7 @@ class Help extends Component {
 
 	render() {
 		return (
-			<View>
+			<KeyboardAwareScrollView style={{ flex: 1 }} extraScrollHeight={40}>
 				<ModalHeader title="HELP" navigator={this.props.navigator} />
 				<View style={{ padding: 20 }}>
 					<View style={{ paddingHorizontal: 30, marginTop: 10 }}>
@@ -43,7 +44,7 @@ class Help extends Component {
 							VISIT OUR FAQ PAGE TO SEE IF YOUR QUESTION'S ALREADY BEEN ANSWERED
 						</Text>
 					</View>
-					<Button onPress={this.goToFAQ} style={{ width: '40%', height: 40, marginVertical: 20 }}>
+					<Button onPress={this.goToFAQ} style={{ width: '40%', height: 36, marginVertical: 20 }}>
 						FAQ
 					</Button>
 					<Divider width={3} color={greyTwo} style={{ marginBottom: 20, marginTop: 10 }} />
@@ -64,21 +65,22 @@ class Help extends Component {
 							height: 100,
 							paddingRight: 20
 						}}
+						blurOnSubmit
 						multiline
 						onChangeText={message => this.setState({ message })}
 						value={this.state.message}
-						autoCorrect={false}
 						autoCapitalize="sentences"
+						returnKeyType="done"
 					/>
 					<Button
 						loading={this.props.loading}
 						onPress={() => this.props.askForHelp(this.state.message)}
-						style={{ width: '40%', height: 40 }}
+						style={{ width: '40%', height: 36 }}
 					>
 						SUBMIT
 					</Button>
 				</View>
-			</View>
+			</KeyboardAwareScrollView>
 		);
 	}
 

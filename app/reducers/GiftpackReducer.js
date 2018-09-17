@@ -121,6 +121,7 @@ export default (state = {}, action = {}) => {
 						return {
 							locationName: el.gift_pack_offer.location_name,
 							locationImage: el.gift_pack_offer.location_image,
+							redeemedOn: el.gift_pack_offer.updated_at,
 							offerDetails: getOfferDetails(el.gift_pack_offer.offer),
 							redeemed: true
 						};

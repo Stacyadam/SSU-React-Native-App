@@ -42,7 +42,7 @@ class EditProfileForm extends Component {
 
 	render() {
 		return (
-			<KeyboardAwareScrollView style={{ flex: 1 }}>
+			<KeyboardAwareScrollView style={{ flex: 1 }} extraScrollHeight={10}>
 				<View
 					style={{
 						justifyContent: 'center',
@@ -89,6 +89,8 @@ class EditProfileForm extends Component {
 								style={{ borderBottomColor: greyTwo, borderBottomWidth: 2, marginBottom: 20 }}
 								onChangeText={first_name => this.setState({ first_name })}
 								value={this.state.first_name}
+								autoCapitalize="words"
+								returnKeyType="done"
 								autoCorrect={false}
 							/>
 							<Text style={{ fontFamily: 'Omnes-Regular', marginBottom: 6 }}>Last Name</Text>
@@ -96,6 +98,8 @@ class EditProfileForm extends Component {
 								style={{ borderBottomColor: greyTwo, borderBottomWidth: 2, marginBottom: 20 }}
 								onChangeText={last_name => this.setState({ last_name })}
 								value={this.state.last_name}
+								autoCapitalize="words"
+								returnKeyType="done"
 								autoCorrect={false}
 							/>
 							{this.state.errors && this.state.errors.zip_code ? (
@@ -119,6 +123,7 @@ class EditProfileForm extends Component {
 								value={this.state.zip_code}
 								keyboardType="number-pad"
 								autoCorrect={false}
+								returnKeyType="done"
 								maxLength={5}
 							/>
 							<View
@@ -243,6 +248,7 @@ class EditProfileForm extends Component {
 								onChangeText={email => this.setState({ email })}
 								value={this.state.email}
 								keyboardType="email-address"
+								returnKeyType="done"
 								autoCorrect={false}
 							/>
 							{this.state.errors && this.state.errors.phone ? (
@@ -265,6 +271,7 @@ class EditProfileForm extends Component {
 								value={this.state.phone}
 								keyboardType="phone-pad"
 								autoCorrect={false}
+								returnKeyType="done"
 								maxLength={10}
 							/>
 						</View>
@@ -299,7 +306,7 @@ class EditProfileForm extends Component {
 									marginVertical: 10
 								}}
 							>
-								Account Password
+								New Password
 							</Text>
 							{this.state.errors && this.state.errors.password ? (
 								<Text
@@ -320,6 +327,7 @@ class EditProfileForm extends Component {
 								value={this.state.password}
 								autoCorrect={false}
 								autoCapitalize="none"
+								returnKeyType="done"
 								secureTextEntry
 							/>
 						</View>

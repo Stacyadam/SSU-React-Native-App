@@ -4,13 +4,13 @@ import AsyncImage from '../shared/AsyncImage';
 import SSUIcon from '../shared/icons/SSUIcon';
 import UiSettings from '../../config/UiSettings';
 
-const { greyThree, orange } = UiSettings.styles.colors;
+const { greyThree, orange, errorRed } = UiSettings.styles.colors;
 
 class Coupon extends Component {
 	render() {
 		const {
 			redeemed,
-			item: { locationImage, locationName, offerDetails, locations, isPromoCode }
+			item: { locationImage, locationName, offerDetails, locations, isPromoCode, redeemedOn }
 		} = this.props;
 
 		if (!redeemed) {
@@ -77,23 +77,26 @@ class Coupon extends Component {
 			);
 		} else {
 			return (
-				<View style={{ flex: 1, padding: 10, flexDirection: 'row', alignItems: 'center' }}>
+				<View style={{ flex: 1, padding: 10, paddingRight: 0, flexDirection: 'row', alignItems: 'center' }}>
 					<AsyncImage
 						source={{ uri: locationImage }}
 						style={{ height: 70, width: 65, borderRadius: 10, marginRight: 10 }}
 						spinnerSize="small"
 					/>
-					<View style={{ height: '100%', justifyContent: 'flex-start', paddingVertical: 4, width: '65%' }}>
+					<View style={{ height: '100%', justifyContent: 'flex-start', paddingVertical: 4, width: '75%' }}>
 						<Text
 							style={{ fontSize: 18, fontFamily: 'Omnes-Regular', fontWeight: 'bold', marginBottom: 8 }}
 						>
 							{locationName}
 						</Text>
-						<View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-							<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, color: orange }}>
-								{offerDetails}
-							</Text>
-						</View>
+						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 16, marginBottom: 6, color: greyThree }}>
+							{offerDetails}
+						</Text>
+						<Text
+							style={{ fontFamily: 'Omnes-Regular', fontWeight: 'bold', fontSize: 14, color: errorRed }}
+						>
+							Offer Redeemed on {new Date(redeemedOn).toLocaleDateString('en-US')}
+						</Text>
 					</View>
 				</View>
 			);

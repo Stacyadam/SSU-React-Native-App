@@ -7,7 +7,8 @@ import {
 	PREV_STEP,
 	SET_USER_LOCATION,
 	SAVE_PARTIAL_USER,
-	SIGNING_UP
+	SIGNING_UP,
+	RESET_STEPS
 } from '../types';
 import * as GlobalActions from './GlobalActions';
 import api from '../utilities/api';
@@ -19,7 +20,7 @@ export function signIn(user) {
 			const {
 				data: { token }
 			} = await api.post('/auth/login', user);
-
+			dispatch(resetSteps());
 			dispatch(saveToken(token));
 			dispatch(getUser());
 			return;
@@ -45,7 +46,7 @@ export function signOut() {
 	return async dispatch => {
 		try {
 			const res = await api.post('auth/logout');
-			dispatch(logOut());
+
 			return res;
 		} catch (e) {
 			return e;
@@ -63,8 +64,7 @@ export function signUp(userInfo) {
 			loginInfo = { email, password };
 
 			dispatch(saveUser(data));
-			const success = await dispatch(signIn(loginInfo));
-			if (success) dispatch(prevStep(true));
+			await dispatch(signIn(loginInfo));
 			dispatch(GlobalActions.toggleLoading(false));
 			return data;
 		} catch (e) {
@@ -183,10 +183,15 @@ export function nextStep() {
 	};
 }
 
-export function prevStep(reset = false) {
+export function prevStep() {
 	return {
-		type: PREV_STEP,
-		...(reset && { payload: { reset } })
+		type: PREV_STEP
+	};
+}
+
+export function resetSteps() {
+	return {
+		type: RESET_STEPS
 	};
 }
 
@@ -206,8 +211,12 @@ export function logIn(user) {
 }
 
 export function logOut() {
-	AsyncStorage.removeItem('userToken');
-	return {
-		type: LOGOUT
+	return async dispatch => {
+		console.log('this is getting hit in the action');
+		AsyncStorage.removeItem('userToken');
+		dispatch(GlobalActions.updateErrors(null));
+		return {
+			type: LOGOUT
+		};
 	};
 }

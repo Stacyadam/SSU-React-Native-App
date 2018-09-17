@@ -1,11 +1,17 @@
 import { SAVE_AVAILABLE_GIFTPACKS, SAVE_USER_GIFTPACKS } from '../types';
 import * as GlobalActions from './GlobalActions';
 import * as AccountActions from './AccountActions';
+import Permissions from 'react-native-permissions';
 import api from '../utilities/api';
 
-export function getUserGiftpacks(permission) {
+export function getUserGiftpacks() {
 	return async dispatch => {
 		try {
+			let permission = await Permissions.check('location');
+
+			if (permission === 'undetermined') {
+				permission = await Permissions.request('location');
+			}
 			let {
 				data: { user_gift_packs }
 			} = await api.get(
@@ -15,23 +21,25 @@ export function getUserGiftpacks(permission) {
 					'&expand[userGiftPacks.giftPack.giftPackOffers.offer.dollarAmountDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.sportPromoDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.promoCodeDetail]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.percentageOffDetail]=*' +
 					'&expand[userGiftPacks.giftPack.giftPackOffers.offer.locations]=*&expand[userGiftPacks.giftPack.giftPackOffers.offer.locations.hours]=*'
 			);
+
 			user_gift_packs = user_gift_packs.filter(gp => gp.gift_pack !== null);
 
 			if (permission === 'denied') {
 				dispatch(saveUserGiftpacks(user_gift_packs, false));
 			}
+
 			navigator.geolocation.getCurrentPosition(
 				({ coords: { latitude, longitude }, timestamp }) => {
 					const userLocation = { timestamp, latitude, longitude };
 					//TODO: this isn't working
 					//AccountActions.setUserLocation(userLocation);
 					dispatch(saveUserGiftpacks(user_gift_packs, userLocation));
-					dispatch(GlobalActions.toggleLoading(false));
 					return { user_gift_packs, userLocation };
 				},
 				e => e,
 				{ maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
 			);
+
 			return user_gift_packs;
 		} catch (e) {
 			//TODO: this should update the global error object in state with e.response and then display something to the user.

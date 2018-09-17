@@ -7,7 +7,7 @@ import SignUpFirst from '../forms/SignUpFirst';
 import SignUpSecond from '../forms/SignUpSecond';
 import SignUpThird from '../forms/SignUpThird';
 import { prevStep } from '../../actions/AccountActions';
-import { updateErrors } from '../../actions/GlobalActions';
+import ModalHeader from '../headers/ModalHeader';
 
 const { orange } = UiSettings.styles.colors;
 
@@ -16,28 +16,30 @@ class SignUpModal extends Component {
 		navBarHidden: true
 	};
 
+	// <View
+	// 				style={{
+	// 					flexDirection: 'row',
+	// 					justifyContent: 'center',
+	// 					alignItems: 'center',
+	// 					height: 60,
+	// 					backgroundColor: orange,
+	// 					paddingTop: 8
+	// 				}}
+	// 			>
+	// 				<TouchableOpacity
+	// 					onPress={() => this.navigateModal()}
+	// 					style={{ position: 'absolute', left: 16, top: 20 }}
+	// 				>
+	// 					<SSUIcon name="angle-left" color="#FFF" size={26} />
+	// 				</TouchableOpacity>
+	// 				<Text style={{ color: '#FFF', fontSize: 16, fontWeight: 'bold' }}>SIGN UP</Text>
+	// 			</View>
+
 	render() {
 		const { step } = this.props;
 		return (
-			<View>
-				<View
-					style={{
-						flexDirection: 'row',
-						justifyContent: 'center',
-						alignItems: 'center',
-						height: 60,
-						backgroundColor: orange,
-						paddingTop: 8
-					}}
-				>
-					<TouchableOpacity
-						onPress={() => this.navigateModal()}
-						style={{ position: 'absolute', left: 16, top: 20 }}
-					>
-						<SSUIcon name="angle-left" color="#FFF" size={26} />
-					</TouchableOpacity>
-					<Text style={{ color: '#FFF', fontSize: 16, fontWeight: 'bold' }}>SIGN UP</Text>
-				</View>
+			<View style={{ flex: 1 }}>
+				<ModalHeader title="SIGN UP" onBack={() => this.navigateModal()} />
 				{step === 1 && <SignUpFirst navigator={this.props.navigator} />}
 				{step === 2 && <SignUpSecond />}
 				{step === 3 && <SignUpThird />}

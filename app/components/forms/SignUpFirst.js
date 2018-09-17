@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Input from './Input';
 import UiSettings from '../../config/UiSettings';
 import SSUIcon from '../shared/icons/SSUIcon';
 import Button from '../shared/buttons/Button';
-import { validateInput } from '../../actions/AccountActions';
+import { validateInput, isSigningUp } from '../../actions/AccountActions';
 
 const { orange, greyThree, blue, errorRed } = UiSettings.styles.colors;
 
@@ -15,55 +16,68 @@ class SignUpFirst extends Component {
 		password: ''
 	};
 
-	/*============================================================
-	 == Render Methods
-	/============================================================*/
+	componentDidMount() {
+		this.props.isSigningUp(true);
+	}
+
+	componentWillUnmount() {
+		this.props.isSigningUp(false);
+	}
 
 	render() {
 		return (
-			<View
-				style={{
-					height: '100%'
-				}}
+			<KeyboardAwareScrollView
+				contentContainerStyle={{ justifyContent: 'space-between', alignItems: 'center', flex: 1 }}
+				extraScrollHeight={20}
 			>
-				<Text
-					style={{
-						fontFamily: 'Omnes-Regular',
-						marginVertical: 20,
-						textAlign: 'center',
-						color: orange,
-						fontSize: 20,
-						lineHeight: 30
-					}}
-				>
-					ONE ACCOUNT
-					{'\n'}
-					ALL THE BENEFITS
-				</Text>
+				<View>
+					<Text
+						style={{
+							fontFamily: 'Omnes-Regular',
+							marginVertical: 20,
+							textAlign: 'center',
+							color: orange,
+							fontSize: 20,
+							lineHeight: 30
+						}}
+					>
+						ONE ACCOUNT
+						{'\n'}
+						ALL THE BENEFITS
+					</Text>
 
-				<View
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						paddingHorizontal: 40,
-						marginBottom: 20
-					}}
-				>
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<SSUIcon name="check" size={30} color={orange} style={{ marginBottom: 8 }} />
-						<Text style={{ fontFamily: 'Omnes-Regular', textAlign: 'center', fontSize: 14, color: orange }}>
-							SSU LOYALTY
-						</Text>
-					</View>
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<SSUIcon name="gift" size={30} color={blue} style={{ marginBottom: 8 }} />
-						<Text style={{ fontFamily: 'Omnes-Regular', textAlign: 'center', fontSize: 14, color: blue }}>
-							SSU GIFT PACKS
-						</Text>
+					<View
+						style={{
+							flexDirection: 'row',
+							width: '70%',
+							justifyContent: 'space-between'
+						}}
+					>
+						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+							<SSUIcon name="check" size={30} color={orange} style={{ marginBottom: 8 }} />
+							<Text
+								style={{
+									fontFamily: 'Omnes-Regular',
+									textAlign: 'center',
+									fontSize: 14,
+									color: orange
+								}}
+							>
+								SSU LOYALTY
+							</Text>
+						</View>
+						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+							<SSUIcon name="gift" size={30} color={blue} style={{ marginBottom: 8 }} />
+							<Text
+								style={{ fontFamily: 'Omnes-Regular', textAlign: 'center', fontSize: 14, color: blue }}
+							>
+								SSU GIFT PACKS
+							</Text>
+						</View>
 					</View>
 				</View>
-				<View style={{ paddingHorizontal: 24 }}>
+
+				<View style={{ width: '90%' }}>
 					{this.props.errors && this.props.errors.email ? (
 						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 14, marginBottom: 6, color: errorRed }}>
 							{this.props.errors.email[0]}
@@ -90,6 +104,7 @@ class SignUpFirst extends Component {
 							autoCorrect={false}
 							autoCapitalize="none"
 							keyboardType="email-address"
+							returnKeyType="done"
 						/>
 					</View>
 					<Text
@@ -130,6 +145,7 @@ class SignUpFirst extends Component {
 							value={this.state.password}
 							autoCorrect={false}
 							autoCapitalize="none"
+							returnKeyType="done"
 							secureTextEntry
 						/>
 					</View>
@@ -142,6 +158,8 @@ class SignUpFirst extends Component {
 					>
 						CONTINUE
 					</Button>
+				</View>
+				<View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
 					<TouchableOpacity onPress={() => this.props.navigator.dismissModal()}>
 						<Text
 							style={{
@@ -160,7 +178,7 @@ class SignUpFirst extends Component {
 						any time.
 					</Text>
 				</View>
-			</View>
+			</KeyboardAwareScrollView>
 		);
 	}
 
@@ -175,9 +193,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	validateInput: data => {
-		dispatch(validateInput(data));
-	}
+	validateInput: data => dispatch(validateInput(data)),
+	isSigningUp: bool => dispatch(isSigningUp(bool))
 });
 
 export default connect(

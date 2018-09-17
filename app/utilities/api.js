@@ -13,7 +13,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
 	async config => {
-		store.dispatch(toggleLoading(true));
+		!store.getState().global.refreshing && store.dispatch(toggleLoading(true));
 		try {
 			const token = await AsyncStorage.getItem('userToken');
 			const validToken = isTokenValid(token);
@@ -22,7 +22,7 @@ api.interceptors.request.use(
 				config.headers['Authorization'] = `Bearer ${token}`;
 			} else if (token !== null && !validToken) {
 				store.dispatch(logOut());
-				store.dispatch(toggleLoading(false));
+				!store.getState().global.refreshing && store.dispatch(toggleLoading(false));
 				Router.logIn();
 			}
 		} catch (error) {
@@ -34,7 +34,7 @@ api.interceptors.request.use(
 		return config;
 	},
 	error => {
-		store.dispatch(toggleLoading(false));
+		!store.getState().global.refreshing && store.dispatch(toggleLoading(false));
 		return Promise.reject(error);
 	}
 );
@@ -42,13 +42,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
 	response => {
 		store.dispatch(updateErrors(null));
-		store.dispatch(toggleLoading(false));
+		!store.getState().global.refreshing && store.dispatch(toggleLoading(false));
 		return response;
 	},
 	error => {
 		if (!store.getState().account.isSigningUp) {
 			store.dispatch(updateErrors(error.response.data.errors || error.response.data.message));
-			store.dispatch(toggleLoading(false));
+			!store.getState().global.refreshing && store.dispatch(toggleLoading(false));
 		}
 		return Promise.reject(error);
 	}

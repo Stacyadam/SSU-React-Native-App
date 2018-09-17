@@ -5,14 +5,17 @@ import Router from '../router';
 import UiSettings from '../config/UiSettings';
 import Divider from '../components/shared/Divider';
 import SSUIcon from '../components/shared/icons/SSUIcon';
-import { signOut } from '../actions/AccountActions';
+import { logOut } from '../actions/AccountActions';
+import { saveUserGiftpacks } from '../actions/GiftpackActions';
 
 const { greyThree, greyFive } = UiSettings.styles.colors;
 
 class DrawerMenu extends Component {
 	render() {
-		const DrawerWrapper = ({ children }) => <View style={{ padding: 20 }}>{children}</View>;
-		const DrawerMenuSection = ({ children }) => <View style={{ paddingHorizontal: 20 }}>{children}</View>;
+		const DrawerWrapper = ({ children }) => <View style={{ padding: 20, flex: 1 }}>{children}</View>;
+		const DrawerMenuSection = ({ children, style }) => (
+			<View style={[{ paddingHorizontal: 20, justifyContent: 'space-around', flex: 1 }, style]}>{children}</View>
+		);
 		const DrawerMenuItem = ({ children, onPress, style, icon, size }) => (
 			<TouchableOpacity
 				onPress={() => onPress()}
@@ -28,14 +31,10 @@ class DrawerMenu extends Component {
 			</TouchableOpacity>
 		);
 		return (
-			<View>
-				<Image
-					source={require('../assets/drawer_menu_banner.jpg')}
-					style={{ height: 128, width: '100%' }}
-					resizeMode="contain"
-				/>
+			<View style={{ flex: 1 }}>
+				<Image source={require('../assets/drawer_menu_banner.jpg')} style={{ height: 128, width: '100%' }} />
 				<DrawerWrapper>
-					<DrawerMenuSection>
+					<DrawerMenuSection style={{ flex: 0.75 }}>
 						<DrawerMenuItem icon="home" onPress={() => this.goToHome()} style={{ marginBottom: 20 }}>
 							Home
 						</DrawerMenuItem>
@@ -71,8 +70,8 @@ class DrawerMenu extends Component {
 						</DrawerMenuItem>
 					</DrawerMenuSection>
 					<Divider color={greyThree} marginVertical={20} width={2.5} />
-					<DrawerMenuSection>
-						<DrawerMenuItem onPress={() => this.props.signOut()}>Sign Out</DrawerMenuItem>
+					<DrawerMenuSection style={{ flex: 0.5 }}>
+						<DrawerMenuItem onPress={() => this.props.logOut()}>Sign Out</DrawerMenuItem>
 					</DrawerMenuSection>
 				</DrawerWrapper>
 			</View>
@@ -118,11 +117,9 @@ class DrawerMenu extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-	signOut: async () => {
-		const loggedOut = await dispatch(signOut());
-		if (loggedOut) {
-			Router.logIn();
-		}
+	logOut: () => {
+		dispatch(logOut());
+		Router.logIn();
 	}
 });
 

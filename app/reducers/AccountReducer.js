@@ -1,7 +1,6 @@
 import {
 	SIGNUP,
 	LOGIN,
-	LOGOUT,
 	NEW_USER,
 	SAVE_USER,
 	SAVE_TOKEN,
@@ -9,7 +8,9 @@ import {
 	PREV_STEP,
 	SET_USER_LOCATION,
 	SAVE_PARTIAL_USER,
-	SIGNING_UP
+	SIGNING_UP,
+	RESET_STEPS,
+	LOGOUT
 } from '../types';
 
 export default (state = {}, action = {}) => {
@@ -88,6 +89,13 @@ export default (state = {}, action = {}) => {
 			return {
 				...state,
 				step: state.step - 1
+			};
+		}
+
+		case RESET_STEPS: {
+			return {
+				...state,
+				step: 1
 			};
 		}
 

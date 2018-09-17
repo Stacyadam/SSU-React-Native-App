@@ -57,6 +57,7 @@
 		EB11FD78C27C4E659B3FAC6C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A07DA4F4935C4FFC987A321E /* Entypo.ttf */; };
 		F020DE2D21475B1B00358784 /* libdouble-conversion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF0FFE72056DD460020B375 /* libdouble-conversion.a */; };
 		F08BCBA421403F9400FFB22D /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F08BCBA221403F7900FFB22D /* libReactNativePermissions.a */; };
+		F09757C2214F039B002F18C9 /* OmnesSemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F09757C1214F039B002F18C9 /* OmnesSemiBold.otf */; };
 		F0B3647A211E5FB000384A3B /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0B36479211E5ED200384A3B /* libReactNativeNavigation.a */; };
 		F0CA227F2146CBBA00CC229D /* OmnesLight-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0CA227E2146CBBA00CC229D /* OmnesLight-Italic.otf */; };
 		F0CA22812146CBC200CC229D /* Omnes-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F0CA22802146CBC200CC229D /* Omnes-Regular.otf */; };
@@ -417,6 +418,7 @@
 		E0FE351AAE2EF08257DCD1D4 /* Pods-SSU-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSU-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-SSU-tvOS/Pods-SSU-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		E600FC5C5E222B722E19EE39 /* Pods-SSUTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSUTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SSUTests/Pods-SSUTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F08BCB7721403F7800FFB22D /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
+		F09757C1214F039B002F18C9 /* OmnesSemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = OmnesSemiBold.otf; path = ../../../../Downloads/OmnesSemiBold.otf; sourceTree = "<group>"; };
 		F0B3644F211E5ED200384A3B /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		F0CA227E2146CBBA00CC229D /* OmnesLight-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OmnesLight-Italic.otf"; path = "../../../../Downloads/OmnesLight-Italic.otf"; sourceTree = "<group>"; };
 		F0CA22802146CBC200CC229D /* Omnes-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Omnes-Regular.otf"; path = "../../../../Downloads/Omnes-Regular.otf"; sourceTree = "<group>"; };
@@ -756,6 +758,7 @@
 			isa = PBXGroup;
 			children = (
 				F0CA22802146CBC200CC229D /* Omnes-Regular.otf */,
+				F09757C1214F039B002F18C9 /* OmnesSemiBold.otf */,
 				F0CA227E2146CBBA00CC229D /* OmnesLight-Italic.otf */,
 			);
 			path = fonts;
@@ -1281,6 +1284,7 @@
 				F0CA227F2146CBBA00CC229D /* OmnesLight-Italic.otf in Resources */,
 				98592DCC20B84C75802CC9A1 /* MaterialIcons.ttf in Resources */,
 				726A87DA50004078BEEF36B4 /* Octicons.ttf in Resources */,
+				F09757C2214F039B002F18C9 /* OmnesSemiBold.otf in Resources */,
 				275D7B02F4E7471E9716CAE0 /* SimpleLineIcons.ttf in Resources */,
 				6E74A9007AE34DF48DAE45DC /* Zocial.ttf in Resources */,
 			);

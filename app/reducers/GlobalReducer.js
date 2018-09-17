@@ -1,4 +1,4 @@
-import { LOADING, ERRORS, SUCCESS } from '../types';
+import { LOADING, ERRORS, SUCCESS, REFRESHING } from '../types';
 
 export default (state = {}, action = {}) => {
 	switch (action.type) {
@@ -6,6 +6,12 @@ export default (state = {}, action = {}) => {
 			return {
 				...state,
 				loading: action.payload
+			};
+		}
+		case REFRESHING: {
+			return {
+				...state,
+				refreshing: action.payload
 			};
 		}
 		case SUCCESS:

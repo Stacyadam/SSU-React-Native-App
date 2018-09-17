@@ -34,7 +34,7 @@ class FAQ extends Component {
 		{
 			q: 'Can I earn new points when I redeem rewards?',
 			a:
-				'Yes, if you already have a member account, you’ll have the option to skip the shipping process and immediately add a Gift Pack directly to your account during Checkout.'
+				'Yes, provided the purchase amount is larger than the amount you’re redeeming, of course. (Example: A member redeeming $10 on a $25 purchase will earn new points on the $15 spent after discount)'
 		},
 		{
 			q: 'Where can I use my loyalty credits?',
@@ -57,7 +57,7 @@ class FAQ extends Component {
 		{
 			q: 'Can I add a Gift Pack directly to my member account?',
 			a:
-				'Yes, provided the purchase amount is larger than the amount you’re redeeming, of course. (Example: A member redeeming $10 on a $25 purchase will earn new points on the $15 spent after discount)'
+				'Yes, if you already have a member account, you’ll have the option to skip the shipping process and immediately add a Gift Pack directly to your account during Checkout.'
 		},
 		{
 			q: 'How frequently can I redeem each Gift Pack offer?',
@@ -91,34 +91,17 @@ class FAQ extends Component {
 				<ModalHeader title="FAQ" navigator={this.props.navigator} />
 				<ScrollView style={{ padding: 20, flex: 1 }}>
 					<View style={{ paddingHorizontal: 30, marginTop: 10, marginBottom: 20 }}>
-						<Text style={{ fontFamily: 'Omnes-Regular',fontSize: 20, textAlign: 'center', color: greySix }}>
+						<Text
+							style={{
+								fontFamily: 'Omnes-Regular',
+								fontSize: 20,
+								textAlign: 'center',
+								color: greySix
+							}}
+						>
 							FREQUENTLY ASKED QUESTIONS
 						</Text>
 					</View>
-					<TouchableOpacity
-						onPress={() => this.setState({ showLoyaltyQuestions: !this.state.showLoyaltyQuestions })}
-					>
-						<View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center' }}>
-							<Text
-								style={{
-									color: orange,
-									textAlign: 'center',
-									fontSize: 16,
-									marginBottom: 10,
-									fontWeight: 'bold'
-								}}
-							>
-								LOYALTY SERVICES
-							</Text>
-							<SSUIcon
-								name={this.state.showLoyaltyQuestions ? 'chevron-up' : 'chevron-down'}
-								size={14}
-								color={orange}
-								style={{ marginLeft: 5 }}
-							/>
-						</View>
-					</TouchableOpacity>
-					{this.state.showLoyaltyQuestions && this.renderLoyaltyQuestions()}
 					<TouchableOpacity
 						onPress={() => this.setState({ showGiftPacksQuestions: !this.state.showGiftPacksQuestions })}
 					>
@@ -142,8 +125,32 @@ class FAQ extends Component {
 							/>
 						</View>
 					</TouchableOpacity>
+					{this.state.showGiftPacksQuestions && this.renderGiftPacksQuestions()}
+					<TouchableOpacity
+						onPress={() => this.setState({ showLoyaltyQuestions: !this.state.showLoyaltyQuestions })}
+					>
+						<View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center' }}>
+							<Text
+								style={{
+									color: orange,
+									textAlign: 'center',
+									fontSize: 16,
+									marginBottom: 10,
+									fontWeight: 'bold'
+								}}
+							>
+								LOYALTY SERVICES
+							</Text>
+							<SSUIcon
+								name={this.state.showLoyaltyQuestions ? 'chevron-up' : 'chevron-down'}
+								size={14}
+								color={orange}
+								style={{ marginLeft: 5 }}
+							/>
+						</View>
+					</TouchableOpacity>
 					<View style={{ marginBottom: 20 }}>
-						{this.state.showGiftPacksQuestions && this.renderGiftPacksQuestions()}
+						{this.state.showLoyaltyQuestions && this.renderLoyaltyQuestions()}
 					</View>
 				</ScrollView>
 			</View>
@@ -153,8 +160,10 @@ class FAQ extends Component {
 	renderLoyaltyQuestions() {
 		return this.loyaltyQuestions.map(({ q, a }, i) => (
 			<View key={i} style={{ marginBottom: 10 }}>
-				<Text style={{ fontFamily: 'Omnes-Regular',color: blue, fontWeight: 'bold', marginBottom: 5 }}>{q}</Text>
-				<Text style={{ fontFamily: 'Omnes-Regular',color: greySix }}>{a}</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular', color: blue, fontWeight: 'bold', marginBottom: 5 }}>
+					{q}
+				</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular', color: greySix }}>{a}</Text>
 			</View>
 		));
 	}
@@ -162,8 +171,10 @@ class FAQ extends Component {
 	renderGiftPacksQuestions() {
 		return this.giftPackQuestions.map(({ q, a }, i) => (
 			<View key={i} style={{ marginBottom: 10 }}>
-				<Text style={{ fontFamily: 'Omnes-Regular',color: blue, fontWeight: 'bold', marginBottom: 5 }}>{q}</Text>
-				<Text style={{ fontFamily: 'Omnes-Regular',color: greySix }}>{a}</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular', color: blue, fontWeight: 'bold', marginBottom: 5 }}>
+					{q}
+				</Text>
+				<Text style={{ fontFamily: 'Omnes-Regular', color: greySix }}>{a}</Text>
 			</View>
 		));
 	}

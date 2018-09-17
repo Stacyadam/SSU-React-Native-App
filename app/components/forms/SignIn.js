@@ -30,6 +30,7 @@ class SignIn extends Component {
 						onChangeText={input => onChangeText({ email: input })}
 						value={email}
 						placeholder="Email"
+						keyboardType="email-address"
 						autoCapitalize="none"
 						returnKeyType="done"
 					/>
@@ -75,8 +76,7 @@ const styles = StyleSheet.create({
 		borderColor: greyTwo,
 		borderWidth: 1,
 		paddingLeft: 10,
-		color: greyFour,
-		fontWeight: 'bold'
+		color: greyFour
 	}
 });
 

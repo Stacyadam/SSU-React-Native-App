@@ -23,6 +23,7 @@ const startApp = async () => {
 			Router.startApp();
 		} else if (token !== null && !validToken) {
 			store.dispatch(logOut());
+			Router.logIn();
 		}
 		return token;
 	} catch (error) {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Input from './Input';
 import UiSettings from '../../config/UiSettings';
 import Button from '../shared/buttons/Button';
@@ -25,36 +26,34 @@ class SignUpSecond extends Component {
 		const B = ({ children }) => <Text style={{ fontFamily: 'Omnes-Regular', fontWeight: 'bold' }}>{children}</Text>;
 
 		return (
-			<View
-				style={{
-					display: 'flex',
-					height: '100%'
-				}}
+			<KeyboardAwareScrollView
+				contentContainerStyle={{ justifyContent: 'space-between', flex: 1 }}
+				extraScrollHeight={20}
 			>
-				<Text
-					style={{
-						marginVertical: 14,
-						textAlign: 'center',
-						color: orange,
-						fontSize: 20,
-						lineHeight: 30
-					}}
-				>
-					GREAT!
-				</Text>
-				<Text
-					style={{
-						textAlign: 'center',
-						fontSize: 12,
-						lineHeight: 18,
-						paddingHorizontal: 10,
-						marginBottom: 4
-					}}
-				>
-					NOW, LET'S MAKE SURE YOUR DEALS AND REWARDS ARE ALWAYS WITH YOU
-					{'\n'} WHEN YOU NEED THEM...
-				</Text>
-				<View style={{ paddingHorizontal: 24 }}>
+				<View style={{ marginVertical: 20 }}>
+					<Text
+						style={{
+							marginVertical: 14,
+							textAlign: 'center',
+							color: orange,
+							fontSize: 20,
+							lineHeight: 30
+						}}
+					>
+						GREAT!
+					</Text>
+					<Text
+						style={{
+							textAlign: 'center',
+							fontSize: 12,
+							lineHeight: 18,
+							paddingHorizontal: 30
+						}}
+					>
+						NOW, LET'S MAKE SURE YOUR DEALS AND REWARDS ARE ALWAYS WITH YOU WHEN YOU NEED THEM...
+					</Text>
+				</View>
+				<View style={{ paddingHorizontal: 24, justifyContent: 'center' }}>
 					{this.props.errors && this.props.errors.first_name ? (
 						<Text style={{ fontFamily: 'Omnes-Regular', fontSize: 12, marginBottom: 6, color: errorRed }}>
 							{this.props.errors.first_name[0]}
@@ -79,7 +78,8 @@ class SignUpSecond extends Component {
 							onChangeText={first_name => this.setState({ first_name })}
 							value={this.state.first_name}
 							autoCorrect={false}
-							autoCapitalize="none"
+							autoCapitalize="words"
+							returnKeyType="done"
 						/>
 					</View>
 
@@ -107,7 +107,8 @@ class SignUpSecond extends Component {
 							onChangeText={last_name => this.setState({ last_name })}
 							value={this.state.last_name}
 							autoCorrect={false}
-							autoCapitalize="none"
+							autoCapitalize="words"
+							returnKeyType="done"
 						/>
 					</View>
 
@@ -138,6 +139,7 @@ class SignUpSecond extends Component {
 							autoCapitalize="none"
 							maxLength={10}
 							keyboardType="phone-pad"
+							returnKeyType="done"
 						/>
 					</View>
 
@@ -168,31 +170,40 @@ class SignUpSecond extends Component {
 							autoCapitalize="none"
 							keyboardType="number-pad"
 							maxLength={5}
+							returnKeyType="done"
 						/>
 					</View>
+					<Button
+						loading={this.props.loading}
+						style={{ marginBottom: 20 }}
+						onPress={() =>
+							this.props.validateInput({
+								first_name: this.state.first_name,
+								last_name: this.state.last_name,
+								phone: this.state.phone,
+								zip_code: this.state.zip_code
+							})
+						}
+					>
+						CONTINUE
+					</Button>
 				</View>
-				<Button
-					loading={this.props.loading}
-					style={{ marginBottom: 10 }}
-					onPress={() =>
-						this.props.validateInput({
-							first_name: this.state.first_name,
-							last_name: this.state.last_name,
-							phone: this.state.phone,
-							zip_code: this.state.zip_code
-						})
-					}
-				>
-					CONTINUE
-				</Button>
-				<Text
-					style={{ textAlign: 'center', fontSize: 10, marginHorizontal: 20, lineHeight: 16, marginBottom: 8 }}
-				>
-					By clicking <B>Continue</B> you will now be able to redeem offers & earn rewards in stores using
-					your phone number.
-				</Text>
-				<ThreeDots dotOne={orange} dotTwo={darkOrange} dotThree={blue} />
-			</View>
+				<View>
+					<Text
+						style={{
+							textAlign: 'center',
+							fontSize: 10,
+							marginHorizontal: 20,
+							lineHeight: 16,
+							marginBottom: 20
+						}}
+					>
+						By clicking <B>Continue</B> you will now be able to redeem offers & earn rewards in stores using
+						your phone number.
+					</Text>
+					<ThreeDots dotOne={orange} dotTwo={darkOrange} dotThree={blue} />
+				</View>
+			</KeyboardAwareScrollView>
 		);
 	}
 

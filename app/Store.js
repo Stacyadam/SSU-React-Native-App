@@ -17,7 +17,8 @@ export const defaultState = {
 	memberCards: [],
 	global: {
 		errors: null,
-		loading: false
+		loading: false,
+		refreshing: false
 	}
 };
 
