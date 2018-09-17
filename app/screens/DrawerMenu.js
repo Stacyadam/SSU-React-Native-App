@@ -5,7 +5,7 @@ import Router from '../router';
 import UiSettings from '../config/UiSettings';
 import Divider from '../components/shared/Divider';
 import SSUIcon from '../components/shared/icons/SSUIcon';
-import { logOut } from '../actions/AccountActions';
+import { logOut, signOut } from '../actions/AccountActions';
 import { saveUserGiftpacks } from '../actions/GiftpackActions';
 
 const { greyThree, greyFive } = UiSettings.styles.colors;

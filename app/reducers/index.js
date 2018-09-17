@@ -16,8 +16,7 @@ const appReducer = combineReducers({
 });
 
 export default (state, action) => {
-	if (action.type === LOGOUT) {
-		console.log('this is getting hi inside of the main reduer!');
+	if (action.type === LOGOUT) {		
 		state = defaultState;
 	}
 	return appReducer(state, action);

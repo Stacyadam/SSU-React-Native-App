@@ -21,9 +21,10 @@ export function signIn(user) {
 				data: { token }
 			} = await api.post('/auth/login', user);
 			dispatch(resetSteps());
+			await AsyncStorage.setItem('userToken', token);
 			dispatch(saveToken(token));
 			dispatch(getUser());
-			return;
+			return token;
 		} catch (e) {
 			return e;
 		}
@@ -45,9 +46,9 @@ export function getUser() {
 export function signOut() {
 	return async dispatch => {
 		try {
-			const res = await api.post('auth/logout');
-
-			return res;
+			await api.post('auth/logout');
+			dispatch(logOut());
+			return true;
 		} catch (e) {
 			return e;
 		}
@@ -196,7 +197,6 @@ export function resetSteps() {
 }
 
 export function saveToken(token) {
-	AsyncStorage.setItem('userToken', token);
 	return {
 		type: SAVE_TOKEN,
 		payload: token
@@ -210,13 +210,24 @@ export function logIn(user) {
 	};
 }
 
+// export function logOut() {
+// 	return async dispatch => {
+// 		try {
+// 			//await AsyncStorage.removeItem('userToken');
+// 			dispatch(GlobalActions.updateErrors(null));
+// 			return {
+// 				type: LOGOUT
+// 			};
+// 		} catch (error) {
+// 			console.log('error in log out');
+// 			return error;
+// 		}
+// 	};
+// }
+
 export function logOut() {
-	return async dispatch => {
-		console.log('this is getting hit in the action');
-		AsyncStorage.removeItem('userToken');
-		dispatch(GlobalActions.updateErrors(null));
-		return {
-			type: LOGOUT
-		};
+	AsyncStorage.removeItem('userToken');
+	return {
+		type: LOGOUT
 	};
 }

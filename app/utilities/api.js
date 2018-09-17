@@ -7,7 +7,7 @@ import Router from '../router';
 import { isTokenValid } from '../utilities';
 
 const api = axios.create({
-	baseURL: __DEV__ ? 'https://the-qa-api.smallshopsunited.com/v4/' : 'https://the-qa-api.smallshopsunited.com/v4/',
+	baseURL: __DEV__ ? 'https://dev-api.smallshopsunited.com/v4/' : 'https://the-qa-api.smallshopsunited.com/v4/',
 	timeout: 5000
 });
 
@@ -25,13 +25,12 @@ api.interceptors.request.use(
 				!store.getState().global.refreshing && store.dispatch(toggleLoading(false));
 				Router.logIn();
 			}
+			return config;
 		} catch (error) {
 			store.dispatch(toggleLoading(false));
 			console.log('this is the error', error);
 			return error;
 		}
-
-		return config;
 	},
 	error => {
 		!store.getState().global.refreshing && store.dispatch(toggleLoading(false));

@@ -8,7 +8,7 @@ let settingsIcon;
 let homeIcon;
 let giftIcon;
 class Router {
-	_populateIcons = function() {
+	_populateIcons = () => {
 		return new Promise(function(resolve, reject) {
 			Promise.all([
 				Icon.getImageSource('cog', 30),
